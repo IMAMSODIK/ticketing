@@ -1,0 +1,29 @@
+design landing page (done)
+login logic with oAuth (done)
+design dashboard admin (done)
+design dashbiard user (done)
+buat database dan tables (done)
+
+besok
+------
+jenis tiket
+menghubungkan jenis tiket ke tiket event
+store tiket
+edit tiket
+hapus tiket
+seeder jenis tiket
+seeder event
+
+
+9/14
+filter event
+statistik event
+payment gateway
+web settings
+
+10/14
+laporan
+user
+
+11/14 - 13/14
+cleaning
