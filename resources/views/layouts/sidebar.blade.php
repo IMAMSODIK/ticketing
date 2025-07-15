@@ -12,7 +12,7 @@
                 <li class="menu--item">
                     <a href="/jenis-tiket" class="menu--link {{Route::currentRouteName() == 'tiket' ? 'active' : ''}}" title="Tiket"
                         data-bs-toggle="tooltip" data-bs-placement="right">
-                        <i class="fa-solid fa-calendar-days menu--icon"></i>
+                        <i class="fa-solid fa-ticket menu--icon"></i>
                         <span class="menu--label">Jenis Tiket</span>
                     </a>
                 </li>

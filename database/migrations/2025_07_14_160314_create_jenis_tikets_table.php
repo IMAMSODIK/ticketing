@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->decimal('harga', 10, 2);
-            $table->bigInteger('kuota')->nullable();
+            $table->bigInteger('kuota')->default(0);
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }

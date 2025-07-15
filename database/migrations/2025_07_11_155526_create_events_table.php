@@ -27,7 +27,6 @@ return new class extends Migration
             $table->foreignId('created_by');
             $table->foreignId('updated_by');
             $table->string('status')->default('Aktif');
-            $table->foreignId('jenis_tiket_id');
             $table->timestamps();
         });
     }

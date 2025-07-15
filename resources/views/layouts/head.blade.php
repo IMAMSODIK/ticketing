@@ -30,6 +30,7 @@
     <link href="{{asset('landing_assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
     <link href="{{asset('landing_assets/vendor/chartist/dist/chartist.min.css')}}" rel="stylesheet">
     <link href="{{asset('landing_assets/vendor/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.css')}}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @yield('own_style')
 

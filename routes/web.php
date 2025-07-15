@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\JenisTiketController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +24,7 @@ Route::middleware(['guest'])->group(function () {
         ];
 
         return view('auth.login', $data);
-    });
+    })->name('login');
 
     Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
     Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
@@ -45,6 +46,12 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/event', [EventController::class, 'index'])->name('event');
         Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+
+        Route::get('/jenis-tiket', [JenisTiketController::class, 'index'])->name('tiket');
+        Route::post('/jenis-tiket/store', [JenisTiketController::class, 'store']);
+        Route::get('/jenis-tiket/edit', [JenisTiketController::class, 'edit']);
+        Route::post('/jenis-tiket/update', [JenisTiketController::class, 'update']);
+        Route::post('/jenis-tiket/delete', [JenisTiketController::class, 'delete']);
     });
 
     Route::post('/logout', function () {

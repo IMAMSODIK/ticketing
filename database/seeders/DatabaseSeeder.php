@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProvincesSeeder::class,
             CitiesSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            JenisTiketSeeder::class
         ]);
     }
 }

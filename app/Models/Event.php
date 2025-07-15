@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravolt\Indonesia\Models\City;
 
 class Event extends Model
@@ -39,9 +40,5 @@ class Event extends Model
 
     public function kota(){
         return $this->belongsTo(City::class, 'kota_id');
-    }
-
-    public function jenisTiket(): BelongsTo{
-        return $this->belongsTo(JenisTiket::class, 'jenis_tiket_id');
     }
 }
