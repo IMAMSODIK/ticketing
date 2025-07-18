@@ -21,7 +21,7 @@ return new class extends Migration
             $table->time('waktu_selesai');
             $table->foreignId('kota_id');
             $table->string('nama_tempat');
-            $table->string('koordinat_lokasi')->nullable();
+            // $table->text('koordinat_lokasi')->nullable();
             $table->text('alamat');
             $table->longText('deskripsi');
             $table->foreignId('created_by');

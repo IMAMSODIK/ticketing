@@ -8,6 +8,8 @@ use App\Http\Controllers\JenisTiketController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Auth;
 
+\Carbon\Carbon::setLocale('id');
+
 Route::get('/', function () {
     $data = [
         'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
@@ -46,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/event', [EventController::class, 'index'])->name('event');
         Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
+        Route::post('/event/store', [EventController::class, 'store']);
 
         Route::get('/jenis-tiket', [JenisTiketController::class, 'index'])->name('tiket');
         Route::post('/jenis-tiket/store', [JenisTiketController::class, 'store']);

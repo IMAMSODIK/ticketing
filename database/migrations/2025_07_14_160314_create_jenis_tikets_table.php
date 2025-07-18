@@ -17,6 +17,8 @@ return new class extends Migration
             $table->decimal('harga', 10, 2);
             $table->bigInteger('kuota')->default(0);
             $table->text('deskripsi')->nullable();
+            $table->uuid('event_id');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->timestamps();
         });
     }

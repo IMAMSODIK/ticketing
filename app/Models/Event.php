@@ -41,4 +41,8 @@ class Event extends Model
     public function kota(){
         return $this->belongsTo(City::class, 'kota_id');
     }
+
+    public function jenisTiket(): HasMany{
+        return $this->hasMany(JenisTiket::class);
+    }
 }

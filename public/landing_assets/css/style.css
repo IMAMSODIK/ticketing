@@ -995,7 +995,7 @@ body {
     display: block;
 	line-height: 25px;
     min-height: 50px;
-	margin-bottom: 33px;
+	margin-bottom: 23px;
 	transition: all ease-in-out .2s;
     overflow: hidden;
     text-overflow: ellipsis;

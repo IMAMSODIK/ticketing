@@ -151,38 +151,41 @@
                                     <div class="event-filter-items">
                                         <div class="featured-controls">
                                             <div class="row" data-ref="event-filter-content">
-                                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
+                                                @foreach ($events as $event)
+                                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
                                                     data-ref="mixitup-target">
-                                                    <div class="main-card mt-4">
-                                                        <div class="event-thumbnail">
-                                                            <a href="venue_event_detail_view.html" class="thumbnail-img">
-                                                                <img src="{{ asset('landing_assets/images/event-imgs/img-1.jpg') }}"
-                                                                    alt="">
-                                                            </a>
-                                                            <span class="bookmark-icon" title="Bookmark"></span>
-                                                        </div>
-                                                        <div class="event-content">
-                                                            <a href="venue_event_detail_view.html" class="event-title">A New Way
-                                                                Of Life</a>
-                                                            <div class="duration-price-remaining">
-                                                                <span class="duration-price">AUD $100.00*</span>
-                                                                <span class="remaining"></span>
+                                                        <div class="main-card mt-4">
+                                                            <div class="event-thumbnail">
+                                                                <a href="venue_event_detail_view.html" class="thumbnail-img">
+                                                                    <img src="{{asset('storage') . '/' . $event->thumbnail}}" alt="">
+                                                                </a>
+                                                                {{-- <span class="bookmark-icon" title="Bookmark"></span> --}}
                                                             </div>
-                                                        </div>
-                                                        <div class="event-footer">
-                                                            <div class="event-timing">
-                                                                <div class="publish-date">
-                                                                    <span><i class="fa-solid fa-calendar-day me-2"></i>15
-                                                                        Apr</span>
-                                                                    <span class="dot"><i class="fa-solid fa-circle"></i></span>
-                                                                    <span>Fri, 3.45 PM</span>
+                                                            <div class="event-content">
+                                                                <a href="venue_event_detail_view.html" class="event-title">{{$event->title}}</a>
+                                                                <div class="duration-price-remaining">
+                                                                    <span class="duration-price">
+                                                                        @if($event->jenisTiket->isNotEmpty())
+                                                                            Harga mulai dari : <br> Rp. {{ number_format($event->jenisTiket->min('harga'), 0, ',', '.') }}
+                                                                        @else
+                                                                            Belum ada tiket
+                                                                        @endif
+                                                                    </span>
+                                                                    <span class="remaining"></span>
                                                                 </div>
-                                                                <span class="publish-time"><i
-                                                                        class="fa-solid fa-clock me-2"></i>1h</span>
+                                                            </div>
+                                                            <div class="event-footer">
+                                                                <div class="event-timing">
+                                                                    <div class="publish-date">
+                                                                        <span><i class="fa-solid fa-calendar-day me-2"></i>{{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('d M') }}</span>
+                                                                        <span class="dot"><i class="fa-solid fa-circle"></i></span>
+                                                                        <span>{{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('l') . ', ' . \Carbon\Carbon::parse($event->waktu_mulai)->format('h:i A') }}</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                @endforeach
                                             </div>
                                             <div class="browse-btn">
                                                 <a href="explore_events.html" class="main-btn btn-hover ">View More</a>
