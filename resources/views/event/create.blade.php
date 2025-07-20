@@ -529,7 +529,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <img src="{{ asset('landing_assets/images/banners/custom-img.jpg') }}"
-                                                                            alt="">
+                                                                            alt="" id="preview_thumbnail">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -749,6 +749,21 @@
                 console.error(error);
             });
     </script>
+    
+    <script>
+        $("#thumbnail").on("change", function(event){
+            const file = event.target.files[0];
+
+            if(file){
+                let reader = new FileReader();
+                reader.onload = function(e){
+                    $("#preview_thumbnail").attr("src", e.target.result);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        })
+    </script>
 
     <script>
         let tickets = [];
@@ -757,6 +772,8 @@
         })
 
         let index = 1;
+
+
         $("#store").on("click", function() {
             $("#modalTambahTiket").modal('hide');
             let id = index++ + '-pending'
@@ -815,6 +832,10 @@
 				</div>
 			`
             $(".ticket-type-item-list").append(newTicket);
+            $("#nama").val("");
+            $("#harga").val("");
+            $("#kuota").val("");
+            $("#deskripsi").val("");
             $(".ticket-type-item-empty").addClass('d-none');
         });
 
@@ -834,6 +855,7 @@
     <script>
         $("#create").on("click", function(e) {
             e.preventDefault();
+            $(this).prop("disabled", true);
 
             const thumbnail = $('#thumbnail')[0].files[0];
             const deskripsi = $("#pd_editor").html();
@@ -861,14 +883,16 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
+                    $(this).prop("disabled", false);
                     if (response.status) {
                         sweetAlert(response.status, "Event berhasil disimpan!");
-                        location.reload();
+                        location.href = '/event';
                     } else {
                         sweetAlert(response.status, "Gagal menyimpan event: " + response.message);
                     }
                 },
                 error: function(xhr) {
+                    $(this).prop("disabled", false);
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
                         let message = '';

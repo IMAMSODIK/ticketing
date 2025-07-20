@@ -31,6 +31,38 @@
     <link href="{{ asset('landing_assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
 
+    <style>
+        .step-tabs {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .step-tabs .step-link {
+            flex: 1 1 auto;
+            text-align: center;
+            padding: 1rem;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .step-tabs .step-link.active {
+            background-color: #6AC045;
+            color: #fff;
+            border-color: #579e38;
+        }
+
+        @media (max-width: 768px) {
+            .step-tabs .step-link {
+                font-size: 14px;
+                padding: 0.75rem;
+            }
+        }
+    </style>
+
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -48,17 +80,17 @@
                     </button>
                     <a class="navbar-brand order-1 order-lg-0 ml-lg-0 ml-2 me-auto" href="index.html">
                         <div class="res-main-logo">
-                            <img src="{{ asset('landing_assets/images/logo-icon.svg') }}" alt="">
+                            <h3>Sahabat Bertamu</h3>
                         </div>
                         <div class="main-logo" id="logo">
-                            <h3 class="text-dark">Sahabat Bertamu</h3>
+                            <h3>Sahabat Bertamu</h3>
                         </div>
                     </a>
                     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
                         aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
                             <div class="offcanvas-logo" id="offcanvasNavbarLabel">
-                                <img src="{{ asset('landing_assets/images/logo-icon.svg') }}" alt="">
+                                <h3>Sahabat Bertamu</h3>
                             </div>
                             <button type="button" class="close-btn" data-bs-dismiss="offcanvas" aria-label="Close">
                                 <i class="fa-solid fa-xmark"></i>
@@ -81,6 +113,11 @@
                     </div>
                     <div class="right-header order-2">
                         <ul class="align-self-stretch">
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" href="/">
+                                    <i class="fa-solid fa-compass me-2"></i>Explore Events
+                                </a>
+                            </li>
                             @guest
                                 <li>
                                     <a href="/login" class="create-btn btn-hover">
@@ -111,7 +148,7 @@
                                             </div>
                                         </li>
                                         <li class="profile-link">
-                                            <a href="/user-dashboard" class="link-item">My Dashboard</a>
+                                            <a href="/dashboard" class="link-item">My Dashboard</a>
                                             <a href="/profile" class="link-item">My Profile</a>
                                             <form method="POST" action="/logout">
                                                 @csrf
@@ -136,96 +173,111 @@
             <div class="overlay"></div>
         </div>
     </header>
-    <!-- Header End-->
-    <!-- Body Start-->
-    <div class="wrapper">
-        <div class="hero-banner">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-7 col-lg-9 col-md-10">
-                        <div class="hero-banner-content">
-                            <div class="text-center">
-                                <h2>Selamat datang di <span style="color: #6ac045">Sahabat Bertamu</span></h2>
-                            </div>
 
-                            <div class="social-media-icons" style="margin-top: 20px;">
-                                <div class="offcanvas-social">
-                                    <h5>Social Media Kami</h5>
-                                    <ul class="social-links">
-                                        <li><a href="#" class="social-link"><i
-                                                    class="fab fa-facebook-square"></i></a>
-                                        <li><a href="#" class="social-link"><i
-                                                    class="fab fa-instagram"></i></a>
-                                        <li><a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
-                                    </ul>
-                                </div>
+    <div class="feature-block p-80">
+        <div class="container">
+            <div class="breadcrumb-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-10">
+                            <div class="barren-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <h3>Detail Event</h3>
+                                    </ol>
+                                </nav>
                             </div>
-                            <a href="#events" class="create-btn btn-hover">
-                                <span>Lihat Event</span>
-                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="explore-events p-80" id="events">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12">
-                        <div class="main-title">
-                            <h3>Cari Events</h3>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-sm-12">
-                        <div class="form-group border_bottom">
-                            <label class="">Pilih Lokasi Event</label>
-                            <select class="selectpicker" multiple="" data-selected-text-format="count > 4"
-                                data-size="5" title="Select category" data-live-search="true">
-                                @foreach ($kotas as $kota)
-                                    <option value="{{ $kota->id }}">
-                                        {{ $kota->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-12 col-lg-12 col-md-12">
-                    <div class="event-filter-items">
-                        <div class="featured-controls">
-                            <div class="row" data-ref="event-filter-content">
-                                @foreach ($events as $event)
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
-                                        data-ref="mixitup-target">
-                                        <div class="main-card mt-4">
-                                            <div class="event-thumbnail">
-                                                <a href="venue_event_detail_view.html" class="thumbnail-img">
-                                                    <img src="{{ $event->thumbnail ? asset('storage/' . $event->thumbnail) : asset('own_assets/default_flayer.png') }}"
-                                                        alt="">
-                                                </a>
-                                                {{-- <span class="bookmark-icon" title="Bookmark"></span> --}}
+            <div class="event-dt-block p-80">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 col-md-10">
+                            <div class="blog-view">
+                                <div class="blog-img-card p-0">
+                                    <img src="{{ $event->thumbnail ? asset('storage/' . $event->thumbnail) : asset('own_assets/default_flayer.png') }}"
+                                        alt="">
+                                </div>
+                                <div class="blog-content blog-content-view p-0">
+                                    <h3>{{ $event->title }}</h3>
+                                    <div class="post-meta border_bottom pb-4">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <span class="post-date me-4 fs-14">
+                                                    <i class="fa-regular fa-calendar-days me-2"></i>
+                                                    {{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('l, d M Y') }}
+                                                    <br>
+                                                    <i
+                                                        class="fa fa-clock me-2"></i>{{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('l') . ', ' . \Carbon\Carbon::parse($event->waktu_mulai)->format('h:i A') }}</b>
+                                                </span>
                                             </div>
-                                            <div class="event-content">
-                                                <a href="/event/detail-event?id={{ $event->id }}"
-                                                    class="event-title">{{ $event->title }}</a>
-                                                <div class="duration-price-remaining">
-                                                    <span class="duration-price">
-                                                        Harga mulai dari : <br>
-                                                        @if ($event->jenisTiket->isNotEmpty())
-                                                            Rp. {{ number_format($event->jenisTiket->min('harga'), 0, ',', '.') }}
-                                                        @else
-                                                            <span class="badge text-bg-success">Free</span>
-                                                        @endif
-                                                    </span>
-                                                    <span class="remaining"></span>
+                                            <div class="col-6">
+                                                <span class="post-read-time float-none fs-14">
+                                                    <i
+                                                        class="fa fa-regular fa-building me-2"></i>{{ $event->nama_tempat }}</b>
+                                                    <br>
+                                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                    {{ $event->alamat }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="blog-content-meta">
+                                        {!! $event->deskripsi !!}
+                                        <div class="social-share">
+                                            <ul>
+                                                <li>
+                                                    <button class="btn btn-secondary"
+                                                        onclick="location.href='/'">
+                                                        <i class="fas fa-arrow-left"></i> Kembali
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-10">
+                            <div>
+                                @foreach ($event->jenisTiket as $tiket)
+                                    <div class="item">
+                                        <div class="price-ticket-card">
+                                            <div
+                                                class="price-ticket-card-head d-md-flex flex-wrap align-items-start justify-content-between position-relative p-4">
+                                                <div class="d-flex align-items-center top-name">
+                                                    <div class="icon-box">
+                                                        <span class="icon-big rotate-icon icon icon-purple">
+                                                            <i class="fa-solid fa-ticket"></i>
+                                                        </span>
+                                                        <h5 class="fs-16 mb-1 mt-1">{{ $tiket->nama }}</h5>
+                                                        <p class="text-gray-50 m-0"><span
+                                                                class="visitor-date-time">{{ $tiket->deskripsi }}</span>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="event-footer">
-                                                <div class="event-timing">
-                                                    <div class="publish-date">
-                                                        <span><i
-                                                                class="fa-solid fa-calendar-day me-2"></i>{{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('d M') }}</span>
-                                                        <span class="dot"><i class="fa-solid fa-circle"></i></span>
-                                                        <span>{{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('l') . ', ' . \Carbon\Carbon::parse($event->waktu_mulai)->format('h:i A') }}</span>
+                                            <div class="price-ticket-card-body border_top p-4">
+                                                <div
+                                                    class="full-width d-flex flex-wrap justify-content-between align-items-center">
+                                                    <div class="icon-box">
+                                                        <div class="icon me-3">
+                                                            <i class="fa-solid fa-ticket"></i>
+                                                        </div>
+                                                        <span class="text-145">Harga Tiket</span>
+                                                        <h6 class="coupon-status">Rp.
+                                                            {{ number_format($tiket->harga, 0, ',', '.') }}
+                                                        </h6>
+                                                    </div>
+                                                    <div class="icon-box">
+                                                        <div class="icon me-3">
+                                                            <i class="fa-solid fa-users"></i>
+                                                        </div>
+                                                        <span class="text-145">Kuota Tiket</span>
+                                                        <h6 class="coupon-status">{{ $tiket->kuota }} Peserta
+                                                        </h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -233,11 +285,6 @@
                                     </div>
                                 @endforeach
                             </div>
-                            @if ($count_event > 8)
-                                <div class="browse-btn">
-                                    <a href="explore_events.html" class="main-btn btn-hover ">View More</a>
-                                </div>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -245,9 +292,6 @@
         </div>
     </div>
 
-    </div>
-    <!-- Body End-->
-    <!-- Footer Start-->
     <footer class="footer mt-auto">
         <div class="footer-top">
             <div class="container">

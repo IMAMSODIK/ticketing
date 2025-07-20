@@ -6,16 +6,53 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JenisTiketController;
 use App\Http\Middleware\CheckRole;
+use App\Models\Event;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 \Carbon\Carbon::setLocale('id');
 
 Route::get('/', function () {
     $data = [
+        'pageTitle' => "Daftar Event",
+        'count_event' => Event::count(),
         'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
         'appName' => env('APP_NAME', 'Ticketing')
     ];
-    return view('welcome', $data);
+
+    try {
+        $events = Event::with('kota', 'jenisTiket', 'creator', 'updater')
+                    ->where('tanggal_mulai', '>=', Carbon::today())
+                    ->orderBy('tanggal_mulai', 'asc')
+                    ->take(8)
+                    ->get();
+        $kotas = DB::table('indonesia_cities')->get();
+
+        $data['events'] = $events;
+        $data['kotas'] = $kotas;
+
+        return view('welcome', $data);
+    } catch (Exception $e) {
+        dd($e->getMessage());
+    }
+});
+
+Route::get('/event/detail-event', function(Request $r){
+    $data = [
+        'pageTitle' => "Detail Event",
+        'appName' => env('APP_NAME', 'Ticketing')
+    ];
+
+    try {
+        $event = Event::with('kota', 'jenisTiket', 'creator', 'updater')->where('id', $r->id)->first();
+        $data['event'] = $event;
+
+        return view('event.detail-user', $data);
+    } catch (Exception $e) {
+        dd($e->getMessage());
+    }
 });
 
 Route::middleware(['guest'])->group(function () {
@@ -49,6 +86,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/event', [EventController::class, 'index'])->name('event');
         Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
         Route::post('/event/store', [EventController::class, 'store']);
+        Route::get('/event/detail', [EventController::class, 'detail'])->name('event.detail');
+        Route::post('/event/delete', [EventController::class, 'delete']);
 
         Route::get('/jenis-tiket', [JenisTiketController::class, 'index'])->name('tiket');
         Route::post('/jenis-tiket/store', [JenisTiketController::class, 'store']);

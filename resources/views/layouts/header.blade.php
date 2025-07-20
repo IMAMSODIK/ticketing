@@ -43,13 +43,6 @@
                                 </a>
                             </div>
                         </div>
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe_5">
-                            <li class="nav-item">
-                                <a class="nav-link" href="explore_events.html">
-                                    <i class="fa-solid fa-compass me-2"></i>Explore Events
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                     <div class="offcanvas-footer">
                         <div class="offcanvas-social">

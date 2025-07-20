@@ -33,35 +33,34 @@
 
     <style>
         .step-tabs {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-}
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
 
-.step-tabs .step-link {
-    flex: 1 1 auto;
-    text-align: center;
-    padding: 1rem;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    transition: all 0.3s ease;
-}
+        .step-tabs .step-link {
+            flex: 1 1 auto;
+            text-align: center;
+            padding: 1rem;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
 
-.step-tabs .step-link.active {
-    background-color: #6AC045;
-    color: #fff;
-    border-color: #579e38;
-}
+        .step-tabs .step-link.active {
+            background-color: #6AC045;
+            color: #fff;
+            border-color: #579e38;
+        }
 
-@media (max-width: 768px) {
-    .step-tabs .step-link {
-        font-size: 14px;
-        padding: 0.75rem;
-    }
-}
-
+        @media (max-width: 768px) {
+            .step-tabs .step-link {
+                font-size: 14px;
+                padding: 0.75rem;
+            }
+        }
     </style>
 
 </head>
@@ -114,6 +113,11 @@
                     </div>
                     <div class="right-header order-2">
                         <ul class="align-self-stretch">
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" href="/">
+                                    <i class="fa-solid fa-compass me-2"></i>Explore Events
+                                </a>
+                            </li>
                             @guest
                                 <li>
                                     <a href="/login" class="create-btn btn-hover">
@@ -184,9 +188,11 @@
                             data-bs-target="#step-01" type="button" role="tab" aria-controls="step-01"
                             aria-selected="true"><span>Aktif​</span></button>
                         <button class="step-link feature-step-link" data-bs-toggle="tab" data-bs-target="#step-02"
-                            type="button" role="tab" aria-controls="step-02" aria-selected="false"><span>Pending</span></button>
+                            type="button" role="tab" aria-controls="step-02"
+                            aria-selected="false"><span>Pending</span></button>
                         <button class="step-link feature-step-link" data-bs-toggle="tab" data-bs-target="#step-03"
-                            type="button" role="tab" aria-controls="step-03" aria-selected="false"><span>Batal</span></button>
+                            type="button" role="tab" aria-controls="step-03"
+                            aria-selected="false"><span>Batal</span></button>
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="step-01" role="tabpanel">

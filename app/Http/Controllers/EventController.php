@@ -12,21 +12,32 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
     public function index()
     {
         $data = [
-            'pageTitle' => "Daftar Event"
+            'pageTitle' => "Daftar Event",
+            'count_event' => Event::count(),
+            'count_event_done' => Event::where('status', '!=', 'Aktif')->count(),
+            'count_event_aktif' => Event::where('status', 'Aktif')->count(),
         ];
 
-        try{
-            $events = Event::with('kota', 'jenisTiket', 'creator', 'updater')->get();
+        try {
+            $events = Event::with('kota', 'jenisTiket', 'creator', 'updater')
+                        ->where('tanggal_mulai', '>=', Carbon::today())
+                        ->orderBy('tanggal_mulai', 'asc')
+                        ->take(8)
+                        ->get();
+            $kotas = DB::table('indonesia_cities')->get();
+
             $data['events'] = $events;
+            $data['kotas'] = $kotas;
 
             return view('event.index', $data);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             dd($e->getMessage());
         }
     }
@@ -56,7 +67,7 @@ class EventController extends Controller
             'alamat' => 'required|string',
             'deskripsi' => 'required|string',
         ]);
-        
+
         try {
             DB::beginTransaction();
 
@@ -106,6 +117,46 @@ class EventController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['status' => false, 'message' => 'Gagal menyimpan data', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function detail(Request $r)
+    {
+        $data = [
+            'pageTitle' => "Detail Event"
+        ];
+
+        try {
+            $event = Event::with('kota', 'jenisTiket', 'creator', 'updater')->where('id', $r->id)->first();
+            $data['event'] = $event;
+
+            return view('event.detail', $data);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function delete(Request $r)
+    {
+        try {
+            DB::beginTransaction();
+
+            $event = Event::findOrFail($r->id);
+            if ($event->thumbnail && Storage::disk('public')->exists($event->thumbnail)) {
+                Storage::disk('public')->delete($event->thumbnail);
+            }
+
+            $event->delete();
+
+            DB::commit();
+            return response()->json(['status' => true, 'message' => 'Event berhasil dihapus.']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal menghapus event.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

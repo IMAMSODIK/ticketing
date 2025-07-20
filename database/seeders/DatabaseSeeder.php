@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             ProvincesSeeder::class,
             CitiesSeeder::class,
             UserSeeder::class,
-            JenisTiketSeeder::class
+            JenisTiketSeeder::class,
+            EventSeeder::class
         ]);
     }
 }
