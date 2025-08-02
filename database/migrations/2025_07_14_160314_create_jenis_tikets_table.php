@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jenis_tikets', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->string('nama');
             $table->decimal('harga', 10, 2);
             $table->bigInteger('kuota')->default(0);
+            $table->bigInteger('terjual')->default(0);
             $table->text('deskripsi')->nullable();
+            $table->boolean('status')->default(1);
             $table->uuid('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->timestamps();

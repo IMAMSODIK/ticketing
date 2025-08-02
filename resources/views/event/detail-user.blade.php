@@ -30,6 +30,7 @@
     <link href="{{ asset('landing_assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('landing_assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
         .step-tabs {
@@ -229,8 +230,7 @@
                                         <div class="social-share">
                                             <ul>
                                                 <li>
-                                                    <button class="btn btn-secondary"
-                                                        onclick="location.href='/'">
+                                                    <button class="btn btn-secondary" onclick="location.href='/'">
                                                         <i class="fas fa-arrow-left"></i> Kembali
                                                     </button>
                                                 </li>
@@ -243,6 +243,11 @@
                         <div class="col-lg-4 col-md-10">
                             <div>
                                 @foreach ($event->jenisTiket as $tiket)
+                                    @php
+                                        $harga = $tiket->harga;
+                                        $kuota = $tiket->kuota;
+                                    @endphp
+
                                     <div class="item">
                                         <div class="price-ticket-card">
                                             <div
@@ -253,7 +258,8 @@
                                                             <i class="fa-solid fa-ticket"></i>
                                                         </span>
                                                         <h5 class="fs-16 mb-1 mt-1">{{ $tiket->nama }}</h5>
-                                                        <p class="text-gray-50 m-0"><span
+                                                        <p class="text-gray-50 m-0">
+                                                            <span
                                                                 class="visitor-date-time">{{ $tiket->deskripsi }}</span>
                                                         </p>
                                                     </div>
@@ -262,28 +268,57 @@
                                             <div class="price-ticket-card-body border_top p-4">
                                                 <div
                                                     class="full-width d-flex flex-wrap justify-content-between align-items-center">
-                                                    <div class="icon-box">
+                                                    <div class="icon-box" style="width: 50%">
                                                         <div class="icon me-3">
                                                             <i class="fa-solid fa-ticket"></i>
                                                         </div>
                                                         <span class="text-145">Harga Tiket</span>
-                                                        <h6 class="coupon-status">Rp.
-                                                            {{ number_format($tiket->harga, 0, ',', '.') }}
+                                                        <h6 class="coupon-status"
+                                                            id="harga-format-{{ $tiket->id }}">
+                                                            Rp. {{ number_format($harga, 0, ',', '.') }}
                                                         </h6>
                                                     </div>
-                                                    <div class="icon-box">
+                                                    <div class="icon-box" style="width: 50%">
                                                         <div class="icon me-3">
                                                             <i class="fa-solid fa-users"></i>
                                                         </div>
                                                         <span class="text-145">Kuota Tiket</span>
-                                                        <h6 class="coupon-status">{{ $tiket->kuota }} Peserta
-                                                        </h6>
+                                                        <h6 class="coupon-status">{{ $kuota }} Peserta</h6>
+                                                    </div>
+                                                </div>
+
+                                                <hr>
+
+                                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        onclick="ubahJumlah('{{ $tiket->id }}', -1)">
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+
+                                                    <input type="text" class="form-control text-center mx-2"
+                                                        style="width: 60px;" id="jumlah-{{ $tiket->id }}"
+                                                        value="0" readonly>
+
+                                                    <button type="button" class="btn btn-sm btn-success"
+                                                        onclick="ubahJumlah('{{ $tiket->id }}', 1)">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+
+                                                    <div class="ms-auto">
+                                                        <strong>Total: </strong>
+                                                        <span id="total-{{ $tiket->id }}">Rp. 0</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
+                                <div class="text-end mt-4">
+                                    <button class="btn btn-success" id="checkout">
+                                        <i class="fa fa-shopping-cart"></i> Checkout Semua Tiket
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -331,6 +366,60 @@
     <script src="{{ asset('landing_assets/vendor/mixitup/dist/mixitup.min.js') }}"></script>
     <script src="{{ asset('landing_assets/js/custom.js') }}"></script>
     <script src="{{ asset('landing_assets/js/night-mode.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function sweetAlert(status, message) {
+            if (status) {
+                Swal.fire({
+                    title: "Success",
+                    text: message,
+                    icon: "success"
+                });
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: message,
+                    icon: "error"
+                });
+            }
+        }
+
+        function confirmationAlert(id, url) {
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "Data yang dihapus tidak dapat dikembalikan",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Hapus"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                            '_token': $("meta[name='csrf-token']").attr('content'),
+                            'id': id
+                        },
+                        success: function(response) {
+                            if (response.status) {
+                                sweetAlert(response.status, 'Data berhasil dihapus');
+                                setTimeout(() => location.reload(), 1000);
+                            } else {
+                                sweetAlert(response.status, response.message);
+                            }
+                        },
+                        error: function(response) {
+                            sweetAlert(response.status, response.message);
+                        }
+                    })
+                }
+            });
+        }
+    </script>
+
     <script>
         var containerEl = document.querySelector('[data-ref~="event-filter-content"]');
 
@@ -340,6 +429,49 @@
             }
         });
     </script>
+
+    <script>
+        function ubahJumlah(id, change) {
+            let $jumlahInput = $(`#jumlah-${id}`);
+            let $totalHargaEl = $(`#total-${id}`);
+            let hargaText = $(`#harga-format-${id}`).text();
+            let harga = parseInt(hargaText.replace(/[^\d]/g, ''));
+
+            let jumlah = parseInt($jumlahInput.val()) || 0;
+            jumlah += change;
+            if (jumlah < 0) jumlah = 0;
+            $jumlahInput.val(jumlah);
+
+            let total = harga * jumlah;
+            $totalHargaEl.text(`Rp. ${total.toLocaleString('id-ID')}`);
+        }
+
+        $("#checkout").on("click", function() {
+    let tiketData = [];
+    
+    $("input[id^='jumlah-']").each(function() {
+        let id = $(this).attr('id').replace('jumlah-', '');
+        let jumlah = parseInt($(this).val());
+
+        if (jumlah > 0) {
+            tiketData.push({
+                id: id,
+                jumlah: jumlah
+            });
+        }
+    });
+
+    if (tiketData.length === 0) {
+        alert("Silakan pilih minimal satu tiket.");
+        return;
+    }
+
+    localStorage.setItem('pendingCheckout', JSON.stringify(tiketData));
+    window.location.href = "/event/checkout-pre";
+});
+    </script>
+
+
 </body>
 
 </html>

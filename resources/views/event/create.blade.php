@@ -899,9 +899,9 @@
                         $.each(errors, function(key, val) {
                             message += `${val}\n`;
                         });
-                        sweetAlert(response.status, message);
+                        sweetAlert(false, message);
                     } else {
-                        sweetAlert(response.status, "Terjadi kesalahan saat menyimpan data.");
+                        sweetAlert(false, "Terjadi kesalahan saat menyimpan data.");
                     }
                 }
             });

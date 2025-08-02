@@ -743,7 +743,6 @@ body {
 }
 
 .hero-banner {
-	background-image: url(../images/banner.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -2412,7 +2411,6 @@ body {
     background-position: center center;
     position: absolute;
     inset: 0px;
-    background-image: url(../images/banners/hero-cover-01.jpg);
     filter: none;
     transition: all 0.12s ease-in-out 0s;
     opacity: 1;

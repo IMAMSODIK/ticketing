@@ -198,7 +198,7 @@
                         <div class="tab-pane fade show active" id="step-01" role="tabpanel">
                             <div class="row justify-content-between">
                                 <div class="row">
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
+                                    {{-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
                                         data-ref="mixitup-target">
                                         <div class="main-card mt-4">
                                             <div class="event-thumbnail">
@@ -229,14 +229,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="step-02" role="tabpanel">
                             <div class="row justify-content-between">
                                 <div class="row">
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
+                                    {{-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
                                         data-ref="mixitup-target">
                                         <div class="main-card mt-4">
                                             <div class="event-thumbnail">
@@ -267,14 +267,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="step-03" role="tabpanel">
                             <div class="row justify-content-between">
                                 <div class="row">
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
+                                    {{-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
                                         data-ref="mixitup-target">
                                         <div class="main-card mt-4">
                                             <div class="event-thumbnail">
@@ -305,7 +305,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>

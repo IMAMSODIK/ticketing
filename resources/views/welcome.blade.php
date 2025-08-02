@@ -139,7 +139,7 @@
     <!-- Header End-->
     <!-- Body Start-->
     <div class="wrapper">
-        <div class="hero-banner">
+        <div class="hero-banner" style="background-image: url('{{ ($web_profile && $web_profile->banner) ? asset('storage/' . $web_profile->banner) : asset('landing_assets/images/banner.jpg') }}')">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-7 col-lg-9 col-md-10">

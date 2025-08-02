@@ -5,8 +5,10 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JenisTiketController;
+use App\Http\Controllers\WebSettingController;
 use App\Http\Middleware\CheckRole;
 use App\Models\Event;
+use App\Models\WebSetting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +21,8 @@ Route::get('/', function () {
         'pageTitle' => "Daftar Event",
         'count_event' => Event::count(),
         'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
-        'appName' => env('APP_NAME', 'Ticketing')
+        'appName' => env('APP_NAME', 'Ticketing'),
+        'web_profile' => WebSetting::first()
     ];
 
     try {
@@ -78,6 +81,10 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::middleware([CheckRole::class . ':user'])->group(function () {
         Route::get('/user-dashboard', [DashboardController::class, 'indexUser'])->name('user.dashboard'); 
+
+        Route::get('/event/checkout-pre', [EventController::class, 'prepareCheckout']);
+        Route::get('/event/checkout-lanjut', [EventController::class, 'checkoutLanjut']);
+        Route::post('/event/checkout', [EventController::class, 'checkout']);
     });
 
     Route::middleware([CheckRole::class . ':admin'])->group(function () {
@@ -87,6 +94,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
         Route::post('/event/store', [EventController::class, 'store']);
         Route::get('/event/detail', [EventController::class, 'detail'])->name('event.detail');
+        Route::get('/event/edit', [EventController::class, 'edit'])->name('event.edit');
+        Route::post('/event/update', [EventController::class, 'update']);
         Route::post('/event/delete', [EventController::class, 'delete']);
 
         Route::get('/jenis-tiket', [JenisTiketController::class, 'index'])->name('tiket');
@@ -94,6 +103,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/jenis-tiket/edit', [JenisTiketController::class, 'edit']);
         Route::post('/jenis-tiket/update', [JenisTiketController::class, 'update']);
         Route::post('/jenis-tiket/delete', [JenisTiketController::class, 'delete']);
+
+        Route::post('/tiket/store', [JenisTiketController::class, 'store']);
+        Route::get('/tiket/edit', [JenisTiketController::class, 'edit']);
+        Route::post('/tiket/update', [JenisTiketController::class, 'update']);
+        Route::post('/tiket/status', [JenisTiketController::class, 'updateStatus']);
+
+        Route::get('/web-settings', [WebSettingController::class, 'index'])->name('web-setting');
+        Route::post('/web-settings/store', [WebSettingController::class, 'store']);
+        Route::get('/web-settings/edit', [WebSettingController::class, 'edit']);
+        Route::post('/web-settings/update', [WebSettingController::class, 'update']);
+        Route::post('/web-settings/delete', [WebSettingController::class, 'delete']);
     });
 
     Route::post('/logout', function () {

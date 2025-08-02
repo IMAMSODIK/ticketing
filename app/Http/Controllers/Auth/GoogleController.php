@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class GoogleController extends Controller
 {
@@ -15,7 +16,8 @@ class GoogleController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback()
+
+    public function handleGoogleCallback(Request $request)
     {
         try {
             $googleUser = Socialite::driver('google')->user();
@@ -32,6 +34,12 @@ class GoogleController extends Controller
             );
 
             Auth::login($user);
+
+            $intendedUrl = session()->pull('url.intended');
+        
+            if ($intendedUrl) {
+                return redirect($intendedUrl);
+            }
 
             if ($user->role === 'admin') {
                 return redirect('/admin-dashboard');

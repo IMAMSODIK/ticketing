@@ -11,20 +11,21 @@ use Illuminate\Support\Facades\Log;
 
 class JenisTiketController extends Controller
 {
-    public function index()
-    {
-        $data = [
-            'pageTitle' => 'Jenis Tiket',
-            'tikets' => JenisTiket::all()
-        ];
+    // public function index()
+    // {
+    //     $data = [
+    //         'pageTitle' => 'Jenis Tiket',
+    //         'tikets' => JenisTiket::all()
+    //     ];
 
-        return view('tiket.index', $data);
-    }
+    //     return view('tiket.index', $data);
+    // }
 
     public function store(Request $r)
     {
         try {
             $validated = $r->validate([
+                'event_id' => 'required',
                 'nama' => 'required|string|max:255',
                 'harga' => 'required|numeric|min:0',
                 'kuota' => 'required|integer|min:0',
@@ -121,7 +122,7 @@ class JenisTiketController extends Controller
         }
     }
 
-    public function delete(Request $r)
+    public function updateStatus(Request $r)
     {
         try {
             $validated = $r->validate([
@@ -129,25 +130,62 @@ class JenisTiketController extends Controller
             ]);
 
             $tiket = JenisTiket::findOrFail($validated['id']);
-            $tiket->delete();
+
+            if($tiket->status == 1){
+                $tiket->status = 0;
+            }else{
+                $tiket->status = 1;
+            }
+
+            $tiket->save();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Jenis tiket berhasil dihapus.'
+                'message' => 'Jenis tiket berhasil diperbarui.'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Validasi gagal. Pastikan data yang dikirim benar.',
+                'message' => 'Validasi gagal. Periksa input Anda.',
                 'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
-            Log::error('Gagal menghapus jenis tiket: ' . $e->getMessage());
+            Log::error('Gagal memperbarui jenis tiket: ' . $e->getMessage());
 
             return response()->json([
                 'status' => false,
-                'message' => 'Terjadi kesalahan saat menghapus data. Silakan coba lagi.',
+                'message' => 'Terjadi kesalahan saat memperbarui data. Silakan coba lagi.'
             ], 500);
         }
     }
+
+    // public function delete(Request $r)
+    // {
+    //     try {
+    //         $validated = $r->validate([
+    //             'id' => 'required|exists:jenis_tikets,id'
+    //         ]);
+
+    //         $tiket = JenisTiket::findOrFail($validated['id']);
+    //         $tiket->delete();
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'Jenis tiket berhasil dihapus.'
+    //         ]);
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Validasi gagal. Pastikan data yang dikirim benar.',
+    //             'errors' => $e->errors()
+    //         ], 422);
+    //     } catch (\Exception $e) {
+    //         Log::error('Gagal menghapus jenis tiket: ' . $e->getMessage());
+
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Terjadi kesalahan saat menghapus data. Silakan coba lagi.',
+    //         ], 500);
+    //     }
+    // }
 }
