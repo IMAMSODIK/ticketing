@@ -30,7 +30,27 @@
     <link href="{{ asset('landing_assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('landing_assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
+    <style>
+        .hero-banner {
+            background-image: url('...');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
 
+        .hero-banner-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .hero-banner .container,
+        .hero-banner-content {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -139,24 +159,30 @@
     <!-- Header End-->
     <!-- Body Start-->
     <div class="wrapper">
-        <div class="hero-banner" style="background-image: url('{{ ($web_profile && $web_profile->banner) ? asset('storage/' . $web_profile->banner) : asset('landing_assets/images/banner.jpg') }}')">
-            <div class="container">
+        <div class="hero-banner position-relative"
+            style="background-image: url('{{ $web_profile && $web_profile->banner ? asset('storage/' . $web_profile->banner) : asset('landing_assets/images/banner.jpg') }}')">
+            <div class="hero-banner-overlay"></div>
+            <div class="container position-relative">
                 <div class="row justify-content-center">
                     <div class="col-xl-7 col-lg-9 col-md-10">
                         <div class="hero-banner-content">
                             <div class="text-center">
-                                <h2>Selamat datang di <span style="color: #6ac045">Sahabat Bertamu</span></h2>
+                                <h2 class="text-white">Selamat datang di <span style="color: #6ac045">Sahabat
+                                        Bertamu</span></h2>
                             </div>
 
                             <div class="social-media-icons" style="margin-top: 20px;">
                                 <div class="offcanvas-social">
-                                    <h5>Social Media Kami</h5>
+                                    <h5 class="text-white">Social Media Kami</h5>
                                     <ul class="social-links">
-                                        <li><a href="#" class="social-link"><i
+                                        <li><a href="{{ $web_profile && $web_profile->facebook ? $web_profile->facebook : 'https://www.facebook.com/?locale=id_ID' }}"
+                                                _target="blank" class="social-link"><i
                                                     class="fab fa-facebook-square"></i></a>
-                                        <li><a href="#" class="social-link"><i
+                                        <li><a href="{{ $web_profile && $web_profile->instagram ? $web_profile->instagram : 'https://www.instagram.com/' }}"
+                                                _target="blank" class="social-link"><i
                                                     class="fab fa-instagram"></i></a>
-                                        <li><a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                                        <li><a href="{{ $web_profile && $web_profile->tiktok ? $web_profile->tiktok : 'https://www.tiktok.com/?locale=id_ID' }}"
+                                                _target="blank" class="social-link"><i class="fab fa-tiktok"></i></a>
                                     </ul>
                                 </div>
                             </div>
@@ -194,7 +220,7 @@
                         <div class="featured-controls">
                             <div class="row" data-ref="event-filter-content">
                                 @foreach ($events as $event)
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mix arts concert workshops volunteer sports health_Wellness"
                                         data-ref="mixitup-target">
                                         <div class="main-card mt-4">
                                             <div class="event-thumbnail">
@@ -211,7 +237,8 @@
                                                     <span class="duration-price">
                                                         Harga mulai dari : <br>
                                                         @if ($event->jenisTiket->isNotEmpty())
-                                                            Rp. {{ number_format($event->jenisTiket->min('harga'), 0, ',', '.') }}
+                                                            Rp.
+                                                            {{ number_format($event->jenisTiket->min('harga'), 0, ',', '.') }}
                                                         @else
                                                             <span class="badge text-bg-success">Free</span>
                                                         @endif

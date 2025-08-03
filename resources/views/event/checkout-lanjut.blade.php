@@ -24,6 +24,7 @@
 <script>
     $(document).ready(function() {
         let tiketData = localStorage.getItem('pendingCheckout');
+        console.log(tiketData);
         if (!tiketData) {
             Swal.fire({
                 title: "Error",

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\WebSetting;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Laravolt\Indonesia\Seeds\CitiesSeeder;
@@ -20,7 +21,8 @@ class DatabaseSeeder extends Seeder
             CitiesSeeder::class,
             UserSeeder::class,
             JenisTiketSeeder::class,
-            EventSeeder::class
+            EventSeeder::class,
+            WebSettingSeeder::class
         ]);
     }
 }

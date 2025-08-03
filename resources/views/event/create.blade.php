@@ -855,7 +855,8 @@
     <script>
         $("#create").on("click", function(e) {
             e.preventDefault();
-            $(this).prop("disabled", true);
+            let button = $(this);
+            button.prop("disabled", true);
 
             const thumbnail = $('#thumbnail')[0].files[0];
             const deskripsi = $("#pd_editor").html();
@@ -883,7 +884,7 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    $(this).prop("disabled", false);
+                    button.prop("disabled", false);
                     if (response.status) {
                         sweetAlert(response.status, "Event berhasil disimpan!");
                         location.href = '/event';
@@ -892,7 +893,7 @@
                     }
                 },
                 error: function(xhr) {
-                    $(this).prop("disabled", false);
+                    button.prop("disabled", false);
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
                         let message = '';

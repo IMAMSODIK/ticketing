@@ -27,10 +27,10 @@ class EventController extends Controller
 
         try {
             $events = Event::with('kota', 'jenisTiket', 'creator', 'updater')
-                        ->where('tanggal_mulai', '>=', Carbon::today())
-                        ->orderBy('tanggal_mulai', 'asc')
-                        ->take(8)
-                        ->get();
+                ->where('tanggal_mulai', '>=', Carbon::today())
+                ->orderBy('tanggal_mulai', 'asc')
+                ->take(8)
+                ->get();
             $kotas = DB::table('indonesia_cities')->get();
 
             $data['events'] = $events;
@@ -168,7 +168,8 @@ class EventController extends Controller
         }
     }
 
-    public function edit(Request $r){
+    public function edit(Request $r)
+    {
         $data = [
             'pageTitle' => "Edit Event",
             'appName' => env('APP_NAME', 'Ticketing'),
@@ -226,30 +227,27 @@ class EventController extends Controller
     }
 
     public function prepareCheckout(Request $request)
-{
-    // Cek jika user sudah login
-    if (Auth::check()) {
-        return redirect('/event/checkout-lanjut');
+    {
+        if (Auth::check()) {
+            return redirect('/user-dashboard');
+        }
+
+        session(['url.intended' => '/event/checkout-pre']);
+        return redirect('/auth/google');
     }
-    
-    // Simpan intended URL untuk redirect setelah login
-    session(['url.intended' => '/event/checkout-pre']);
-    return redirect('/auth/google');
-}
 
-public function checkoutLanjut()
-{
-    // Pastikan ada data checkout di localStorage
-    return view('event.checkout-lanjut');
-}
+    public function checkoutLanjut()
+    {
+        return view('event.checkout-lanjut');
+    }
 
-public function checkout(Request $request)
-{
-    $tiketData = json_decode($request->tiketData, true);
-    
-    return response()->json([
-        'status' => true,
-        'message' => 'Pembayaran berhasil'
-    ]);
-}
+    public function checkout(Request $request)
+    {
+        $tiketData = json_decode($request->tiketData, true);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pembayaran berhasil'
+        ]);
+    }
 }

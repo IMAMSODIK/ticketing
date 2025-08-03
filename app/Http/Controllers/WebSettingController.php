@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWebSettingRequest;
 use App\Http\Requests\UpdateWebSettingRequest;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class WebSettingController extends Controller
 {
@@ -24,51 +26,43 @@ class WebSettingController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function update(Request $r)
     {
-        //
-    }
+        try {
+            $data = WebSetting::firstOrFail();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreWebSettingRequest $request)
-    {
-        //
-    }
+            if ($r->hasFile('cover')) {
+                if ($data->banner && Storage::exists('public/' . $data->banner)) {
+                    Storage::delete('public/' . $data->banner);
+                }
+                $coverPath = $r->file('cover')->store('web_cover', 'public');
+                $data->banner = $coverPath;
+            }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(WebSetting $webSetting)
-    {
-        //
-    }
+            if ($r->hasFile('avatar')) {
+                if ($data->logo && Storage::exists('public/' . $data->logo)) {
+                    Storage::delete('public/' . $data->logo);
+                }
+                $avatarPath = $r->file('avatar')->store('web_avatar', 'public');
+                $data->logo = $avatarPath;
+            }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(WebSetting $webSetting)
-    {
-        //
-    }
+            $data->facebook = $r->facebook;
+            $data->instagram = $r->instagram;
+            $data->tiktok = $r->tiktok;
+            $data->website = $r->website;
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateWebSettingRequest $request, WebSetting $webSetting)
-    {
-        //
-    }
+            $data->save();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(WebSetting $webSetting)
-    {
-        //
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil memperbarui pengaturan website.'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

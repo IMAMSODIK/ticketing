@@ -30,6 +30,7 @@
     <link href="{{ asset('landing_assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('landing_assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
         .step-tabs {
@@ -185,127 +186,101 @@
                 <div class="col-lg-12">
                     <div class="nav step-tabs custom-border-top pt-5" role="tablist">
                         <button class="step-link feature-step-link active" data-bs-toggle="tab"
-                            data-bs-target="#step-01" type="button" role="tab" aria-controls="step-01"
-                            aria-selected="true"><span>Aktif​</span></button>
-                        <button class="step-link feature-step-link" data-bs-toggle="tab" data-bs-target="#step-02"
-                            type="button" role="tab" aria-controls="step-02"
+                            data-bs-target="#step-02" type="button" role="tab" aria-controls="step-02"
                             aria-selected="false"><span>Pending</span></button>
+                        <button class="step-link feature-step-link" data-bs-toggle="tab" data-bs-target="#step-01"
+                            type="button" role="tab" aria-controls="step-01"
+                            aria-selected="true"><span>Aktif​</span></button>
                         <button class="step-link feature-step-link" data-bs-toggle="tab" data-bs-target="#step-03"
                             type="button" role="tab" aria-controls="step-03"
                             aria-selected="false"><span>Batal</span></button>
                     </div>
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="step-01" role="tabpanel">
+                        <div class="tab-pane fade show active" id="step-02" role="tabpanel">
                             <div class="row justify-content-between">
                                 <div class="row">
-                                    {{-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
-                                        data-ref="mixitup-target">
-                                        <div class="main-card mt-4">
-                                            <div class="event-thumbnail">
-                                                <a href="venue_event_detail_view.html" class="thumbnail-img">
-                                                    <img src="{{ asset('landing_assets/images/event-imgs/img-1.jpg') }}"
-                                                        alt="">
-                                                </a>
-                                                <span class="bookmark-icon" title="Bookmark"></span>
-                                            </div>
-                                            <div class="event-content">
-                                                <a href="venue_event_detail_view.html" class="event-title">A New Way
-                                                    Of Life</a>
-                                                <div class="duration-price-remaining">
-                                                    <span class="duration-price">AUD $100.00*</span>
-                                                    <span class="remaining"></span>
-                                                </div>
-                                            </div>
-                                            <div class="event-footer">
-                                                <div class="event-timing">
-                                                    <div class="publish-date">
-                                                        <span><i class="fa-solid fa-calendar-day me-2"></i>15
-                                                            Apr</span>
-                                                        <span class="dot"><i class="fa-solid fa-circle"></i></span>
-                                                        <span>Fri, 3.45 PM</span>
+                                    @if ($order->has('pending'))
+                                        @php
+                                            // Group data berdasarkan event_id
+                                            $groupedByEvent = $order->get('pending')->groupBy(function ($item) {
+                                                return $item->jenisTiket->event->id ?? null;
+                                            });
+                                        @endphp
+
+                                        @foreach ($groupedByEvent as $eventOrders)
+                                            @php
+                                                $event = $eventOrders->first()->jenisTiket->event;
+                                                $total = $eventOrders->sum(function ($item) {
+                                                    return $item->jumlah * $item->jenisTiket->harga;
+                                                });
+                                            @endphp
+
+                                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
+                                                onclick="showPaymentDetail({{ json_encode([
+                                                    'event_id' => $event->id,
+                                                    'event_title' => $event->title,
+                                                    'event_tanggal' => $event->tanggal_mulai,
+                                                    'event_waktu' => $event->waktu_mulai,
+                                                    'event_tempat' => $event->nama_tempat,
+                                                    'thumbnail' => $event->thumbnail,
+                                                    'total' => $total,
+                                                    'tickets' => $eventOrders->map(function ($order) {
+                                                        return [
+                                                            'id' => $order->id,
+                                                            'jenis_tiket_id' => $order->jenis_tiket_id,
+                                                            'nama_tiket' => $order->jenisTiket->nama,
+                                                            'harga' => $order->jenisTiket->harga,
+                                                            'jumlah' => $order->jumlah,
+                                                            'subtotal' => $order->jumlah * $order->jenisTiket->harga,
+                                                        ];
+                                                    }),
+                                                ]) }})"
+                                                style="cursor:pointer">
+                                                <div class="main-card mt-4">
+                                                    <div class="event-thumbnail">
+                                                        <img src="{{ $event->thumbnail ? asset('storage/' . $event->thumbnail) : asset('own_assets/default_flayer.png') }}"
+                                                            alt="" width="100%">
                                                     </div>
-                                                    <span class="publish-time"><i
-                                                            class="fa-solid fa-clock me-2"></i>1h</span>
+                                                    <div class="event-content">
+                                                        <div class="event-title">{{ $event->title }}</div>
+                                                        <div class="duration-price-remaining">Rp.
+                                                            {{ number_format($total, 0, ',', '.') }}</div>
+                                                        <div class="event-timing">
+                                                            <span><i
+                                                                    class="fa-solid fa-calendar-day me-2"></i>{{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('d M') }}</span>
+                                                            <span class="dot"><i
+                                                                    class="fa-solid fa-circle"></i></span>
+                                                            <span>{{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('l, H:i') }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="event-footer bg-success">
+                                                        <div class="row text-white">
+                                                            <div class="col-6"><i
+                                                                    class="fa-solid fa-credit-card me-2"></i> Bayar
+                                                            </div>
+                                                            <div class="col-6 text-end">Rp.
+                                                                {{ number_format($total, 0, ',', '.') }}</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div> --}}
+                                        @endforeach
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="step-02" role="tabpanel">
+                        <div class="tab-pane fade" id="step-01" role="tabpanel">
                             <div class="row justify-content-between">
                                 <div class="row">
-                                    {{-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
-                                        data-ref="mixitup-target">
-                                        <div class="main-card mt-4">
-                                            <div class="event-thumbnail">
-                                                <a href="venue_event_detail_view.html" class="thumbnail-img">
-                                                    <img src="{{ asset('landing_assets/images/event-imgs/img-1.jpg') }}"
-                                                        alt="">
-                                                </a>
-                                                <span class="bookmark-icon" title="Bookmark"></span>
-                                            </div>
-                                            <div class="event-content">
-                                                <a href="venue_event_detail_view.html" class="event-title">A New Way
-                                                    Of Life</a>
-                                                <div class="duration-price-remaining">
-                                                    <span class="duration-price">AUD $100.00*</span>
-                                                    <span class="remaining"></span>
-                                                </div>
-                                            </div>
-                                            <div class="event-footer">
-                                                <div class="event-timing">
-                                                    <div class="publish-date">
-                                                        <span><i class="fa-solid fa-calendar-day me-2"></i>15
-                                                            Apr</span>
-                                                        <span class="dot"><i class="fa-solid fa-circle"></i></span>
-                                                        <span>Fri, 3.45 PM</span>
-                                                    </div>
-                                                    <span class="publish-time"><i
-                                                            class="fa-solid fa-clock me-2"></i>1h</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
+
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="step-03" role="tabpanel">
                             <div class="row justify-content-between">
                                 <div class="row">
-                                    {{-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
-                                        data-ref="mixitup-target">
-                                        <div class="main-card mt-4">
-                                            <div class="event-thumbnail">
-                                                <a href="venue_event_detail_view.html" class="thumbnail-img">
-                                                    <img src="{{ asset('landing_assets/images/event-imgs/img-1.jpg') }}"
-                                                        alt="">
-                                                </a>
-                                                <span class="bookmark-icon" title="Bookmark"></span>
-                                            </div>
-                                            <div class="event-content">
-                                                <a href="venue_event_detail_view.html" class="event-title">A New Way
-                                                    Of Life</a>
-                                                <div class="duration-price-remaining">
-                                                    <span class="duration-price">AUD $100.00*</span>
-                                                    <span class="remaining"></span>
-                                                </div>
-                                            </div>
-                                            <div class="event-footer">
-                                                <div class="event-timing">
-                                                    <div class="publish-date">
-                                                        <span><i class="fa-solid fa-calendar-day me-2"></i>15
-                                                            Apr</span>
-                                                        <span class="dot"><i class="fa-solid fa-circle"></i></span>
-                                                        <span>Fri, 3.45 PM</span>
-                                                    </div>
-                                                    <span class="publish-time"><i
-                                                            class="fa-solid fa-clock me-2"></i>1h</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
+
                                 </div>
                             </div>
                         </div>
@@ -314,6 +289,27 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="detailPembayaranModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Pembayaran</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body m-4" id="detailPembayaranBody">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="prosesCheckout()">Konfirmasi Pembelian</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <footer class="footer mt-auto">
         <div class="footer-top">
@@ -351,18 +347,108 @@
     <script src="{{ asset('landing_assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('landing_assets/vendor/OwlCarousel/owl.carousel.js') }}"></script>
     <script src="{{ asset('landing_assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('landing_assets/vendor/mixitup/dist/mixitup.min.js') }}"></script>
     <script src="{{ asset('landing_assets/js/custom.js') }}"></script>
     <script src="{{ asset('landing_assets/js/night-mode.js') }}"></script>
     <script>
-        var containerEl = document.querySelector('[data-ref~="event-filter-content"]');
+        $(document).ready(function() {
+            let tiketData = localStorage.getItem('pendingCheckout');
 
-        var mixer = mixitup(containerEl, {
-            selectors: {
-                target: '[data-ref~="mixitup-target"]'
+            if (tiketData) {
+                $.ajax({
+                    url: '/order/store',
+                    method: 'POST',
+                    data: {
+                        '_token': $("meta[name='csrf-token']").attr('content'),
+                        'status': 'pending',
+                        'data': tiketData
+                    },
+                    success: function(response) {
+                        localStorage.removeItem('pendingCheckout');
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function(xhr) {
+                        console.log('Terjadi kesalahan:', xhr.responseJSON);
+                    }
+                });
             }
         });
     </script>
+
+    <script>
+        let currentTickets = [];
+        let cancelledTickets = [];
+
+        function showPaymentDetail(data) {
+            currentTickets = [...data.tickets];
+            cancelledTickets = [];
+
+            renderPaymentDetail(data);
+        }
+
+        function renderPaymentDetail(data) {
+            let html = `<h5>${data.event_title}</h5>`;
+            html += `<p><strong>Tanggal:</strong> ${data.event_tanggal} ${data.event_waktu}</p>`;
+            html +=
+                `<table class="table table-bordered"><thead><tr><th>Jenis Tiket</th><th>Harga</th><th>Jumlah</th><th>Subtotal</th><th>Aksi</th></tr></thead><tbody>`;
+
+            let total = 0;
+
+            currentTickets.forEach((ticket, index) => {
+                const subtotal = ticket.harga * ticket.jumlah;
+                total += subtotal;
+
+                html += `<tr>
+            <td>${ticket.nama_tiket}</td>
+            <td>Rp. ${ticket.harga.toLocaleString('id-ID')}</td>
+            <td>${ticket.jumlah}</td>
+            <td>Rp. ${subtotal.toLocaleString('id-ID')}</td>
+            <td><button class="btn btn-sm btn-danger" onclick="hapusTiket(${index})">Hapus</button></td>
+        </tr>`;
+            });
+
+            html += `</tbody></table>`;
+
+            html += `<div class="text-end"><strong>Total: Rp. ${total.toLocaleString('id-ID')}</strong></div>`;
+
+            document.getElementById('detailPembayaranBody').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('detailPembayaranModal')).show();
+        }
+
+        function hapusTiket(index) {
+            const removed = currentTickets.splice(index, 1)[0];
+            cancelledTickets.push(removed);
+            renderPaymentDetail({
+                event_title: removed.event_title,
+                event_tanggal: removed.event_tanggal,
+                event_waktu: removed.event_waktu,
+                tickets: currentTickets
+            });
+        }
+
+        function prosesCheckout() {
+            console.log("Tiket dibeli:", currentTickets);
+            console.log("Tiket dibatalkan:", cancelledTickets);
+
+            // $.ajax({
+            //     url: '/order/store',
+            //     method: 'POST',
+            //     data: {
+            //         '_token': $("meta[name='csrf-token']").attr('content'),
+            //         'status': 'pending',
+            //         'tiket_dibeli': JSON.stringify(currentTickets),
+            //         'tiket_dibatalkan': JSON.stringify(cancelledTickets),
+            //     },
+            //     success: function(res) {
+            //         Swal.fire("Berhasil", "Pesanan diproses!", "success").then(() => {
+            //             location.reload();
+            //         });
+            //     }
+            // });
+        }
+    </script>
+
 </body>
 
 </html>

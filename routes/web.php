@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JenisTiketController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WebSettingController;
 use App\Http\Middleware\CheckRole;
 use App\Models\Event;
@@ -72,11 +73,11 @@ Route::middleware(['guest'])->group(function () {
     Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/user-dashboard', function () {
-        return view('user.dashboard');
-    });
-});
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/user-dashboard', function () {
+//         return view('user.dashboard');
+//     });
+// });
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware([CheckRole::class . ':user'])->group(function () {
@@ -85,6 +86,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/event/checkout-pre', [EventController::class, 'prepareCheckout']);
         Route::get('/event/checkout-lanjut', [EventController::class, 'checkoutLanjut']);
         Route::post('/event/checkout', [EventController::class, 'checkout']);
+
+        Route::post('/order/store', [OrderController::class, 'store']);
     });
 
     Route::middleware([CheckRole::class . ':admin'])->group(function () {

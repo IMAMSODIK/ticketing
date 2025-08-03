@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('web_settings', function (Blueprint $table) {
             $table->id();
             $table->string('banner')->nullable();
+            $table->string('logo')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('tiktok')->nullable();
+            $table->string('website')->nullable();
             $table->foreignId('created_by');
             $table->foreignId('updated_by');
             $table->timestamps();
