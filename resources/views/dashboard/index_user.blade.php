@@ -273,7 +273,72 @@
                         <div class="tab-pane fade" id="step-01" role="tabpanel">
                             <div class="row justify-content-between">
                                 <div class="row">
+                                    @if ($order->has('aktif'))
+                                        @php
+                                            $groupedByEvent = $order->get('aktif')->groupBy(function ($item) {
+                                                return $item->jenisTiket->event->id ?? null;
+                                            });
+                                        @endphp
 
+                                        @foreach ($groupedByEvent as $eventOrders)
+                                            @php
+                                                $event = $eventOrders->first()->jenisTiket->event;
+                                                $total = $eventOrders->sum(function ($item) {
+                                                    return $item->jumlah * $item->jenisTiket->harga;
+                                                });
+                                            @endphp
+
+                                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
+                                                onclick="showTransactionDetail({{ json_encode([
+                                                    'event_id' => $event->id,
+                                                    'event_title' => $event->title,
+                                                    'event_tanggal' => $event->tanggal_mulai,
+                                                    'event_waktu' => $event->waktu_mulai,
+                                                    'event_tempat' => $event->nama_tempat,
+                                                    'thumbnail' => $event->thumbnail,
+                                                    'total' => $total,
+                                                    'tickets' => $eventOrders->map(function ($order) {
+                                                        return [
+                                                            'id' => $order->id,
+                                                            'jenis_tiket_id' => $order->jenis_tiket_id,
+                                                            'nama_tiket' => $order->jenisTiket->nama,
+                                                            'harga' => $order->jenisTiket->harga,
+                                                            'jumlah' => $order->jumlah,
+                                                            'subtotal' => $order->jumlah * $order->jenisTiket->harga,
+                                                        ];
+                                                    }),
+                                                ]) }})"
+                                                style="cursor:pointer">
+                                                <div class="main-card mt-4">
+                                                    <div class="event-thumbnail">
+                                                        <img src="{{ $event->thumbnail ? asset('storage/' . $event->thumbnail) : asset('own_assets/default_flayer.png') }}"
+                                                            alt="" width="100%">
+                                                    </div>
+                                                    <div class="event-content">
+                                                        <div class="event-title">{{ $event->title }}</div>
+                                                        <div class="duration-price-remaining">Rp.
+                                                            {{ number_format($total, 0, ',', '.') }}</div>
+                                                        <div class="event-timing">
+                                                            <span><i
+                                                                    class="fa-solid fa-calendar-day me-2"></i>{{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('d M') }}</span>
+                                                            <span class="dot"><i
+                                                                    class="fa-solid fa-circle"></i></span>
+                                                            <span>{{ \Carbon\Carbon::parse($event->tanggal_mulai)->translatedFormat('l, H:i') }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="event-footer bg-success">
+                                                        <div class="row text-white">
+                                                            <div class="col-6"><i
+                                                                    class="fa-solid fa-credit-card me-2"></i> Detail Transaksi
+                                                            </div>
+                                                            <div class="col-6 text-end">Rp.
+                                                                {{ number_format($total, 0, ',', '.') }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -305,6 +370,24 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="prosesCheckout()">Konfirmasi
                         Pembelian</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="detailTransaksiModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Transaksi</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body m-4" id="detailTransaksiBody">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -351,7 +434,8 @@
     <script src="{{ asset('landing_assets/js/custom.js') }}"></script>
     <script src="{{ asset('landing_assets/js/night-mode.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
     {{-- <script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script> --}}
 
     <script>
@@ -390,6 +474,42 @@
             cancelledTickets = [];
 
             renderPaymentDetail(data);
+        }
+
+        function showTransactionDetail(data) {
+            currentTickets = [...data.tickets];
+            cancelledTickets = [];
+
+            renderTransactionDetail(data);
+        }
+
+        function renderTransactionDetail(data) {
+            let html = `<h5>${data.event_title}</h5>`;
+            html += `<p><strong>Tanggal:</strong> ${data.event_tanggal} ${data.event_waktu}</p>`;
+            html +=
+                `<table class="table table-bordered"><thead><tr><th>Jenis Tiket</th><th>Harga</th><th>Jumlah</th><th>Subtotal</th><th>Aksi</th></tr></thead><tbody>`;
+
+            let total = 0;
+
+            currentTickets.forEach((ticket, index) => {
+                const subtotal = ticket.harga * ticket.jumlah;
+                total += subtotal;
+
+                html += `<tr>
+            <td>${ticket.nama_tiket}</td>
+            <td>Rp. ${ticket.harga.toLocaleString('id-ID')}</td>
+            <td>${ticket.jumlah}</td>
+            <td>Rp. ${subtotal.toLocaleString('id-ID')}</td>
+            <td><button class="btn btn-sm btn-danger" onclick="hapusTiket(${index})">Hapus</button></td>
+        </tr>`;
+            });
+
+            html += `</tbody></table>`;
+
+            html += `<div class="text-end"><strong>Total: Rp. ${total.toLocaleString('id-ID')}</strong></div>`;
+
+            document.getElementById('detailTransaksiBody').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('detailTransaksiModal')).show();
         }
 
         function renderPaymentDetail(data) {
