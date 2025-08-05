@@ -10,6 +10,7 @@ use App\Models\JenisTiket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Midtrans\Snap;
 use Midtrans\Config;
 
@@ -112,6 +113,17 @@ class OrderController extends Controller
 
     public function handleCallback(Request $request)
     {
+        Log::info("midtrans", ['request', $request->all()]);
+        $data = $request->all();
+        $signatureKey = $data['signature_key'] ?? null;
+
+        $serverKey = config('midtrans.server_key');
+        $expectedSignature = hash('sha512', $data['order_id'] . $data['status_code'] . $data['gross_amount'] . $serverKey);
+
+        if ($signatureKey !== $expectedSignature) {
+            return response()->json(['message' => 'Invalid signature'], 403);
+        }
+
         $notif = new \Midtrans\Notification();
 
         $transactionStatus = $notif->transaction_status;
@@ -119,7 +131,6 @@ class OrderController extends Controller
         $fraudStatus = $notif->fraud_status;
         $orderId = $notif->order_id;
 
-        // Ambil semua order dengan order_id ini
         $orders = Order::where('order_id', $orderId)->get();
 
         if ($orders->isEmpty()) {
@@ -133,26 +144,24 @@ class OrderController extends Controller
             'paid_at' => now()
         ];
 
-        // Tambahan info VA/Bank jika ada
         if (!empty($notif->va_numbers[0])) {
             $updateData['va_number'] = $notif->va_numbers[0]->va_number;
             $updateData['bank'] = $notif->va_numbers[0]->bank;
         }
 
-        // Logika status
         if ($transactionStatus == 'capture' || $transactionStatus == 'settlement') {
             $updateData['status'] = 'aktif';
         } elseif ($transactionStatus == 'cancel' || $transactionStatus == 'deny' || $transactionStatus == 'expire') {
             $updateData['status'] = 'batal';
         }
 
-        // Update semua order dengan order_id ini
         foreach ($orders as $order) {
             $order->update($updateData);
         }
 
         return response()->json(['message' => 'Callback diproses']);
     }
+
 
     private function hitungTotal(array $tickets): int
     {
