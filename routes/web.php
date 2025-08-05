@@ -89,8 +89,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/order/store', [OrderController::class, 'store']);
         Route::post('/order/get-token', [OrderController::class, 'getSnapToken']);
-        Route::post('/midtrans/callback', [OrderController::class, 'handleCallback']);
-
     });
 
     Route::middleware([CheckRole::class . ':admin'])->group(function () {

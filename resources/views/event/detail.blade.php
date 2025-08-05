@@ -155,7 +155,7 @@
                                                             <i class="fa-solid fa-cart-shopping"></i>
                                                         </div>
                                                         <span class="text-145">Terjual</span>
-                                                        <h6 class="coupon-status">{{ $tiket->terjual }} Tiket</h6>
+                                                        <h6 class="coupon-status">{{ $tiket->terjual }} Tiket</h6>x
                                                     </div>
                                                 </div>
                                             </div>

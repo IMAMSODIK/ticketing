@@ -433,8 +433,6 @@
         }
 
         function prosesCheckout() {
-            // console.log("Tiket dibeli:", currentTickets);
-            // console.log("Tiket dibatalkan:", cancelledTickets);
             $("#detailPembayaranModal").modal('hide');
             $.ajax({
                 url: '/order/get-token',
