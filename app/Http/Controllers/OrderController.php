@@ -120,6 +120,11 @@ class OrderController extends Controller
 
     public function handleCallback(Request $request)
     {
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$clientKey = config('midtrans.client_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = config('midtrans.is_sanitized');
+        Config::$is3ds = config('midtrans.is_3ds');
         Log::info('IHIK 2:', [
             'server' => config('midtrans.server_key'),
             'client' => config('midtrans.client_key'),
