@@ -85,10 +85,11 @@ class OrderController extends Controller
                 ]);
             }
 
-            Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-            Config::$isProduction = filter_var(env('MIDTRANS_IS_PRODUCTION', false), FILTER_VALIDATE_BOOLEAN);
-            Config::$isSanitized = true;
-            Config::$is3ds = true;
+            Config::$serverKey = config('midtrans.server_key');
+            Config::$clientKey = config('midtrans.client_key');
+            Config::$isProduction = config('midtrans.is_production');
+            Config::$isSanitized = config('midtrans.is_sanitized');
+            Config::$is3ds = config('midtrans.is_3ds');
 
             $params = [
                 'transaction_details' => [
