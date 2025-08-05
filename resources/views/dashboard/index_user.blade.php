@@ -299,11 +299,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body m-4" id="detailPembayaranBody">
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="prosesCheckout()">Konfirmasi Pembelian</button>
+                    <button type="button" class="btn btn-primary" onclick="prosesCheckout()">Konfirmasi
+                        Pembelian</button>
                 </div>
             </div>
         </div>
@@ -349,6 +350,10 @@
     <script src="{{ asset('landing_assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('landing_assets/js/custom.js') }}"></script>
     <script src="{{ asset('landing_assets/js/night-mode.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+    {{-- <script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script> --}}
+
     <script>
         $(document).ready(function() {
             let tiketData = localStorage.getItem('pendingCheckout');
@@ -428,24 +433,44 @@
         }
 
         function prosesCheckout() {
-            console.log("Tiket dibeli:", currentTickets);
-            console.log("Tiket dibatalkan:", cancelledTickets);
-
-            // $.ajax({
-            //     url: '/order/store',
-            //     method: 'POST',
-            //     data: {
-            //         '_token': $("meta[name='csrf-token']").attr('content'),
-            //         'status': 'pending',
-            //         'tiket_dibeli': JSON.stringify(currentTickets),
-            //         'tiket_dibatalkan': JSON.stringify(cancelledTickets),
-            //     },
-            //     success: function(res) {
-            //         Swal.fire("Berhasil", "Pesanan diproses!", "success").then(() => {
-            //             location.reload();
-            //         });
-            //     }
-            // });
+            // console.log("Tiket dibeli:", currentTickets);
+            // console.log("Tiket dibatalkan:", cancelledTickets);
+            $("#detailPembayaranModal").modal('hide');
+            $.ajax({
+                url: '/order/get-token',
+                method: 'POST',
+                data: {
+                    '_token': $("meta[name='csrf-token']").attr('content'),
+                    'tiket_dibeli': JSON.stringify(currentTickets),
+                    'tiket_dibatalkan': JSON.stringify(cancelledTickets),
+                },
+                success: function(response) {
+                    if (response.token) {
+                        snap.pay(response.token, {
+                            onSuccess: function(result) {
+                                console.log('Success:', result);
+                                sweetAlert(true, "Pembayaran berhasil!");
+                            },
+                            onPending: function(result) {
+                                // console.log('Pending:', result);
+                                // window.location.href = "/order/pending";
+                            },
+                            onError: function(result) {
+                                sweetAlert(false, "Pembayaran gagal!");
+                            },
+                            onClose: function() {
+                                // Swal.fire("Dibatalkan", "Anda menutup pembayaran!", "info");
+                                $("#detailPembayaranModal").modal('show');
+                            }
+                        });
+                    } else {
+                        Swal.fire("Error", "Gagal mendapatkan token pembayaran!", "error");
+                    }
+                },
+                error: function() {
+                    Swal.fire("Error", "Terjadi kesalahan saat checkout!", "error");
+                }
+            });
         }
     </script>
 

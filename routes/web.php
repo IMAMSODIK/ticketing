@@ -88,6 +88,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/event/checkout', [EventController::class, 'checkout']);
 
         Route::post('/order/store', [OrderController::class, 'store']);
+        Route::post('/order/get-token', [OrderController::class, 'getSnapToken']);
+        Route::post('/midtrans/callback', [OrderController::class, 'handleCallback']);
+
     });
 
     Route::middleware([CheckRole::class . ':admin'])->group(function () {
@@ -113,10 +116,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/tiket/status', [JenisTiketController::class, 'updateStatus']);
 
         Route::get('/web-settings', [WebSettingController::class, 'index'])->name('web-setting');
-        Route::post('/web-settings/store', [WebSettingController::class, 'store']);
-        Route::get('/web-settings/edit', [WebSettingController::class, 'edit']);
         Route::post('/web-settings/update', [WebSettingController::class, 'update']);
-        Route::post('/web-settings/delete', [WebSettingController::class, 'delete']);
     });
 
     Route::post('/logout', function () {

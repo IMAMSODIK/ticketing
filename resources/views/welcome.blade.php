@@ -215,12 +215,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6">
                     <div class="event-filter-items">
                         <div class="featured-controls">
                             <div class="row" data-ref="event-filter-content">
                                 @foreach ($events as $event)
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mix arts concert workshops volunteer sports health_Wellness"
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mix arts concert workshops volunteer sports health_Wellness"
                                         data-ref="mixitup-target">
                                         <div class="main-card mt-4">
                                             <div class="event-thumbnail">

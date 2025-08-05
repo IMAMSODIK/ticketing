@@ -17,6 +17,15 @@ return new class extends Migration
             $table->char('jenis_tiket_id', 36);
             $table->integer('jumlah');
             $table->enum('status', ['pending', 'aktif', 'batal']);
+
+            $table->string('order_id')->nullable();
+            $table->string('payment_type')->nullable();
+            $table->string('transaction_status')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->string('fraud_status')->nullable();
+            $table->string('va_number')->nullable();
+            $table->string('bank')->nullable();
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }
