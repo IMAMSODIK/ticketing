@@ -328,10 +328,10 @@
                                                     </div>
                                                     <div class="event-footer bg-success">
                                                         <div class="row text-white">
-                                                            <div class="col-6"><i
+                                                            <div class="col-7"><i
                                                                     class="fa-solid fa-credit-card me-2"></i> Detail Transaksi
                                                             </div>
-                                                            <div class="col-6 text-end">Rp.
+                                                            <div class="col-5 text-end">Rp.
                                                                 {{ number_format($total, 0, ',', '.') }}</div>
                                                         </div>
                                                     </div>
@@ -487,7 +487,7 @@
             let html = `<h5>${data.event_title}</h5>`;
             html += `<p><strong>Tanggal:</strong> ${data.event_tanggal} ${data.event_waktu}</p>`;
             html +=
-                `<table class="table table-bordered"><thead><tr><th>Jenis Tiket</th><th>Harga</th><th>Jumlah</th><th>Subtotal</th><th>Aksi</th></tr></thead><tbody>`;
+                `<table class="table table-bordered"><thead><tr><th>Jenis Tiket</th><th>Harga</th><th>Jumlah</th><th>Subtotal</th></tr></thead><tbody>`;
 
             let total = 0;
 
@@ -500,7 +500,6 @@
             <td>Rp. ${ticket.harga.toLocaleString('id-ID')}</td>
             <td>${ticket.jumlah}</td>
             <td>Rp. ${subtotal.toLocaleString('id-ID')}</td>
-            <td><button class="btn btn-sm btn-danger" onclick="hapusTiket(${index})">Hapus</button></td>
         </tr>`;
             });
 
