@@ -50,6 +50,12 @@ class OrderController extends Controller
 
     public function getSnapToken(Request $request)
     {
+        Log::info('IHIK:', [
+            'server' => config('midtrans.server_key'),
+            'client' => config('midtrans.client_key'),
+            'prod'   => config('midtrans.is_production'),
+        ]);
+
         $dibeli = json_decode($request->tiket_dibeli, true);
         $dibatalkan = json_decode($request->tiket_dibatalkan, true);
         $user = Auth::user();
@@ -114,7 +120,11 @@ class OrderController extends Controller
 
     public function handleCallback(Request $request)
     {
-        Log::info("test_mid_mam", ['request', env('MIDTRANS_SERVER_KEY')]);
+        Log::info('IHIK 2:', [
+            'server' => config('midtrans.server_key'),
+            'client' => config('midtrans.client_key'),
+            'prod'   => config('midtrans.is_production'),
+        ]);
         $data = $request->all();
         $signatureKey = $data['signature_key'] ?? null;
 
