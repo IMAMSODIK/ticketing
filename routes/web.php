@@ -78,7 +78,7 @@ Route::middleware(['guest'])->group(function () {
 //         return view('user.dashboard');
 //     });
 // });
-Route::get('/midtrans/callback', [OrderController::class, 'handleCallback']);
+
 Route::middleware(['auth'])->group(function () {
     Route::middleware([CheckRole::class . ':user'])->group(function () {
         Route::get('/user-dashboard', [DashboardController::class, 'indexUser'])->name('user.dashboard'); 
