@@ -50,6 +50,7 @@ class OrderController extends Controller
 
     public function getSnapToken(Request $request)
     {
+        Log::info("midtrans", 'test');
         $dibeli = json_decode($request->tiket_dibeli, true);
         $dibatalkan = json_decode($request->tiket_dibatalkan, true);
         $user = Auth::user();
