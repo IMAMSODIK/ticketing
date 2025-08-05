@@ -85,7 +85,7 @@ class OrderController extends Controller
                 ]);
             }
 
-            Config::$serverKey = env('MIDTRANS_SERVER_KEY');;
+            Config::$serverKey = env('MIDTRANS_SERVER_KEY');
             Config::$isProduction = filter_var(env('MIDTRANS_IS_PRODUCTION', false), FILTER_VALIDATE_BOOLEAN);
             Config::$isSanitized = true;
             Config::$is3ds = true;
@@ -113,7 +113,7 @@ class OrderController extends Controller
 
     public function handleCallback(Request $request)
     {
-        Log::info("test_mid_mam", ['request', $request->all()]);
+        Log::info("test_mid_mam", ['request', env('MIDTRANS_SERVER_KEY')]);
         $data = $request->all();
         $signatureKey = $data['signature_key'] ?? null;
 
