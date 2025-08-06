@@ -147,8 +147,8 @@
                                                         <div class="icon me-3">
                                                             <i class="fa-solid fa-users"></i>
                                                         </div>
-                                                        <span class="text-145">Kuota Tiket {{$tiket->kuota - $tiket->terjual}}</span>
-                                                        <h6 class="coupon-status">{{ ($tiket->kuota - $tiket->terjual) }} Tiket</h6>
+                                                        <span class="text-145">Kuota Tiket</span>
+                                                        <h6 class="coupon-status">{{ $tiket->kuota }} Tiket</h6>
                                                     </div>
                                                     <div class="icon-box">
                                                         <div class="icon me-3">

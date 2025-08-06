@@ -283,7 +283,7 @@
                                                             <i class="fa-solid fa-users"></i>
                                                         </div>
                                                         <span class="text-145">Kuota Tiket</span>
-                                                        <h6 class="coupon-status">{{ $kuota }} Peserta</h6>
+                                                        <h6 class="coupon-status">{{ ($kuota - $tiket->terjual) }} Peserta</h6>
                                                     </div>
                                                 </div>
 
