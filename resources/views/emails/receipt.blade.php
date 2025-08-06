@@ -182,7 +182,7 @@
                                     <div class="col-lg-5">
 										<div class="QR-dt p-4">
 											<div class="QR-scanner">
-												<img src="{{($qr->qr_code) ? asset('storage') . '/' . $qr->qr_code : ''}}" alt="QR-Ticket-Scanner">
+												<img src="{{($qr->qr_code) ? asset('/') . $qr->qr_code : ''}}" alt="QR-Ticket-Scanner">
 											</div>
 										</div>
 									</div>
