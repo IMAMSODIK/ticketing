@@ -196,6 +196,10 @@ class OrderController extends Controller
                         'qr_code' => 'storage/' . $path,
                         'scan_count' => $order->jumlah
                     ]);
+
+                    $tiket = JenisTiket::where('id', $order->jenis_tiket_id)->first();
+                    $tiket->terjual += $order->jumlah;
+                    $tiket->save();
                 }
             }
 
