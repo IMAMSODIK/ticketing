@@ -198,24 +198,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td><a href="#" target="_blank">Tutorial on Canvas
-                                                                    Painting for Beginners</a></td>
-                                                            <td>Online</td>
-                                                            <td>1</td>
-                                                            <td>$75.00</td>
-                                                            <td>$75.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colspan="1"></td>
-                                                            <td colspan="5">
-                                                                <div class="user_dt_trans text-end pe-xl-4">
-                                                                    <div class="totalinv2">Total : USD $36.00</div>
-                                                                    <p>Paid via Paypal</p>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                                        
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -334,21 +317,22 @@
                             .formatted_paid_at);
 
                         let rows = '';
+                        let total;
                         order.jenisTiket.forEach((item, index) => {
-                            let total = item.qty * item.price;
+                            total = item.jumlah * item.jenisTiket.harga;
                             rows += `
                 <tr>
                     <td>${index + 1}</td>
-                    <td>${order.event.title}</td>
-                    <td>${item.nama}</td>
-                    <td>${item.qty}</td>
-                    <td>Rp${item.price.toLocaleString('id-ID')}</td>
+                    <td>${item.jenisTiket.event.title}</td>
+                    <td>${item.jenisTiket.nama}</td>
+                    <td>${item.jumlah}</td>
+                    <td>Rp${item.jenisTiket.harga.toLocaleString('id-ID')}</td>
                     <td>Rp${total.toLocaleString('id-ID')}</td>
                 </tr>
             `;
                         });
 
-                        let grandTotal = "Rp" + parseInt(order.total).toLocaleString('id-ID');
+                        let grandTotal = "Rp" + parseInt(total).toLocaleString('id-ID');
 
                         $("#modalreciept tbody").html(rows);
                         $("#modalreciept .totalinv2").text("Total : " + grandTotal);
