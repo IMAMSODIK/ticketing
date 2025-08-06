@@ -318,14 +318,14 @@
 
                         let rows = '';
                         let total;
-                        total = order.jumlah * order.jenisTiket.harga;
+                        total = order.jumlah * order.jenis_tiket.harga;
                         rows += `
                             <tr>
                                 <td>1</td>
-                                <td>${order.jenisTiket.event.title}</td>
-                                <td>${order.jenisTiket.nama}</td>
+                                <td>${order.jenis_tiket.event.title}</td>
+                                <td>${order.jenis_tiket.nama}</td>
                                 <td>${order.jumlah}</td>
-                                <td>Rp${order.jenisTiket.event.harga.toLocaleString('id-ID')}</td>
+                                <td>Rp${order.jenis_tiket.harga.toLocaleString('id-ID')}</td>
                                 <td>Rp${total.toLocaleString('id-ID')}</td>
                             </tr>
                         `;
