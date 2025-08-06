@@ -41,7 +41,7 @@
                 </li>
 
                 <li class="menu--item">
-                    <a href="my_organisation_dashboard_payout.html" class="menu--link" title="Penjualan Tiket"
+                    <a href="/penjualan" class="menu--link" title="Penjualan Tiket"
                         data-bs-toggle="tooltip" data-bs-placement="right">
                         <i class="fa-solid fa-credit-card menu--icon"></i>
                         <span class="menu--label">Penjualan Tiket</span>

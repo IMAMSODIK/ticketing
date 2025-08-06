@@ -6,13 +6,20 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Event;
 use App\Models\JenisTiket;
+use App\Models\QrTiket;
+use App\Models\WebSetting;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Midtrans\Snap;
 use Midtrans\Config;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class OrderController extends Controller
 {
@@ -120,62 +127,86 @@ class OrderController extends Controller
 
     public function handleCallback(Request $request)
     {
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$clientKey = config('midtrans.client_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized = config('midtrans.is_sanitized');
-        Config::$is3ds = config('midtrans.is_3ds');
-        Log::info('IHIK 2:', [
-            'server' => config('midtrans.server_key'),
-            'client' => config('midtrans.client_key'),
-            'prod'   => config('midtrans.is_production'),
-        ]);
-        $data = $request->all();
-        $signatureKey = $data['signature_key'] ?? null;
+        try {
+            Config::$serverKey = config('midtrans.server_key');
+            Config::$clientKey = config('midtrans.client_key');
+            Config::$isProduction = config('midtrans.is_production');
+            Config::$isSanitized = config('midtrans.is_sanitized');
+            Config::$is3ds = config('midtrans.is_3ds');
+            Log::info('IHIK 2:', [
+                'server' => config('midtrans.server_key'),
+                'client' => config('midtrans.client_key'),
+                'prod'   => config('midtrans.is_production'),
+            ]);
+            $data = $request->all();
+            $signatureKey = $data['signature_key'] ?? null;
 
-        $serverKey = config('midtrans.server_key');
-        $expectedSignature = hash('sha512', $data['order_id'] . $data['status_code'] . $data['gross_amount'] . $serverKey);
+            $serverKey = config('midtrans.server_key');
+            $expectedSignature = hash('sha512', $data['order_id'] . $data['status_code'] . $data['gross_amount'] . $serverKey);
 
-        if ($signatureKey !== $expectedSignature) {
-            return response()->json(['message' => 'Invalid signature'], 403);
+            if ($signatureKey !== $expectedSignature) {
+                return response()->json(['message' => 'Invalid signature'], 403);
+            }
+
+            $notif = new \Midtrans\Notification();
+
+            $transactionStatus = $notif->transaction_status;
+            $paymentType = $notif->payment_type;
+            $fraudStatus = $notif->fraud_status;
+            $orderId = $notif->order_id;
+
+            DB::beginTransaction();
+
+            $orders = Order::where('order_id', $orderId)->get();
+
+            if ($orders->isEmpty()) {
+                return response()->json(['message' => 'Order tidak ditemukan'], 404);
+            }
+
+            $updateData = [
+                'transaction_status' => $transactionStatus,
+                'payment_type' => $paymentType,
+                'fraud_status' => $fraudStatus,
+                'paid_at' => now()
+            ];
+
+            if (!empty($notif->va_numbers[0])) {
+                $updateData['va_number'] = $notif->va_numbers[0]->va_number;
+                $updateData['bank'] = $notif->va_numbers[0]->bank;
+            }
+
+            if ($transactionStatus == 'capture' || $transactionStatus == 'settlement') {
+                $updateData['status'] = 'aktif';
+            } elseif ($transactionStatus == 'cancel' || $transactionStatus == 'deny' || $transactionStatus == 'expire') {
+                $updateData['status'] = 'batal';
+            }
+
+            foreach ($orders as $order) {
+                $order->update($updateData);
+
+                if ($updateData['status'] === 'aktif') {
+                    $url = url('/peserta?order_id=' . $order->order_id);
+                    $qrImage = QrCode::format('png')->size(300)->generate($url);
+
+                    $fileName = 'qrcode_' . uniqid() . '.png';
+                    $filePath = 'public/qrcodes/' . $fileName;
+
+                    Storage::put($filePath, $qrImage);
+
+                    QrTiket::create([
+                        'order_id' => $order->order_id,
+                        'qr_code' => 'storage/qrcodes/' . $fileName,
+                        'status' => 'aktif'
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Callback diproses']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()]);
         }
-
-        $notif = new \Midtrans\Notification();
-
-        $transactionStatus = $notif->transaction_status;
-        $paymentType = $notif->payment_type;
-        $fraudStatus = $notif->fraud_status;
-        $orderId = $notif->order_id;
-
-        $orders = Order::where('order_id', $orderId)->get();
-
-        if ($orders->isEmpty()) {
-            return response()->json(['message' => 'Order tidak ditemukan'], 404);
-        }
-
-        $updateData = [
-            'transaction_status' => $transactionStatus,
-            'payment_type' => $paymentType,
-            'fraud_status' => $fraudStatus,
-            'paid_at' => now()
-        ];
-
-        if (!empty($notif->va_numbers[0])) {
-            $updateData['va_number'] = $notif->va_numbers[0]->va_number;
-            $updateData['bank'] = $notif->va_numbers[0]->bank;
-        }
-
-        if ($transactionStatus == 'capture' || $transactionStatus == 'settlement') {
-            $updateData['status'] = 'aktif';
-        } elseif ($transactionStatus == 'cancel' || $transactionStatus == 'deny' || $transactionStatus == 'expire') {
-            $updateData['status'] = 'batal';
-        }
-
-        foreach ($orders as $order) {
-            $order->update($updateData);
-        }
-
-        return response()->json(['message' => 'Callback diproses']);
     }
 
 
@@ -184,5 +215,84 @@ class OrderController extends Controller
         return array_reduce($tickets, function ($carry, $tiket) {
             return $carry + ($tiket['harga'] * $tiket['jumlah']);
         }, 0);
+    }
+
+    public function index()
+    {
+        $data = [
+            'pageTitle' => "Daftar Event",
+            'count_event' => Event::count(),
+            'count_event_done' => Event::where('status', '!=', 'Aktif')->count(),
+            'count_event_aktif' => Event::where('status', 'Aktif')->count(),
+        ];
+
+        try {
+            $events = Event::with('kota', 'jenisTiket', 'creator', 'updater')
+                ->where('tanggal_mulai', '>=', Carbon::today())
+                ->orderBy('tanggal_mulai', 'asc')
+                ->take(8)
+                ->get();
+            $kotas = DB::table('indonesia_cities')->get();
+
+            $data['events'] = $events;
+            $data['kotas'] = $kotas;
+
+            return view('penjualan.index', $data);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function detail(Request $r)
+    {
+        try {
+            $eventId = $r->id;
+
+            if (!$eventId) {
+                return redirect()->back()->with('error', 'Event ID tidak ditemukan.');
+            }
+
+            $orders = Order::with(['user', 'jenisTiket'])
+                ->whereHas('jenisTiket', function ($q) use ($eventId) {
+                    $q->where('event_id', $eventId);
+                })
+                ->get();
+
+            return view('penjualan.detail', [
+                'web_profile' => WebSetting::first(),
+                'event' => Event::where("id", $eventId)->pluck('title')->first(),
+                'orders' => $orders,
+                'pageTitle' => 'Laporan Penjualan Tiket'
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memuat data.');
+        }
+    }
+
+    public function receipt(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:orders,id'
+        ]);
+
+        $order = Order::with(['user', 'jenisTiket.event'])->find($request->id);
+
+        if (!$order) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data pesanan tidak ditemukan.'
+            ]);
+        }
+
+        $order->formatted_paid_at = $order->paid_at
+            ? \Carbon\Carbon::parse($order->paid_at)->translatedFormat('d F Y H:i')
+            : '-';
+
+        $order->total_formatted = number_format($order->total, 0, ',', '.');
+
+        return response()->json([
+            'status' => true,
+            'data' => $order,
+        ]);
     }
 }

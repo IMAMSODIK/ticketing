@@ -1,0 +1,35 @@
+@extends('template')
+
+@section('content')
+    <div class="wrapper wrapper-body">
+        <div class="dashboard-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-main-title">
+                            <h3><i class="fa-solid fa-gauge me-3"></i>{{$pageTitle}}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="main-card mt-4">
+                            <div class="item-analytics-content p-4 ps-1 pb-2">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center border_bottom p-4">
+                                    <h3 id="title">Data Penjualan Tiket</h3>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 m-2">
+                                    <div class="event-filter-items">
+                                        <div class="featured-controls">
+                                            <div class="row" data-ref="event-filter-content">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

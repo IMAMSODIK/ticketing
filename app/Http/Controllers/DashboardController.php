@@ -17,10 +17,7 @@ class DashboardController extends Controller
     }
 
     public function indexUser(){
-        $orders = Order::with(['jenisTiket.event'])
-                    ->where('user_id', Auth::id())
-                    ->get()
-                    ->groupBy('status');
+        $orders = Order::with(['jenisTiket.event'])->where('user_id', Auth::id())->get()->groupBy('status');
 
         $data = [
             'pageTitle' => "Dashboard",

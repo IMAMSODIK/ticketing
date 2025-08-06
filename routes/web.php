@@ -113,6 +113,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/tiket/update', [JenisTiketController::class, 'update']);
         Route::post('/tiket/status', [JenisTiketController::class, 'updateStatus']);
 
+        Route::get('/penjualan', [OrderController::class, 'index']);
+        Route::get('/penjualan/detail', [OrderController::class, 'detail']);
+        Route::get('/orders/receipt', [OrderController::class, 'receipt']);
+
+
         Route::get('/web-settings', [WebSettingController::class, 'index'])->name('web-setting');
         Route::post('/web-settings/update', [WebSettingController::class, 'update']);
     });
