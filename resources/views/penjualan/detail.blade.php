@@ -219,27 +219,18 @@
                                                                     alt="">
                                                             </div>
                                                             <div class="event-order-dt-content">
-                                                                <h5 id="event_title">Tutorial on Canvas Painting for Beginners</h5>
-                                                                <span id="event_data">Wed, Jun 01, 2022 5:30 AM. Duration 1h</span>
-                                                                <div class="buyer-name" id="buyer_name">John Doe</div>
+                                                                <h5 id="event_title"></h5>
+                                                                <span id="event_date"></span>
+                                                                <div class="buyer-name" id="buyer_name"></div>
                                                                 <div class="booking-total-tickets">
                                                                     <i class="fa-solid fa-ticket rotate-icon"></i>
-                                                                    <span class="booking-count-tickets mx-2" id="ticket_amount">1</span>x
-                                                                    Ticket
+                                                                    <span class="booking-count-tickets mx-2" id="ticket_amount"></span>x
+                                                                    Tiket
                                                                 </div>
                                                                 <div class="booking-total-grand">
                                                                     Total : <span id="total_amount"></span>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-5">
-                                                        <div class="QR-dt p-4">
-                                                            <div class="QR-scanner">
-                                                                <img src="{{ asset('landing_assets/images/qr.png') }}"
-                                                                    alt="QR-Ticket-Scanner">
-                                                            </div>
-                                                            <p>Powered by Barren</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -332,7 +323,26 @@
 
                         $("#modalreciept tbody").html(rows);
                         $("#modalreciept .totalinv2").text("Total : " + grandTotal);
-                        $("#modalreciept").modal('show');
+
+                        $("#event_title").text(order.jenis_tiket.event.title);
+                        $("#buyer_name").text(order.user.name);
+                        $("#ticket_amount").text(order.jumlah);
+                        $("#total_amount").text(`Rp${total.toLocaleString('id-ID')}`);
+
+                        let tanggal = order.jenis_tiket.event.tanggal_mulai;
+                        let waktu = order.jenis_tiket.event.waktu_mulai;
+                        let dateTime = new Date(`${tanggal}T${waktu}`);
+                        let hari = dateTime.toLocaleDateString('id-ID', { weekday: 'long' });
+                        let tanggalNum = dateTime.getDate();
+                        let bulan = dateTime.toLocaleDateString('id-ID', { month: 'long' });
+                        let tahun = dateTime.getFullYear();
+
+                        let jam = dateTime.getHours().toString().padStart(2, '0');
+                        let menit = dateTime.getMinutes().toString().padStart(2, '0');
+
+                        let formatTeks = `${hari}, ${bulan} ${tanggalNum}, ${tahun} ${jam}:${menit}`
+                        $("#event_date").text(order.jenis_tiket.event.tanggal_mulai + order.jenis_tiket.event.waktu_mulai);
+
 
                         $("#modalreciept").modal('show');
                     } else {
