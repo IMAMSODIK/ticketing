@@ -318,19 +318,17 @@
 
                         let rows = '';
                         let total;
-                        order.jenisTiket.forEach((item, index) => {
-                            total = item.jumlah * item.jenisTiket.harga;
-                            rows += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${item.jenisTiket.event.title}</td>
-                    <td>${item.jenisTiket.nama}</td>
-                    <td>${item.jumlah}</td>
-                    <td>Rp${item.jenisTiket.harga.toLocaleString('id-ID')}</td>
-                    <td>Rp${total.toLocaleString('id-ID')}</td>
-                </tr>
-            `;
-                        });
+                        total = order.jumlah * order.jenisTiket.harga;
+                        rows += `
+                            <tr>
+                                <td>1</td>
+                                <td>${order.jenisTiket.event.title}</td>
+                                <td>${order.jenisTiket.nama}</td>
+                                <td>${order.jumlah}</td>
+                                <td>Rp${order.jenisTiket.harga.toLocaleString('id-ID')}</td>
+                                <td>Rp${total.toLocaleString('id-ID')}</td>
+                            </tr>
+                        `;
 
                         let grandTotal = "Rp" + parseInt(total).toLocaleString('id-ID');
 
