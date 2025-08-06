@@ -201,6 +201,9 @@
                                                         
                                                     </tbody>
                                                 </table>
+                                                <div class="user_dt_trans text-end pe-xl-4">
+													<div class="totalinv2"></div>
+												</div>
                                             </div>
                                         </div>
                                         <div class="invoice_footer">
@@ -209,34 +212,29 @@
                                             </div>
                                             <div class="main-card">
                                                 <div class="row g-0">
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-12">
                                                         <div class="event-order-dt p-4">
                                                             <div class="event-thumbnail-img">
                                                                 <img src="{{ asset('landing_assets/images/event-imgs/img-7.jpg') }}"
                                                                     alt="">
                                                             </div>
                                                             <div class="event-order-dt-content">
-                                                                <h5>Tutorial on Canvas Painting for Beginners</h5>
-                                                                <span>Wed, Jun 01, 2022 5:30 AM. Duration 1h</span>
-                                                                <div class="buyer-name">John Doe</div>
+                                                                <h5 id="event_title">Tutorial on Canvas Painting for Beginners</h5>
+                                                                <span id="event_data">Wed, Jun 01, 2022 5:30 AM. Duration 1h</span>
+                                                                <div class="buyer-name" id="buyer_name">John Doe</div>
                                                                 <div class="booking-total-tickets">
                                                                     <i class="fa-solid fa-ticket rotate-icon"></i>
-                                                                    <span class="booking-count-tickets mx-2">1</span>x
+                                                                    <span class="booking-count-tickets mx-2" id="ticket_amount">1</span>x
                                                                     Ticket
                                                                 </div>
                                                                 <div class="booking-total-grand">
-                                                                    Total : <span>$75.00</span>
+                                                                    Total : <span id="total_amount"></span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-5">
                                                         <div class="QR-dt p-4">
-                                                            <ul class="QR-counter-type">
-                                                                <li>Online</li>
-                                                                <li>Counter</li>
-                                                                <li>0000000001</li>
-                                                            </ul>
                                                             <div class="QR-scanner">
                                                                 <img src="{{ asset('landing_assets/images/qr.png') }}"
                                                                     alt="QR-Ticket-Scanner">

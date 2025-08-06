@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('order_id');
             $table->string('qr_code');
-            $table->enum('status', ['aktif', 'expired']);
+            $table->smallInteger('scan_count');
             $table->timestamps();
         });
     }

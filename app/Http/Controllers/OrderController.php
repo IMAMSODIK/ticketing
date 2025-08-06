@@ -193,7 +193,7 @@ class OrderController extends Controller
                         QrTiket::create([
                             'order_id' => $order->order_id,
                             'qr_code' => 'storage/' . $path,
-                            'status' => 'aktif'
+                            'scan_count' => $order->jumlah
                         ]);
                     }
                 }
