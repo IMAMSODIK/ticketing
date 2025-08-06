@@ -153,7 +153,7 @@
                             </div>
                             <div class="main-card">
                                 <div class="row g-0">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-7">
                                         <div class="event-order-dt p-4">
                                             <div class="event-thumbnail-img">
                                                 @if ($order->jenisTiket->event->thumbnail)
@@ -179,6 +179,13 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-5">
+										<div class="QR-dt p-4">
+											<div class="QR-scanner">
+												<img src="{{($qr->qr_code) ? asset('storage') . '/' . $qr->qr_code : ''}}" alt="QR-Ticket-Scanner">
+											</div>
+										</div>
+									</div>
                                 </div>
                             </div>
                             <div class="cut-line">

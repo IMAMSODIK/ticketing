@@ -183,21 +183,19 @@ class OrderController extends Controller
                 $order->update($updateData);
 
                 if ($updateData['status'] === 'aktif') {
-                    for ($i = 0; $i < $order->jumlah; $i++) {
-                        $url = url('/peserta?order_id=' . $order->order_id);
-                        $qrImage = QrCode::format('png')->size(300)->generate($url);
+                    $url = url('/peserta?order_id=' . $order->order_id);
+                    $qrImage = QrCode::format('png')->size(300)->generate($url);
 
-                        $fileName = 'qrcode_' . uniqid() . '.png';
-                        $path = 'qrcodes/' . $fileName;
+                    $fileName = 'qrcode_' . uniqid() . '.png';
+                    $path = 'qrcodes/' . $fileName;
 
-                        Storage::disk('public')->put($path, $qrImage);
+                    Storage::disk('public')->put($path, $qrImage);
 
-                        QrTiket::create([
-                            'order_id' => $order->order_id,
-                            'qr_code' => 'storage/' . $path,
-                            'scan_count' => $order->jumlah
-                        ]);
-                    }
+                    QrTiket::create([
+                        'order_id' => $order->order_id,
+                        'qr_code' => 'storage/' . $path,
+                        'scan_count' => $order->jumlah
+                    ]);
                 }
             }
 
@@ -300,12 +298,13 @@ class OrderController extends Controller
     {
         $order = Order::with('user', 'jenisTiket.event')->find($request->order_id);
         $webSettings = WebSetting::first();
+        $qr = QrTiket::where('order_id', $order->order_id)->first();
 
         if (!$order || !$order->user) {
             return response()->json(['status' => false, 'message' => 'Order tidak ditemukan atau user tidak ada']);
         }
 
-        Mail::to($order->user->email)->send(new OrderReceiptMail($order, $webSettings));
+        Mail::to($order->user->email)->send(new OrderReceiptMail($order, $webSettings, $qr));
 
         return response()->json(['status' => true]);
     }

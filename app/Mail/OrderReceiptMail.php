@@ -15,13 +15,15 @@ class OrderReceiptMail extends Mailable
 
     public $order;
     public $webSettings;
+    public $qr;
     /**
      * Create a new message instance.
      */
-    public function __construct($order, $webSettings)
+    public function __construct($order, $webSettings, $qr)
     {
         $this->order = $order;
         $this->webSettings = $webSettings;
+        $this->qr = $qr;
     }
 
     /**
