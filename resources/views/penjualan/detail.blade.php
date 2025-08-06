@@ -97,7 +97,6 @@
                                                                                         data-id="{{ $order->id }}"
                                                                                         target="_blank"> Bukti
                                                                                         Transaksi</button>
-                                                                                    <span class="text-muted">-</span>
                                                                                 @endif
                                                                             </td>
                                                                         </tr>
@@ -136,10 +135,10 @@
                                         <div class="invoice-header-logo">
                                             @if ($web_profile && $web_profile->logo)
                                                 <img id="preview_avatar" src="{{ asset('storage/' . $web_profile->logo) }}"
-                                                    alt="" height="200px">
+                                                    alt="" width="200px">
                                             @else
                                                 <img id="preview_avatar" src="{{ asset('own_assets/default_logo.png') }}"
-                                                    alt="" height="200px">
+                                                    alt="" width="200px">
                                             @endif
                                         </div>
                                         <div class="invoice-header-text">
@@ -209,8 +208,7 @@
                                                     <div class="col-lg-12">
                                                         <div class="event-order-dt p-4">
                                                             <div class="event-thumbnail-img">
-                                                                <img src="{{ asset('landing_assets/images/event-imgs/img-7.jpg') }}"
-                                                                    alt="">
+                                                                <img src="" id="event_thumbnail" alt="">
                                                             </div>
                                                             <div class="event-order-dt-content">
                                                                 <h5 id="event_title"></h5>
@@ -322,6 +320,11 @@
                         $("#buyer_name").text(order.user.name);
                         $("#ticket_amount").text(order.jumlah);
                         $("#total_amount").text(`Rp${total.toLocaleString('id-ID')}`);
+                        if(order.jenis_tiket.event.thumbnail){
+                            $("#event_thumbnail").attr('src', '/storage/' + order.jenis_tiket.event.thumbnail);
+                        }else{
+                            $("#event_thumbnail").attr('src', `{{asset('own_assets/default_flayer.png')}}`)
+                        }
 
                         let tanggal = order.jenis_tiket.event.tanggal_mulai;
                         let waktu = order.jenis_tiket.event.waktu_mulai;

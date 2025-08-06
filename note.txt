@@ -1,117 +1,36 @@
-use case
---------
+- gambar pada receipt masih salah
+- kirim receipt ke email peserta
+- hapus tombol download di receipt
+- pada data penjuaan tiket, tambah kolom harga item (hapus metode)
+- pada saat berhasil refresh halaman
+- pada saat berhasil, update kolom terjual pada jenis tiket dan kurangi kuota pada tampilan
 
-user melihat daftar event
-user memilih event
-user mengklik pemesanan
-user login (menggunakan OAuth)
-	-> (Y) -> user diarahkan ke event yang telah diklik
-	       -> user masuk ke midtrans untuk memilih jenis pembayaran
-	       -> user masuk ke detail order
-	       -> setelah selesai,semua data masuk ke halam Riwayat transaksi 
+admin
+- header
+    - foto
+    - nama
+    - email
 
-end use-case
-------------
+- laporan
+- user (pengguna)
 
+user
+- footer belum sesuai web settings
+- header juga belum sesuai
+- tab aktif tambahkan tombol download recept detail pembelian
+- kurangi scan_count tiap kali dscan
 
-to do
------
+- halaman dashboard
 
-download template (done)
-buat landing page untuk daftar event
-buat halaman login (menggunakan oAuth)
-buat halaman dashboard admin
-buat halaman dashboard user
+- halaman event
+    - filter lokasi
+    - filter waktu
+    - card statistik sesuaikan dengan filter
+    - sembunyikan tiket yang dinonaktifkan
 
-dashbaord admin 
-    - dashboard
-        - statistik umum
-            -> Total Tiket Terjual: 12,452
-            -> Total Event Aktif: 18
-            -> Total User Terdaftar: 3,210
-            -> Total Pendapatan: Rp 425.300.000
+- penjualan tiket
+    - filter lokasi
+    - filter waktu
+    - card statistik sesuaikan dengan filter
 
-        - Statistik Penjualan Tiket
-            -> Hari Ini: 325 tiket (Rp 10.500.000)
-            -> Minggu Ini: 2.145 tiket (Rp 68.900.000)
-            -> Bulan Ini: 7.312 tiket (Rp 238.400.000)
-
-        - top event terlaris (table => nama event, tiket terjual, pendapatan)
-        - status event
-            -> Event Berjalan: 6
-            -> Event Akan Datang (7 Hari ke Depan): 4
-            -> Event Selesai (30 Hari Terakhir): 8
-
-    - pengguna
-        -> Panitia
-        -> End User
-
-    - Event (https://www.gambolthemes.net/html-items/barren-html/disable-demo-link/create_venue_event.html)
-    - Laporan
-    - Web Settings
-    - Log Aktivitas
-
-dashboard user
-    - daftar tiket (aktif, pending, batal)
-
-
-end to do
----------
-
-
-tables fields
--------------
-settings
-- foto_sampul (digunakan juga untuk hero di landing page)
-- facebook
-- Instagram
-- TikTok
-
-user 
-- role
-- email
-- password
-- name
-
-event
-- id (uuid)
-- thumbnail
-- title
-- waktu_acara
-- lokasi (api kota Indonesia)
-- nama_tempat
-- koordinat lokasi
-- deskripsi
-- created_by
-- updated_by
-- date_created
-- date_updated
-- status
-- harga
-- kuota
-
-end tables fields
------------------
-
-
-
-
-
-jam 8 
-
-lucky draw jam 10
-data registrasi di spreadsheet
-jam 8 tutup registrasi
-
-barcode sudah ada untuk registrasi
-
-lokasi toms jungle
-
-
-
-
-jam 8 malam ini online meeting
-
-
-
-test
+-bersih-bersih
