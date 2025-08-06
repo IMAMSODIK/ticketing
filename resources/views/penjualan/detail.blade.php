@@ -97,12 +97,6 @@
                                                                                         data-id="{{ $order->id }}"
                                                                                         target="_blank"> Bukti
                                                                                         Transaksi</button>
-                                                                                @elseif ($order->status == 'pending')
-                                                                                    <button
-                                                                                        class="btn btn-sm btn-warning text-white invoice"
-                                                                                        data-id="{{ $order->id }}"
-                                                                                        target="_blank"> Invoice</button>
-                                                                                @else
                                                                                     <span class="text-muted">-</span>
                                                                                 @endif
                                                                             </td>
@@ -142,10 +136,10 @@
                                         <div class="invoice-header-logo">
                                             @if ($web_profile && $web_profile->logo)
                                                 <img id="preview_avatar" src="{{ asset('storage/' . $web_profile->logo) }}"
-                                                    alt="">
+                                                    alt="" height="200px">
                                             @else
                                                 <img id="preview_avatar" src="{{ asset('own_assets/default_logo.png') }}"
-                                                    alt="">
+                                                    alt="" height="200px">
                                             @endif
                                         </div>
                                         <div class="invoice-header-text">
@@ -359,10 +353,6 @@
                     }
                 }
             })
-        })
-
-        $(document).on("click", ".invoice", function() {
-            alert($(this).data("id"));
         })
     </script>
 @endsection
