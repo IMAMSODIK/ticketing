@@ -185,21 +185,29 @@ class OrderController extends Controller
                 $order->update($updateData);
 
                 if ($updateData['status'] === 'aktif') {
-                    $url = url('/peserta?order_id=' . $order->order_id);
-                    $qrImage = QrCode::format('png')->size(300)->generate($url);
+                    for ($i = 0; $i < $order->jumlah; $i++) {
+                        $url = url('/peserta?order_id=' . $order->order_id . '&no=' . ($i + 1));
+                        $qrImage = QrCode::format('png')->size(300)->generate($url);
 
-                    $fileName = 'qrcode_' . uniqid() . '.png';
-                    $filePath = 'public/qrcodes/' . $fileName;
+                        $fileName = 'qrcode_' . uniqid() . '.png';
+                        $relativePath = 'qrcodes/' . $fileName;
+                        $storagePath = 'public/' . $relativePath;
 
-                    Storage::put($filePath, $qrImage);
+                        if (!Storage::exists('public/qrcodes')) {
+                            Storage::makeDirectory('public/qrcodes');
+                        }
 
-                    QrTiket::create([
-                        'order_id' => $order->order_id,
-                        'qr_code' => 'storage/qrcodes/' . $fileName,
-                        'status' => 'aktif'
-                    ]);
+                        Storage::put($storagePath, $qrImage);
+
+                        QrTiket::create([
+                            'order_id' => $order->order_id,
+                            'qr_code' => 'storage/' . $relativePath,
+                            'status' => 'aktif'
+                        ]);
+                    }
                 }
             }
+
 
             DB::commit();
             return response()->json(['message' => 'Callback diproses']);
