@@ -200,7 +200,7 @@ class OrderController extends Controller
             }
 
             DB::commit();
-            return redirect('/user-dashboard');
+            return response()->json(['message' => 'Callback diproses']);
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()]);

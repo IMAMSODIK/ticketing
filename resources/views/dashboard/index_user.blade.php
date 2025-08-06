@@ -563,18 +563,18 @@
                     if (response.token) {
                         snap.pay(response.token, {
                             onSuccess: function(result) {
-                                console.log('Success:', result);
                                 sweetAlert(true, "Pembayaran berhasil!");
+                                setTimeout(function() {
+                                    window.location.href = "/user-dashboard";
+                                }, 1000);
                             },
                             onPending: function(result) {
-                                // console.log('Pending:', result);
-                                // window.location.href = "/order/pending";
+                                window.location.href = "/user-dashboard";
                             },
                             onError: function(result) {
                                 sweetAlert(false, "Pembayaran gagal!");
                             },
                             onClose: function() {
-                                // Swal.fire("Dibatalkan", "Anda menutup pembayaran!", "info");
                                 $("#detailPembayaranModal").modal('show');
                             }
                         });
