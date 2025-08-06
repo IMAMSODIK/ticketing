@@ -199,8 +199,6 @@ class OrderController extends Controller
                 }
             }
 
-
-
             DB::commit();
             return response()->json(['message' => 'Callback diproses']);
         } catch (Exception $e) {
@@ -289,6 +287,8 @@ class OrderController extends Controller
             : '-';
 
         $order->total_formatted = number_format($order->total, 0, ',', '.');
+
+        dd($order);
 
         return response()->json([
             'status' => true,

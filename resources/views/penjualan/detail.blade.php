@@ -314,62 +314,62 @@
 
         });
 
-        // $(document).on("click", ".reciept", function() {
-        //     let id = $(this).data('id');
-        //     $.ajax({
-        //         url: '/orders/receipt',
-        //         method: 'GET',
-        //         data: {
-        //             'id': id,
-        //         },
-        //         success: function(response) {
-        //             if (response.status) {
-        //                 let order = response.data;
-        //                 $("#modalreciept .vdt-list:contains('Bill Untuk')").text("Bill Untuk " + order
-        //                     .user.name);
-        //                 $("#modalreciept .vdt-list:contains('@')").text(order.user.email);
-        //                 $("#modalreciept .vdt-list:contains('Order ID')").text("Order ID : " + order
-        //                     .order_id);
-        //                 $("#modalreciept .vdt-list:contains('Order Date')").text("Order Date : " + order
-        //                     .formatted_paid_at);
+        $(document).on("click", ".reciept", function() {
+            let id = $(this).data('id');
+            $.ajax({
+                url: '/orders/receipt',
+                method: 'GET',
+                data: {
+                    'id': id,
+                },
+                success: function(response) {
+                    if (response.status) {
+                        let order = response.data;
+                        $("#modalreciept .vdt-list:contains('Bill Untuk')").text("Bill Untuk " + order
+                            .user.name);
+                        $("#modalreciept .vdt-list:contains('@')").text(order.user.email);
+                        $("#modalreciept .vdt-list:contains('Order ID')").text("Order ID : " + order
+                            .order_id);
+                        $("#modalreciept .vdt-list:contains('Order Date')").text("Order Date : " + order
+                            .formatted_paid_at);
 
-        //     //             let rows = '';
-        //     //             order.jenisTiket.forEach((item, index) => {
-        //     //                 let total = item.qty * item.price;
-        //     //                 rows += `
-        //     //     <tr>
-        //     //         <td>${index + 1}</td>
-        //     //         <td>${order.event.title}</td>
-        //     //         <td>${item.nama}</td>
-        //     //         <td>${item.qty}</td>
-        //     //         <td>Rp${item.price.toLocaleString('id-ID')}</td>
-        //     //         <td>Rp${total.toLocaleString('id-ID')}</td>
-        //     //     </tr>
-        //     // `;
-        //     //             });
+                        let rows = '';
+                        order.jenisTiket.forEach((item, index) => {
+                            let total = item.qty * item.price;
+                            rows += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${order.event.title}</td>
+                    <td>${item.nama}</td>
+                    <td>${item.qty}</td>
+                    <td>Rp${item.price.toLocaleString('id-ID')}</td>
+                    <td>Rp${total.toLocaleString('id-ID')}</td>
+                </tr>
+            `;
+                        });
 
-        //                 let grandTotal = "Rp" + parseInt(order.total).toLocaleString('id-ID');
+                        let grandTotal = "Rp" + parseInt(order.total).toLocaleString('id-ID');
 
-        //                 $("#modalreciept tbody").html(rows);
-        //                 $("#modalreciept .totalinv2").text("Total : " + grandTotal);
-        //                 $("#modalreciept").modal('show');
+                        $("#modalreciept tbody").html(rows);
+                        $("#modalreciept .totalinv2").text("Total : " + grandTotal);
+                        $("#modalreciept").modal('show');
 
-        //                 $("#modalreciept").modal('show');
-        //             } else {
-        //                 sweetAlert(response.status, response.message);
-        //             }
-        //         },
-        //         error: function(response) {
-        //             if (xhr.status === 422) {
-        //                 let errors = xhr.responseJSON.errors;
-        //                 let messages = Object.values(errors).flat().join("\n");
-        //                 sweetAlert(response.status, "Validasi gagal:\n" + messages);
-        //             } else {
-        //                 sweetAlert(response.status, "Terjadi kesalahan saat memuat data.");
-        //             }
-        //         }
-        //     })
-        // })
+                        $("#modalreciept").modal('show');
+                    } else {
+                        sweetAlert(response.status, response.message);
+                    }
+                },
+                error: function(response) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        let messages = Object.values(errors).flat().join("\n");
+                        sweetAlert(response.status, "Validasi gagal:\n" + messages);
+                    } else {
+                        sweetAlert(response.status, "Terjadi kesalahan saat memuat data.");
+                    }
+                }
+            })
+        })
 
         $(document).on("click", ".invoice", function() {
             alert($(this).data("id"));
