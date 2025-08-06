@@ -237,7 +237,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" id="store">Simpan</button>
+                    <button type="button" class="btn btn-primary" id="send_email">Email</button>
                 </div>
             </div>
         </div>
@@ -287,6 +287,7 @@
                 success: function(response) {
                     if (response.status) {
                         let order = response.data;
+                        $("#send_email").data('id', order.id);
                         $("#modalreciept .vdt-list:contains('Bill Untuk')").text("Bill Untuk " + order
                             .user.name);
                         $("#modalreciept .vdt-list:contains('@')").text(order.user.email);
@@ -319,9 +320,11 @@
                         $("#ticket_amount").text(order.jumlah);
                         $("#total_amount").text(`Rp${total.toLocaleString('id-ID')}`);
                         if (order.jenis_tiket.event.thumbnail) {
-                            $("#event_thumbnail").attr('src', '/storage/' + order.jenis_tiket.event.thumbnail);
+                            $("#event_thumbnail").attr('src', '/storage/' + order.jenis_tiket.event
+                                .thumbnail);
                         } else {
-                            $("#event_thumbnail").attr('src', '{{ asset('own_assets/default_flayer.png') }}');
+                            $("#event_thumbnail").attr('src',
+                                '{{ asset('own_assets/default_flayer.png') }}');
                         }
 
 
@@ -360,5 +363,34 @@
                 }
             })
         })
+
+        $('#send_email').on('click', function() {
+            let orderId = $(this).data('id');
+
+            $.ajax({
+                url: '/send-email-receipt',
+                method: 'POST',
+                data: {
+                    order_id: orderId,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function() {
+                    $('#send_email').prop('disabled', true).text('Mengirim...');
+                },
+                success: function(res) {
+                    if (res.status) {
+                        sweetAlert(true, "Email berhasil dikirim ke pengguna!");
+                    } else {
+                        sweetAlert(false, 'Gagal mengirim email.');
+                    }
+                },
+                error: function(err) {
+                    sweetAlert(false, 'Terjadi kesalahan saat mengirim email.');
+                },
+                complete: function() {
+                    $('#send_email').prop('disabled', false).text('Email');
+                }
+            });
+        });
     </script>
 @endsection

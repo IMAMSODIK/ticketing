@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Mail\OrderReceiptMail;
 use App\Models\Event;
 use App\Models\JenisTiket;
 use App\Models\QrTiket;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Midtrans\Snap;
 use Midtrans\Config;
@@ -292,5 +294,19 @@ class OrderController extends Controller
             'status' => true,
             'data' => $order,
         ]);
+    }
+
+    public function sendReceiptEmail(Request $request)
+    {
+        $order = Order::with('user', 'jenisTiket.event')->find($request->order_id);
+        $webSettings = WebSetting::first();
+
+        if (!$order || !$order->user) {
+            return response()->json(['status' => false, 'message' => 'Order tidak ditemukan atau user tidak ada']);
+        }
+
+        Mail::to($order->user->email)->send(new OrderReceiptMail($order, $webSettings));
+
+        return response()->json(['status' => true]);
     }
 }

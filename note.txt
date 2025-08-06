@@ -1,4 +1,4 @@
-- gambar pada receipt masih salah
+- gambar pada receipt masih salah (done)
 - kirim receipt ke email peserta
 - hapus tombol download di receipt
 - pada data penjuaan tiket, tambah kolom harga item (hapus metode)

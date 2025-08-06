@@ -116,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/penjualan', [OrderController::class, 'index']);
         Route::get('/penjualan/detail', [OrderController::class, 'detail']);
         Route::get('/orders/receipt', [OrderController::class, 'receipt']);
-
+        Route::post('/send-email-receipt', [OrderController::class, 'sendReceiptEmail']);
 
         Route::get('/web-settings', [WebSettingController::class, 'index'])->name('web-setting');
         Route::post('/web-settings/update', [WebSettingController::class, 'update']);
