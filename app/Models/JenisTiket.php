@@ -36,4 +36,8 @@ class JenisTiket extends Model
     public function pembayaran(): HasMany{
         return $this->hasMany(Pembayaran::class);
     }
+
+    public function order(): HasMany{
+        return $this->hasMany(Order::class);
+    }
 }
