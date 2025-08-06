@@ -1,6 +1,6 @@
 - gambar pada receipt masih salah (done)
-- kirim receipt ke email peserta
-- hapus tombol download di receipt
+- kirim receipt ke email peserta (done)
+- hapus tombol download di receipt (done)
 - pada data penjuaan tiket, tambah kolom harga item (hapus metode)
 - pada saat berhasil refresh halaman
 - pada saat berhasil, update kolom terjual pada jenis tiket dan kurangi kuota pada tampilan
