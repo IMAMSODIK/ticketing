@@ -6422,9 +6422,9 @@ input[type=number]::-webkit-inner-spin-button {
     padding: 5px 20px;
 }
 
-.invoice-header-logo img {
+/* .invoice-header-logo img {
     width: 130px;
-}
+} */
 
 .download-link {
     color: rgba(255,255,255,0.9);

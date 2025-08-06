@@ -135,14 +135,11 @@
                                         <div class="invoice-header-logo">
                                             @if ($web_profile && $web_profile->logo)
                                                 <img id="preview_avatar" src="{{ asset('storage/' . $web_profile->logo) }}"
-                                                    alt="" width="200px">
+                                                    alt="" width="50px">
                                             @else
                                                 <img id="preview_avatar" src="{{ asset('own_assets/default_logo.png') }}"
-                                                    alt="" width="200px">
+                                                    alt="" width="50px">
                                             @endif
-                                        </div>
-                                        <div class="invoice-header-text">
-                                            <a href="#" class="download-link">Download</a>
                                         </div>
                                     </div>
                                     <div class="invoice-body">
@@ -191,12 +188,12 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        
+
                                                     </tbody>
                                                 </table>
                                                 <div class="user_dt_trans text-end pe-xl-4">
-													<div class="totalinv2"></div>
-												</div>
+                                                    <div class="totalinv2"></div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="invoice_footer">
@@ -216,7 +213,8 @@
                                                                 <div class="buyer-name" id="buyer_name"></div>
                                                                 <div class="booking-total-tickets">
                                                                     <i class="fa-solid fa-ticket rotate-icon"></i>
-                                                                    <span class="booking-count-tickets mx-2" id="ticket_amount"></span>x
+                                                                    <span class="booking-count-tickets mx-2"
+                                                                        id="ticket_amount"></span>x
                                                                     Tiket
                                                                 </div>
                                                                 <div class="booking-total-grand">
@@ -320,18 +318,23 @@
                         $("#buyer_name").text(order.user.name);
                         $("#ticket_amount").text(order.jumlah);
                         $("#total_amount").text(`Rp${total.toLocaleString('id-ID')}`);
-                        if(order.jenis_tiket.event.thumbnail){
+                        if (order.jenis_tiket.event.thumbnail) {
                             $("#event_thumbnail").attr('src', '/storage/' + order.jenis_tiket.event.thumbnail);
-                        }else{
-                            $("#event_thumbnail").attr('src', `{{asset('own_assets/default_flayer.png')}}`)
+                        } else {
+                            $("#event_thumbnail").attr('src', '{{ asset('own_assets/default_flayer.png') }}');
                         }
+
 
                         let tanggal = order.jenis_tiket.event.tanggal_mulai;
                         let waktu = order.jenis_tiket.event.waktu_mulai;
                         let dateTime = new Date(`${tanggal}T${waktu}`);
-                        let hari = dateTime.toLocaleDateString('id-ID', { weekday: 'long' });
+                        let hari = dateTime.toLocaleDateString('id-ID', {
+                            weekday: 'long'
+                        });
                         let tanggalNum = dateTime.getDate();
-                        let bulan = dateTime.toLocaleDateString('id-ID', { month: 'long' });
+                        let bulan = dateTime.toLocaleDateString('id-ID', {
+                            month: 'long'
+                        });
                         let tahun = dateTime.getFullYear();
 
                         let jam = dateTime.getHours().toString().padStart(2, '0');
