@@ -314,7 +314,7 @@
                                 <td>${order.jenis_tiket.event.title}</td>
                                 <td>${order.jenis_tiket.nama}</td>
                                 <td>${order.jumlah}</td>
-                                <td>Rp${order.jenis_tiket.harga.toLocaleString('id-ID')}</td>
+                                <td>Rp${(order.jenis_tiket.harga).toLocaleString('id-ID')}</td>
                                 <td>Rp${total.toLocaleString('id-ID')}</td>
                             </tr>
                         `;
@@ -341,7 +341,7 @@
                         let menit = dateTime.getMinutes().toString().padStart(2, '0');
 
                         let formatTeks = `${hari}, ${bulan} ${tanggalNum}, ${tahun} ${jam}:${menit}`
-                        $("#event_date").text(order.jenis_tiket.event.tanggal_mulai + order.jenis_tiket.event.waktu_mulai);
+                        $("#event_date").text(formatTeks);
 
 
                         $("#modalreciept").modal('show');
