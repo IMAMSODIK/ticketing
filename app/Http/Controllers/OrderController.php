@@ -133,7 +133,7 @@ class OrderController extends Controller
             Config::$isProduction = config('midtrans.is_production');
             Config::$isSanitized = config('midtrans.is_sanitized');
             Config::$is3ds = config('midtrans.is_3ds');
-            
+
             $data = $request->all();
             $signatureKey = $data['signature_key'] ?? null;
 
@@ -181,34 +181,24 @@ class OrderController extends Controller
                 $order->update($updateData);
 
                 if ($updateData['status'] === 'aktif') {
-                    Log::info('IHIK 2:', ['masuk loop jumlah']);
                     for ($i = 0; $i < $order->jumlah; $i++) {
                         $url = url('/peserta?order_id=' . $order->order_id);
-                        Log::info('IHIK 2:', ['generate qrcode']);
                         $qrImage = QrCode::format('png')->size(300)->generate($url);
 
                         $fileName = 'qrcode_' . uniqid() . '.png';
-                        $relativePath = 'qrcodes/' . $fileName;
-                        $storagePath = 'public/' . $relativePath;
+                        $path = 'qrcodes/' . $fileName;
 
-                        Log::info('IHIK 2:', ['membuat folder qrcodes']);
-                        if (!Storage::exists('public/qrcodes')) {
-                            Storage::makeDirectory('public/qrcodes');
-                        }
+                        Storage::disk('public')->put($path, $qrImage);
 
-                        Log::info('IHIK 2:', ['membuat menyimpan ke folder qrcodes']);
-                        Storage::put($storagePath, $qrImage);
-
-                        Log::info('IHIK 2:', ['membuat ke table qrcode']);
                         QrTiket::create([
                             'order_id' => $order->order_id,
-                            'qr_code' => 'storage/' . $relativePath,
+                            'qr_code' => 'storage/' . $path,
                             'status' => 'aktif'
                         ]);
-                        Log::info('IHIK 2:', ['selesai']);
                     }
                 }
             }
+
 
 
             DB::commit();
