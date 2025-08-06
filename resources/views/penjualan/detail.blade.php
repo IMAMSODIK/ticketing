@@ -325,7 +325,7 @@
                                 <td>${order.jenisTiket.event.title}</td>
                                 <td>${order.jenisTiket.nama}</td>
                                 <td>${order.jumlah}</td>
-                                <td>Rp${order.jenisTiket.harga.toLocaleString('id-ID')}</td>
+                                <td>Rp${order.jenisTiket.event.harga.toLocaleString('id-ID')}</td>
                                 <td>Rp${total.toLocaleString('id-ID')}</td>
                             </tr>
                         `;
