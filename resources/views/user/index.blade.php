@@ -40,14 +40,29 @@
                                                 <td class="text-center">{{ $index + 1 }}</td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
-                                                <td>{{ $user->status }}</td>
-                                                <td>
-                                                    <img src="{{ $user->avatar }}" alt="">
+
+                                                {{-- Foto bulat --}}
+                                                <td class="text-center">
+                                                    <img src="{{ $user->avatar ?? asset('own_assets/default_avatar.png') }}"
+                                                        alt="Avatar"
+                                                        style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
                                                 </td>
+
+                                                {{-- Badge status --}}
+                                                <td>
+                                                    @if ($user->status)
+                                                        <span class="badge bg-success">Aktif</span>
+                                                    @else
+                                                        <span class="badge bg-danger">Nonaktif</span>
+                                                    @endif
+                                                </td>
+
                                                 <td class="text-center">
                                                     <button type="button" data-id="{{ $user->id }}"
-                                                        class="btn btn-sm btn-info edit"><i
-                                                            class="fa fa-pencil me-1"></i>Detail</button>
+                                                        class="btn btn-sm btn-info edit">
+                                                        <i class="fa fa-pencil me-1"></i>Detail
+                                                    </button>
+
                                                     <label class="btn-switch tfs-8 mb-0 me-4 mt-1">
                                                         <input type="checkbox" {{ $user->status ? 'checked' : '' }}
                                                             class="status" data-id="{{ $user->id }}">
@@ -58,6 +73,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>
@@ -78,15 +94,18 @@
                     <input type="hidden" id="id">
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama Tiket *</label>
-                        <input type="text" class="form-control" id="edit_nama" name="nama" required placeholder="Masukkan Jenis Tiket">
+                        <input type="text" class="form-control" id="edit_nama" name="nama" required
+                            placeholder="Masukkan Jenis Tiket">
                     </div>
                     <div class="mb-3">
                         <label for="harga" class="form-label">Harga *</label>
-                        <input type="number" step="0.01" class="form-control" id="edit_harga" name="harga" required placeholder="Masukkan Harga">
+                        <input type="number" step="0.01" class="form-control" id="edit_harga" name="harga" required
+                            placeholder="Masukkan Harga">
                     </div>
                     <div class="mb-3">
                         <label for="kuota" class="form-label">Kuota *</label>
-                        <input type="number" class="form-control" id="edit_kuota" name="kuota" value="0" required placeholder="Masukkan Jumlah Kuota">
+                        <input type="number" class="form-control" id="edit_kuota" name="kuota" value="0" required
+                            placeholder="Masukkan Jumlah Kuota">
                     </div>
                     <div class="mb-3">
                         <label for="deskripsi" class="form-label">Deskripsi</label>
@@ -115,7 +134,7 @@
             $("#modalTambahTiket").modal('show');
         })
 
-        $("#status").on("click", function(){
+        $("#status").on("click", function() {
             let id = $(this).data('id');
             $.ajax({
                 url: '/user/update-satatus',
@@ -124,17 +143,17 @@
                     '_token': $("meta[name='csrf-token']").attr('content'),
                     'id': id
                 },
-                success: function(response){
-                    if(response.status){
+                success: function(response) {
+                    if (response.status) {
                         sweetAlert(response.status, 'Berhasil memperbaharui user!');
                         setTimeout(function() {
                             location.reload();
                         }, 1000);
-                    }else{
+                    } else {
                         sweetAlert(response.status, response.message);
                     }
                 },
-                error: function(response){
+                error: function(response) {
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
                         let messages = Object.values(errors).flat().join("\n");
@@ -146,7 +165,7 @@
             })
         })
 
-        $(document).on("click", ".edit", function(){
+        $(document).on("click", ".edit", function() {
             let id = $(this).data('id');
             $.ajax({
                 url: '/jenis-tiket/edit',
@@ -154,8 +173,8 @@
                 data: {
                     'id': id,
                 },
-                success: function(response){
-                    if(response.status){
+                success: function(response) {
+                    if (response.status) {
                         let data = response.data;
                         $("#id").val(data.id);
                         $("#edit_nama").val(data.nama);
@@ -164,11 +183,11 @@
                         $("#edit_deskripsi").val(data.deskripsi);
 
                         $("#modalEditTiket").modal('show');
-                    }else{
+                    } else {
                         sweetAlert(response.status, response.message);
                     }
                 },
-                error: function(response){
+                error: function(response) {
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
                         let messages = Object.values(errors).flat().join("\n");
@@ -180,7 +199,7 @@
             })
         })
 
-        $("#update").on("click", function(){
+        $("#update").on("click", function() {
             $("#modalEditTiket").modal('hide');
             $.ajax({
                 url: '/jenis-tiket/update',
@@ -193,17 +212,17 @@
                     'kuota': $("#edit_kuota").val(),
                     'deskripsi': $("#edit_deskripsi").val()
                 },
-                success: function(response){
-                    if(response.status){
+                success: function(response) {
+                    if (response.status) {
                         sweetAlert(response.status, 'Berhasil mengubah data!');
                         setTimeout(function() {
                             location.reload();
                         }, 1000);
-                    }else{
+                    } else {
                         sweetAlert(response.status, response.message);
                     }
                 },
-                error: function(response){
+                error: function(response) {
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
                         let messages = Object.values(errors).flat().join("\n");
