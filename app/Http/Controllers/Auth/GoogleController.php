@@ -33,6 +33,10 @@ class GoogleController extends Controller
                 ]
             );
 
+            if(!$user->status){
+                return redirect('/')->with('error', 'Akun anda sedang tidak aktif');
+            }
+
             Auth::login($user);
 
             $intendedUrl = session()->pull('url.intended');

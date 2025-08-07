@@ -444,6 +444,13 @@
     </script>
     {{-- <script src="https://app.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script> --}}
 
+    @if (session('error'))
+        <script>
+            sweetAlert(false, "{{ session('error') }}");
+        </script>
+    @endif
+
+
     <script>
         $(document).ready(function() {
             let tiketData = localStorage.getItem('pendingCheckout');

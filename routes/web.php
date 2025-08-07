@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JenisTiketController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebSettingController;
 use App\Http\Middleware\CheckRole;
 use App\Models\Event;
@@ -117,6 +118,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/penjualan/detail', [OrderController::class, 'detail']);
         Route::get('/orders/receipt', [OrderController::class, 'receipt']);
         Route::post('/send-email-receipt', [OrderController::class, 'sendReceiptEmail']);
+
+        Route::get('/user', [UserController::class, 'index'])->name('user');
+        Route::get('/user/detail', [UserController::class, 'detail']);
+        Route::post('/user/update-satatus', [UserController::class, 'update']);
 
         Route::get('/web-settings', [WebSettingController::class, 'index'])->name('web-setting');
         Route::post('/web-settings/update', [WebSettingController::class, 'update']);
