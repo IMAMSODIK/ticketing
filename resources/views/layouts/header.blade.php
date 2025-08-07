@@ -81,7 +81,7 @@
                                 <li>
                                     <div class="dropdown-account-header">
                                         <div class="account-holder-avatar">
-                                            <img src="{{asset('landing_assets/images/profile-imgs/img-13.jpg')}}" alt="">
+                                            <img src="{{auth()->user()->avatar}}" alt="">
                                         </div>
                                         <h5>John Doe</h5>
                                         <p>johndoe@example.com</p>
