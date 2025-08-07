@@ -121,7 +121,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/user', [UserController::class, 'index'])->name('user');
         Route::get('/user/detail', [UserController::class, 'detail']);
-        Route::post('/user/update-satatus', [UserController::class, 'update']);
+        Route::post('/user/update-status', [UserController::class, 'update']);
 
         Route::get('/web-settings', [WebSettingController::class, 'index'])->name('web-setting');
         Route::post('/web-settings/update', [WebSettingController::class, 'update']);

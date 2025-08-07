@@ -134,10 +134,10 @@
             $("#modalTambahTiket").modal('show');
         })
 
-        $("#status").on("click", function() {
+        $(document).on("click", ".status", function() {
             let id = $(this).data('id');
             $.ajax({
-                url: '/user/update-satatus',
+                url: '/user/update-status',
                 method: 'POST',
                 data: {
                     '_token': $("meta[name='csrf-token']").attr('content'),
