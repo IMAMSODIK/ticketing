@@ -114,7 +114,7 @@
                                 <li class="dropdown account-dropdown">
                                     <a href="#" class="account-link" role="button" id="accountClick"
                                         data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="{{ Auth::user()->profile_photo_url ?? asset('landing_assets/images/profile-imgs/img-13.jpg') }}"
+                                        <img src="{{auth()->user()->avatar}}"
                                             alt="">
                                         <i class="fas fa-caret-down arrow-icon"></i>
                                     </a>
@@ -123,11 +123,11 @@
                                         <li>
                                             <div class="dropdown-account-header">
                                                 <div class="account-holder-avatar">
-                                                    <img src="{{ Auth::user()->profile_photo_url ?? asset('landing_assets/images/profile-imgs/img-13.jpg') }}"
+                                                    <img src="{{auth()->user()->avatar}}"
                                                         alt="">
                                                 </div>
-                                                <h5>{{ Auth::user()->name }}</h5>
-                                                <p>{{ Auth::user()->email }}</p>
+                                                <h5>{{auth()->user()->name}}</h5>
+                                                <p>{{auth()->user()->email}}</p>
                                             </div>
                                         </li>
                                         <li class="profile-link">

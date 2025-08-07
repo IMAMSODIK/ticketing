@@ -73,7 +73,7 @@
                         <li class="dropdown account-dropdown order-3">
                             <a href="#" class="account-link" role="button" id="accountClick"
                                 data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{asset('landing_assets/images/profile-imgs/img-13.jpg')}}" alt="">
+                                <img src="{{auth()->user()->avatar}}" alt="">
                                 <i class="fas fa-caret-down arrow-icon"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end"
@@ -83,8 +83,8 @@
                                         <div class="account-holder-avatar">
                                             <img src="{{auth()->user()->avatar}}" alt="">
                                         </div>
-                                        <h5>John Doe</h5>
-                                        <p>johndoe@example.com</p>
+                                        <h5>{{auth()->user()->name}}</h5>
+                                        <p>{{auth()->user()->email}}</p>
                                     </div>
                                 </li>
                                 <li class="profile-link">
