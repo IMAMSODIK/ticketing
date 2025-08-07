@@ -209,9 +209,16 @@
 
                                         @foreach ($groupedByEvent as $eventOrders)
                                             @php
-                                                $event = $eventOrders->first()->jenisTiket->event;
+                                                $firstOrder = $eventOrders->first();
+                                                $jenisTiket = $firstOrder?->jenisTiket;
+                                                $event = $jenisTiket?->event;
+
+                                                if (!$event) {
+                                                    continue;
+                                                }
+
                                                 $total = $eventOrders->sum(function ($item) {
-                                                    return $item->jumlah * $item->jenisTiket->harga;
+                                                    return $item->jumlah * optional($item->jenisTiket)->harga ?? 0;
                                                 });
                                             @endphp
 
@@ -228,10 +235,10 @@
                                                         return [
                                                             'id' => $order->id,
                                                             'jenis_tiket_id' => $order->jenis_tiket_id,
-                                                            'nama_tiket' => $order->jenisTiket->nama,
-                                                            'harga' => $order->jenisTiket->harga,
+                                                            'nama_tiket' => optional($order->jenisTiket)->nama ?? '',
+                                                            'harga' => optional($order->jenisTiket)->harga ?? 0,
                                                             'jumlah' => $order->jumlah,
-                                                            'subtotal' => $order->jumlah * $order->jenisTiket->harga,
+                                                            'subtotal' => $order->jumlah * (optional($order->jenisTiket)->harga ?? 0),
                                                         ];
                                                     }),
                                                 ]) }})"
@@ -329,7 +336,8 @@
                                                     <div class="event-footer bg-success">
                                                         <div class="row text-white">
                                                             <div class="col-7"><i
-                                                                    class="fa-solid fa-credit-card me-2"></i> Detail Transaksi
+                                                                    class="fa-solid fa-credit-card me-2"></i> Detail
+                                                                Transaksi
                                                             </div>
                                                             <div class="col-5 text-end">Rp.
                                                                 {{ number_format($total, 0, ',', '.') }}</div>
