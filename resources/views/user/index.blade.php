@@ -43,7 +43,7 @@
 
                                                 {{-- Foto bulat --}}
                                                 <td class="text-center">
-                                                    <img src="{{ $user->avatar ?? asset('own_assets/default_avatar.png') }}"
+                                                    <img src="{{ $user->avatar ?? asset('own_assets/user_default.png') }}"
                                                         alt="Avatar"
                                                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
                                                 </td>
