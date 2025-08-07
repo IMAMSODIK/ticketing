@@ -199,7 +199,7 @@
                         <div class="tab-pane fade show active" id="step-02" role="tabpanel">
                             <div class="row justify-content-between">
                                 <div class="row">
-                                    @if ($order->has('pending'))
+                                    @if ($order && $order->has('pending'))
                                         @php
                                             // Group data berdasarkan event_id
                                             $groupedByEvent = $order->get('pending')->groupBy(function ($item) {
@@ -273,7 +273,7 @@
                         <div class="tab-pane fade" id="step-01" role="tabpanel">
                             <div class="row justify-content-between">
                                 <div class="row">
-                                    @if ($order->has('aktif'))
+                                    @if ($order && $order->has('aktif'))
                                         @php
                                             $groupedByEvent = $order->get('aktif')->groupBy(function ($item) {
                                                 return $item->jenisTiket->event->id ?? null;
