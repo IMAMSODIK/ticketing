@@ -22,6 +22,7 @@ class UserController extends Controller
     public function update(Request $r){
         try {
             $user = User::where('id', $r->id)->get();
+            dd($user);
             
             if($user){
                 if($user->status == 1){
