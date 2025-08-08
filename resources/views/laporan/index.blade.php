@@ -103,7 +103,7 @@
                                                                 {{-- <span class="bookmark-icon" title="Bookmark"></span> --}}
                                                             </div>
                                                             <div class="event-content">
-                                                                <a href="/penjualan/detail?id={{$event->id}}" class="event-title">{{$event->title}}</a>
+                                                                <a href="/laporan/detail?id={{$event->id}}" class="event-title">{{$event->title}}</a>
                                                                 <div class="duration-price-remaining">
                                                                     <span class="duration-price">
                                                                         @if($event->jenisTiket->isNotEmpty())
