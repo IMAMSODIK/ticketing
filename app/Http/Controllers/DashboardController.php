@@ -34,13 +34,21 @@ class DashboardController extends Controller
 
     public function indexUser()
     {
-        $orders = Order::with(['jenisTiket.event'])->where('user_id', Auth::id())->get()->groupBy('status');
+        $orders = Order::with(['jenisTiket.event'])
+            ->where('user_id', Auth::id())
+            ->get()
+            ->map(function ($order) {
+                $qr = DB::table('qr_tikets')->where('order_id', $order->id)->first();
+                $order->qr_code = $qr->qr_code ?? null;
+                return $order;
+            })
+            ->groupBy('status');
+        dd($orders);
 
-        $data = [
+        return view('dashboard.index_user', [
             'pageTitle' => "Dashboard",
             'appName' => env('APP_NAME', 'Ticketing'),
             'order' => $orders
-        ];
-        return view('dashboard.index_user', $data);
+        ]);
     }
 }

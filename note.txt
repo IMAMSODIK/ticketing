@@ -27,7 +27,7 @@ admin (done)
 
 user
 - footer belum sesuai web settings (done)
-- header juga belum sesuai
+- header juga belum sesuai (done)
 - tab aktif tambahkan tombol download recept detail pembelian
 - kurangi scan_count tiap kali dscan
 
