@@ -335,7 +335,7 @@ class OrderController extends Controller
 
         $orders = $orders->get();
 
-        $pdf = Pdf::loadView('penjualan.pdf', [
+        $pdf = Pdf::loadView('penjualan.laporan', [
             'orders' => $orders,
             'event' => Event::find($eventId),
             'filter' => [
@@ -344,6 +344,6 @@ class OrderController extends Controller
             ]
         ])->setPaper('A4', 'landscape');
 
-        return $pdf->download('penjualan.laporan');
+        return $pdf->download('laporan.pdf');
     }
 }
