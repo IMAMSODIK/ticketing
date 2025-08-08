@@ -41,7 +41,7 @@
                                         </div>
 
                                         <div class="col-xl-3 col-lg-6 col-md-6">
-                                            <div class="dashboard-report-card save">
+                                            <div class="dashboard-report-card success">
                                                 <div class="card-content">
                                                     <span class="card-title fs-6">Total User</span>
                                                     <span class="card-sub-title fs-3">{{ $totalUser }}</span>
