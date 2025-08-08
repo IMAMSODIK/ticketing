@@ -220,7 +220,7 @@ class OrderController extends Controller
         }, 0);
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $data = [
             'pageTitle' => "Daftar Event",
@@ -230,31 +230,21 @@ class OrderController extends Controller
         ];
 
         try {
-            $kotaId = $request->input('kota');
-
-            $eventQuery = Event::with('kota', 'jenisTiket', 'creator', 'updater')
-                ->where('tanggal_mulai', '>=', Carbon::today());
-
-            if (!empty($kotaId)) {
-                $eventQuery->where('kota_id', $kotaId);
-            }
-
-            $events = $eventQuery->orderBy('tanggal_mulai', 'asc')
+            $events = Event::with('kota', 'jenisTiket', 'creator', 'updater')
+                ->where('tanggal_mulai', '>=', Carbon::today())
+                ->orderBy('tanggal_mulai', 'asc')
                 ->take(8)
                 ->get();
-
             $kotas = DB::table('indonesia_cities')->get();
 
             $data['events'] = $events;
             $data['kotas'] = $kotas;
-            $data['selectedKota'] = $kotaId;
 
-            return view('penjualans.index', $data);
+            return view('penjualan.index', $data);
         } catch (Exception $e) {
             dd($e->getMessage());
         }
     }
-
 
     public function detail(Request $r)
     {
