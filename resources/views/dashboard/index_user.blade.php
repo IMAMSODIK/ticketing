@@ -499,16 +499,16 @@
             let html = `<h5>${data.event_title}</h5>`;
             html += `<p><strong>Tanggal:</strong> ${data.event_tanggal} ${data.event_waktu}</p>`;
             html += `<table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Jenis Tiket</th>
-                    <th>Harga</th>
-                    <th>Jumlah</th>
-                    <th>Subtotal</th>
-                    <th>QR Code</th>
-                </tr>
-            </thead>
-            <tbody>`;
+        <thead>
+            <tr>
+                <th class="text-center align-middle">Jenis Tiket</th>
+                <th class="text-center align-middle">Harga</th>
+                <th class="text-center align-middle">Jumlah</th>
+                <th class="text-center align-middle">Subtotal</th>
+                <th class="text-center align-middle">QR Code</th>
+            </tr>
+        </thead>
+        <tbody>`;
 
             let total = 0;
 
@@ -517,11 +517,11 @@
                 total += subtotal;
 
                 html += `<tr>
-        <td>${ticket.nama_tiket}</td>
-        <td>Rp. ${ticket.harga.toLocaleString('id-ID')}</td>
-        <td>${ticket.jumlah}</td>
-        <td>Rp. ${subtotal.toLocaleString('id-ID')}</td>
-        <td>`;
+            <td class="text-center align-middle">${ticket.nama_tiket}</td>
+            <td class="text-center align-middle">Rp. ${ticket.harga.toLocaleString('id-ID')}</td>
+            <td class="text-center align-middle">${ticket.jumlah}</td>
+            <td class="text-center align-middle">Rp. ${subtotal.toLocaleString('id-ID')}</td>
+            <td class="text-center align-middle">`;
 
                 if (ticket.qr_code) {
                     html += `<img src="/${ticket.qr_code}" alt="QR Code" style="width:80px;">`;
@@ -537,8 +537,8 @@
 
             document.getElementById('detailTransaksiBody').innerHTML = html;
             new bootstrap.Modal(document.getElementById('detailTransaksiModal')).show();
-
         }
+
 
         function renderPaymentDetail(data) {
             let html = `<h5>${data.event_title}</h5>`;
