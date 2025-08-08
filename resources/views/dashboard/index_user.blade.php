@@ -498,35 +498,46 @@
         function renderTransactionDetail(data) {
             let html = `<h5>${data.event_title}</h5>`;
             html += `<p><strong>Tanggal:</strong> ${data.event_tanggal} ${data.event_waktu}</p>`;
-            html +=
-                `<table class="table table-bordered"><thead><tr><th>Jenis Tiket</th><th>Harga</th><th>Jumlah</th><th>Subtotal</th></tr></thead><tbody>`;
+            html += `<table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Jenis Tiket</th>
+                    <th>Harga</th>
+                    <th>Jumlah</th>
+                    <th>Subtotal</th>
+                    <th>QR Code</th>
+                </tr>
+            </thead>
+            <tbody>`;
 
             let total = 0;
 
-            currentTickets.forEach((ticket, index) => {
+            currentTickets.forEach((ticket) => {
                 const subtotal = ticket.harga * ticket.jumlah;
                 total += subtotal;
 
                 html += `<tr>
-            <td>${ticket.nama_tiket}</td>
-            <td>Rp. ${ticket.harga.toLocaleString('id-ID')}</td>
-            <td>${ticket.jumlah}</td>
-            <td>Rp. ${subtotal.toLocaleString('id-ID')}</td>
-        </tr>`;
-            });
-            
+        <td>${ticket.nama_tiket}</td>
+        <td>Rp. ${ticket.harga.toLocaleString('id-ID')}</td>
+        <td>${ticket.jumlah}</td>
+        <td>Rp. ${subtotal.toLocaleString('id-ID')}</td>
+        <td>`;
+
                 if (ticket.qr_code) {
                     html += `<img src="/storage/${ticket.qr_code}" alt="QR Code" style="width:80px;">`;
                 } else {
                     html += `-`;
                 }
 
-            html += `</tbody></table>`;
+                html += `</td></tr>`;
+            });
 
+            html += `</tbody></table>`;
             html += `<div class="text-end"><strong>Total: Rp. ${total.toLocaleString('id-ID')}</strong></div>`;
 
             document.getElementById('detailTransaksiBody').innerHTML = html;
             new bootstrap.Modal(document.getElementById('detailTransaksiModal')).show();
+
         }
 
         function renderPaymentDetail(data) {
