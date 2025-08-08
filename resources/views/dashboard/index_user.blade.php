@@ -132,8 +132,7 @@
                                 <li class="dropdown account-dropdown">
                                     <a href="#" class="account-link" role="button" id="accountClick"
                                         data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="{{auth()->user()->avatar}}"
-                                            alt="">
+                                        <img src="{{ auth()->user()->avatar }}" alt="">
                                         <i class="fas fa-caret-down arrow-icon"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end"
@@ -141,11 +140,10 @@
                                         <li>
                                             <div class="dropdown-account-header">
                                                 <div class="account-holder-avatar">
-                                                    <img src="{{auth()->user()->avatar}}"
-                                                        alt="">
+                                                    <img src="{{ auth()->user()->avatar }}" alt="">
                                                 </div>
-                                                <h5>{{auth()->user()->name}}</h5>
-                                                <p>{{auth()->user()->email}}</p>
+                                                <h5>{{ auth()->user()->name }}</h5>
+                                                <p>{{ auth()->user()->email }}</p>
                                             </div>
                                         </li>
                                         <li class="profile-link">
@@ -312,6 +310,7 @@
                                                             'harga' => $order->jenisTiket->harga,
                                                             'jumlah' => $order->jumlah,
                                                             'subtotal' => $order->jumlah * $order->jenisTiket->harga,
+                                                            'qr_code' => $order->qr_code,
                                                         ];
                                                     }),
                                                 ]) }})"
@@ -515,6 +514,12 @@
             <td>Rp. ${subtotal.toLocaleString('id-ID')}</td>
         </tr>`;
             });
+            
+                if (ticket.qr_code) {
+                    html += `<img src="/storage/${ticket.qr_code}" alt="QR Code" style="width:80px;">`;
+                } else {
+                    html += `-`;
+                }
 
             html += `</tbody></table>`;
 

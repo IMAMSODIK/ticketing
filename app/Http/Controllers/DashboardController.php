@@ -43,7 +43,6 @@ class DashboardController extends Controller
                 return $order;
             })
             ->groupBy('status');
-        dd($orders);
 
         return view('dashboard.index_user', [
             'pageTitle' => "Dashboard",
