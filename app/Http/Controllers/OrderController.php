@@ -224,9 +224,6 @@ class OrderController extends Controller
     {
         $data = [
             'pageTitle' => "Daftar Event",
-            'count_event' => Event::count(),
-            'count_event_done' => Event::where('status', '!=', 'Aktif')->count(),
-            'count_event_aktif' => Event::where('status', 'Aktif')->count(),
         ];
 
         try {
@@ -238,6 +235,12 @@ class OrderController extends Controller
             if (!empty($kotaId)) {
                 $eventQuery->where('kota_id', $kotaId);
             }
+
+            $baseQuery = clone $eventQuery;
+
+            $data['count_event'] = $baseQuery->count();
+            $data['count_event_done'] = (clone $baseQuery)->where('status', '!=', 'Aktif')->count();
+            $data['count_event_aktif'] = (clone $baseQuery)->where('status', 'Aktif')->count();
 
             $events = $eventQuery->orderBy('tanggal_mulai', 'asc')
                 ->take(8)
@@ -254,6 +257,7 @@ class OrderController extends Controller
             dd($e->getMessage());
         }
     }
+
 
 
     public function detail(Request $r)
