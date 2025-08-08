@@ -55,6 +55,17 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
+                                                                <div class="mb-3">
+                                                                    <form id="exportForm" action="{{ route('penjualan.export.pdf') }}" method="GET" target="_blank">
+                                                                        <input type="hidden" name="status" id="exportStatus">
+                                                                        <input type="hidden" name="jenis_tiket" id="exportJenisTiket">
+                                                                        <input type="hidden" name="event_id" value="{{ request()->id }}">
+                                                                        <button type="submit" class="btn btn-danger">
+                                                                            <i class="fa fa-file-pdf"></i> Export PDF
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+
                                                             </div>
 
                                                             <table class="table" id="ordersTable">

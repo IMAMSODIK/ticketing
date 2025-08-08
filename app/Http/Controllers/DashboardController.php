@@ -23,7 +23,6 @@ class DashboardController extends Controller
             ->select(DB::raw('SUM(jenis_tikets.harga * orders.jumlah) as total'))
             ->value('total');
 
-
         return view('dashboard.index', [
             'pageTitle' => 'Dashboard',
             'totalEvent' => $totalEvent,
