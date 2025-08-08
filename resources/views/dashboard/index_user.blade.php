@@ -64,6 +64,18 @@
         }
     </style>
 
+    <style>
+    .event-thumbnail img {
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .event-thumbnail img:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+
 </head>
 
 <body class="d-flex flex-column h-100">

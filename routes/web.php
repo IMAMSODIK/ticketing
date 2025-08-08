@@ -131,6 +131,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/user/detail', [UserController::class, 'detail']);
         Route::post('/user/update-status', [UserController::class, 'update']);
 
+        Route::get('/peserta', [UserController::class, 'verifikasiPeserta']);
+
         Route::get('/web-settings', [WebSettingController::class, 'index'])->name('web-setting');
         Route::post('/web-settings/update', [WebSettingController::class, 'update']);
     });

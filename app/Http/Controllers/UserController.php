@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\WebSetting;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -19,14 +20,15 @@ class UserController extends Controller
         return view('user.index', $data);
     }
 
-    public function update(Request $r){
+    public function update(Request $r)
+    {
         try {
             $user = User::where('id', $r->id)->get();
-            
-            if($user){
-                if($user->status == 1){
+
+            if ($user) {
+                if ($user->status == 1) {
                     $user->status = 0;
-                }else{
+                } else {
                     $user->status = 1;
                 }
             }
@@ -42,6 +44,19 @@ class UserController extends Controller
                 'status' => false,
                 'message' => $e->getMessage()
             ]);
+        }
+    }
+
+    public function verifikasiPeserta(Request $r)
+    {
+        try {
+            return view('verifikasi.verif', [
+                'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
+                'appName' => env('APP_NAME', 'Ticketing'),
+                'web_profile' => WebSetting::first(),
+            ]);
+        } catch (Exception $e) {
+            dd($e->getMessage());
         }
     }
 }
