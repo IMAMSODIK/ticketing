@@ -132,7 +132,7 @@
                                             </div>
                                         </li>
                                         <li class="profile-link">
-                                            <a href="/user-dashboard" class="link-item">My Dashboard</a>
+                                            <a href="/{{(auth()->user()->name == 'admin') ? 'admin' : 'user'}}-dashboard" class="link-item">My Dashboard</a>
                                             <a href="/profile" class="link-item">My Profile</a>
                                             <form method="POST" action="/logout">
                                                 @csrf
