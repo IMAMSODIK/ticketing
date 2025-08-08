@@ -47,13 +47,13 @@
                         <span class="menu--label">Penjualan Tiket</span>
                     </a>
                 </li>
-                <li class="menu--item">
+                {{-- <li class="menu--item">
                     <a href="/laporan" class="menu--link" title="Laporan" data-bs-toggle="tooltip"
                         data-bs-placement="right">
                         <i class="fa-solid fa-rectangle-ad menu--icon"></i>
                         <span class="menu--label">Laporan</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="menu-divider text-secondary">
                     <span class="divider-text" style="margin-right: 20px"></span>

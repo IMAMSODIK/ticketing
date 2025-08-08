@@ -120,8 +120,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/orders/receipt', [OrderController::class, 'receipt']);
         Route::post('/send-email-receipt', [OrderController::class, 'sendReceiptEmail']);
 
-        Route::get('/laporan', [LaporanController::class, 'index']);
-        Route::get('/laporan/detail', [LaporanController::class, 'detail']);
+        // Route::get('/laporan', [LaporanController::class, 'index']);
+        // Route::get('/laporan/detail', [LaporanController::class, 'detail']);
 
         Route::get('/user', [UserController::class, 'index'])->name('user');
         Route::get('/user/detail', [UserController::class, 'detail']);
