@@ -166,42 +166,32 @@
 
                             <div class="social-media-icons" style="margin-top: 20px;"></div>
                         </div>
+                        <div class="container my-5 p-4 rounded-3" style="background-color: #f8f9fa;">
+                            <form id="contactForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="Masukkan nama Anda">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="Masukkan email Anda">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Pesan</label>
+                                    <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tulis pesan Anda..."></textarea>
+                                </div>
+                            </form>
+                        </div>
 
+                        <!-- Fixed Submit Button - lebih besar -->
+                        <div class="fixed-bottom bg-white border-top py-3 px-4 text-end shadow-sm">
+                            <button type="submit" form="contactForm" class="btn btn-success w-100 fs-5 py-3">
+                                <i class="fa fa-paper-plane"></i> Kirim
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="container my-5">
-                    <form id="contactForm">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Masukkan nama Anda">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                placeholder="Masukkan email Anda">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                placeholder="Masukkan email Anda">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                placeholder="Masukkan email Anda">
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Pesan</label>
-                            <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tulis pesan Anda..."></textarea>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="fixed-bottom bg-white border-top py-3 px-4 text-end">
-                    <button type="submit" form="contactForm" class="btn btn-success w-100">
-                        <i class="fa fa-paper-plane"></i> Kirim
-                    </button>
                 </div>
             </div>
         </div>
