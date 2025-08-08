@@ -38,7 +38,7 @@ class DashboardController extends Controller
             ->where('user_id', Auth::id())
             ->get()
             ->map(function ($order) {
-                $qr = DB::table('qr_tikets')->where('order_id', $order->id)->first();
+                $qr = DB::table('qr_tikets')->where('order_id', $order->order_id)->first();
                 $order->qr_code = $qr->qr_code ?? null;
                 return $order;
             })
