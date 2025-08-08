@@ -18,21 +18,24 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
-        $data = [
-            'pageTitle' => "Daftar Event",
-            'count_event' => Event::count(),
-            'count_event_done' => Event::where('status', '!=', 'Aktif')->count(),
-            'count_event_aktif' => Event::where('status', 'Aktif')->count(),
-        ];
-
         try {
             $kotaIds = $request->input('kota');
+
             $eventQuery = Event::with('kota', 'jenisTiket', 'creator', 'updater')
                 ->where('tanggal_mulai', '>=', Carbon::today());
 
             if (!empty($kotaIds)) {
                 $eventQuery->whereIn('kota_id', (array) $kotaIds);
             }
+
+            $baseQuery = clone $eventQuery;
+
+            $data = [
+                'pageTitle' => "Daftar Event",
+                'count_event' => $baseQuery->count(),
+                'count_event_done' => (clone $baseQuery)->where('status', '!=', 'Aktif')->count(),
+                'count_event_aktif' => (clone $baseQuery)->where('status', 'Aktif')->count(),
+            ];
 
             $events = $eventQuery->orderBy('tanggal_mulai', 'asc')
                 ->take(8)
@@ -42,12 +45,14 @@ class EventController extends Controller
 
             $data['events'] = $events;
             $data['kotas'] = $kotas;
+            $data['selectedKota'] = $kotaIds;
 
             return view('event.index', $data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             dd($e->getMessage());
         }
     }
+
 
     public function create()
     {
