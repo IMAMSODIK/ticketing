@@ -49,6 +49,7 @@ class UserController extends Controller
 
     public function verifikasiPeserta(Request $r)
     {
+        dd($r->all());
         try {
             return view('verifikasi.verif', [
                 'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
