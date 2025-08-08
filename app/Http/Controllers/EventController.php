@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $data = [
             'pageTitle' => "Daftar Event",
@@ -26,21 +26,31 @@ class EventController extends Controller
         ];
 
         try {
-            $events = Event::with('kota', 'jenisTiket', 'creator', 'updater')
-                ->where('tanggal_mulai', '>=', Carbon::today())
-                ->orderBy('tanggal_mulai', 'asc')
+            $kotaId = $request->input('kota');
+
+            $eventQuery = Event::with('kota', 'jenisTiket', 'creator', 'updater')
+                ->where('tanggal_mulai', '>=', Carbon::today());
+
+            if (!empty($kotaId)) {
+                $eventQuery->where('kota_id', $kotaId);
+            }
+
+            $events = $eventQuery->orderBy('tanggal_mulai', 'asc')
                 ->take(8)
                 ->get();
+
             $kotas = DB::table('indonesia_cities')->get();
 
             $data['events'] = $events;
             $data['kotas'] = $kotas;
+            $data['selected_kota'] = $kotaId;
 
             return view('event.index', $data);
         } catch (Exception $e) {
             dd($e->getMessage());
         }
     }
+
 
     public function create()
     {

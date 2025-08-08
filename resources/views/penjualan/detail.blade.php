@@ -29,11 +29,12 @@
                                                     <div class="main-table">
                                                         <div class="table-responsive">
                                                             <div class="row mb-4">
-                                                                <div class="col-md-3">
-                                                                    <div class="form-group">
+                                                                <div class="col-md-3 d-flex align-items-end">
+                                                                    <div class="form-group w-100">
                                                                         <label for="statusFilter" class="form-label">Filter
                                                                             Status</label>
-                                                                        <select id="statusFilter" class="selectpicker">
+                                                                        <select id="statusFilter"
+                                                                            class="form-select selectpicker w-100">
                                                                             <option value="">Semua</option>
                                                                             <option value="aktif">Aktif</option>
                                                                             <option value="pending">Pending</option>
@@ -41,12 +42,13 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="form-group">
+
+                                                                <div class="col-md-3 d-flex align-items-end">
+                                                                    <div class="form-group w-100">
                                                                         <label for="jenisTiketFilter"
-                                                                            class="form-label">Filter
-                                                                            Jenis Tiket</label>
-                                                                        <select id="jenisTiketFilter" class="selectpicker">
+                                                                            class="form-label">Filter Jenis Tiket</label>
+                                                                        <select id="jenisTiketFilter"
+                                                                            class="form-select selectpicker w-100">
                                                                             <option value="">Semua</option>
                                                                             @foreach ($orders->pluck('jenisTiket.nama')->unique() as $namaTiket)
                                                                                 <option value="{{ $namaTiket }}">
@@ -55,18 +57,24 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                                <div class="mb-3">
-                                                                    <form id="exportForm" action="{{ route('penjualan.export.pdf') }}" method="GET" target="_blank">
-                                                                        <input type="hidden" name="status" id="exportStatus">
-                                                                        <input type="hidden" name="jenis_tiket" id="exportJenisTiket">
-                                                                        <input type="hidden" name="event_id" value="{{ request()->id }}">
-                                                                        <button type="submit" class="btn btn-danger">
+
+                                                                <div class="col-md-3 d-flex align-items-end">
+                                                                    <form id="exportForm"
+                                                                        action="{{ route('penjualan.export.pdf') }}"
+                                                                        method="GET" target="_blank" class="w-100">
+                                                                        <input type="hidden" name="status"
+                                                                            id="exportStatus">
+                                                                        <input type="hidden" name="jenis_tiket"
+                                                                            id="exportJenisTiket">
+                                                                        <input type="hidden" name="event_id"
+                                                                            value="{{ request()->id }}">
+                                                                        <button type="submit" class="btn btn-danger w-100">
                                                                             <i class="fa fa-file-pdf"></i> Export PDF
                                                                         </button>
                                                                     </form>
                                                                 </div>
-
                                                             </div>
+
 
                                                             <table class="table" id="ordersTable">
                                                                 <thead class="thead-dark">
@@ -406,22 +414,20 @@
     </script>
 
     <script>
-    function updateExportInputs() {
-        const status = $('#statusFilter').val();
-        const jenisTiket = $('#jenisTiketFilter').val();
+        function updateExportInputs() {
+            const status = $('#statusFilter').val();
+            const jenisTiket = $('#jenisTiketFilter').val();
 
-        $('#exportStatus').val(status);
-        $('#exportJenisTiket').val(jenisTiket);
-    }
+            $('#exportStatus').val(status);
+            $('#exportJenisTiket').val(jenisTiket);
+        }
 
-    $('#statusFilter, #jenisTiketFilter').on('change', function () {
-        updateExportInputs();
-    });
+        $('#statusFilter, #jenisTiketFilter').on('change', function() {
+            updateExportInputs();
+        });
 
-    // Inisialisasi awal
-    $(document).ready(function () {
-        updateExportInputs();
-    });
-</script>
-
+        $(document).ready(function() {
+            updateExportInputs();
+        });
+    </script>
 @endsection

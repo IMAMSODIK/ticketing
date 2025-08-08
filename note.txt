@@ -1,26 +1,24 @@
 - gambar pada receipt masih salah (done)
 - kirim receipt ke email peserta (done)
 - hapus tombol download di receipt (done)
-- pada data penjuaan tiket, tambah kolom harga item (hapus metode)
 - pada saat berhasil refresh halaman
-- pada saat berhasil, update kolom terjual pada jenis tiket dan kurangi kuota pada tampilan
+- pada saat berhasil, update kolom terjual pada jenis tiket dan kurangi kuota pada tampilan (done)
 
-admin
+admin (done)
 - header
     - foto
     - nama
     - email
+- user (pengguna) (done)
 
-- laporan
-- user (pengguna)
+- laporan (done)
+- halaman dashboard (done)
 
 user
 - footer belum sesuai web settings
 - header juga belum sesuai
 - tab aktif tambahkan tombol download recept detail pembelian
 - kurangi scan_count tiap kali dscan
-
-- halaman dashboard
 
 - halaman event
     - filter lokasi
@@ -32,5 +30,7 @@ user
     - filter lokasi
     - filter waktu
     - card statistik sesuaikan dengan filter
+
+- jika biaya nol. tidak perlu midtrans
 
 -bersih-bersih
