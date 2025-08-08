@@ -524,7 +524,7 @@
         <td>`;
 
                 if (ticket.qr_code) {
-                    html += `<img src="/storage/${ticket.qr_code}" alt="QR Code" style="width:80px;">`;
+                    html += `<img src="/${ticket.qr_code}" alt="QR Code" style="width:80px;">`;
                 } else {
                     html += `-`;
                 }
