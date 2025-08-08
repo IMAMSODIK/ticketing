@@ -14,22 +14,22 @@ admin (done)
 - laporan (done)
 - halaman dashboard (done)
 
-user
-- footer belum sesuai web settings
-- header juga belum sesuai
-- tab aktif tambahkan tombol download recept detail pembelian
-- kurangi scan_count tiap kali dscan
-
-- halaman event
+- halaman event (done)
     - filter lokasi
     - filter waktu
     - card statistik sesuaikan dengan filter
     - sembunyikan tiket yang dinonaktifkan
 
-- penjualan tiket
+- penjualan tiket (done)
     - filter lokasi
     - filter waktu
     - card statistik sesuaikan dengan filter
+
+user
+- footer belum sesuai web settings
+- header juga belum sesuai
+- tab aktif tambahkan tombol download recept detail pembelian
+- kurangi scan_count tiap kali dscan
 
 - jika biaya nol. tidak perlu midtrans
 

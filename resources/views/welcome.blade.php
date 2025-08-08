@@ -114,8 +114,7 @@
                                 <li class="dropdown account-dropdown">
                                     <a href="#" class="account-link" role="button" id="accountClick"
                                         data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="{{auth()->user()->avatar}}"
-                                            alt="">
+                                        <img src="{{ auth()->user()->avatar }}" alt="">
                                         <i class="fas fa-caret-down arrow-icon"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-account dropdown-menu-end"
@@ -123,11 +122,10 @@
                                         <li>
                                             <div class="dropdown-account-header">
                                                 <div class="account-holder-avatar">
-                                                    <img src="{{auth()->user()->avatar}}"
-                                                        alt="">
+                                                    <img src="{{ auth()->user()->avatar }}" alt="">
                                                 </div>
-                                                <h5>{{auth()->user()->name}}</h5>
-                                                <p>{{auth()->user()->email}}</p>
+                                                <h5>{{ auth()->user()->name }}</h5>
+                                                <p>{{ auth()->user()->email }}</p>
                                             </div>
                                         </li>
                                         <li class="profile-link">
@@ -203,16 +201,20 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12">
-                        <div class="form-group border_bottom">
-                            <label class="">Pilih Lokasi Event</label>
-                            <select class="selectpicker" multiple="" data-selected-text-format="count > 4"
-                                data-size="5" title="Select category" data-live-search="true">
-                                @foreach ($kotas as $kota)
-                                    <option value="{{ $kota->id }}">
-                                        {{ $kota->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <form method="GET" action="{{ url('/') }}">
+                            <div class="form-group border_bottom">
+                                <label class="">Pilih Lokasi Event</label>
+                                <select class="selectpicker" name="kota" data-size="5" title="Pilih Lokasi"
+                                    data-live-search="true" onchange="this.form.submit()">
+                                    @foreach ($kotas as $kota)
+                                        <option value="{{ $kota->id }}"
+                                            {{ request('kota') == $kota->id ? 'selected' : '' }}>
+                                            {{ $kota->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6">
@@ -260,11 +262,11 @@
                                     </div>
                                 @endforeach
                             </div>
-                            @if ($count_event > 8)
+                            {{-- @if ($count_event > 8)
                                 <div class="browse-btn">
                                     <a href="explore_events.html" class="main-btn btn-hover ">View More</a>
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                 </div>

@@ -19,27 +19,29 @@ use Illuminate\Support\Facades\DB;
 
 \Carbon\Carbon::setLocale('id');
 
-Route::get('/', function () {
-    $data = [
-        'pageTitle' => "Daftar Event",
-        'count_event' => Event::count(),
-        'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
-        'appName' => env('APP_NAME', 'Ticketing'),
-        'web_profile' => WebSetting::first()
-    ];
-
+Route::get('/', function (\Illuminate\Http\Request $request) {
     try {
-        $events = Event::with('kota', 'jenisTiket', 'creator', 'updater')
-                    ->where('tanggal_mulai', '>=', Carbon::today())
-                    ->orderBy('tanggal_mulai', 'asc')
-                    ->take(8)
-                    ->get();
+        $kotaId = $request->input('kota');
+
+        $eventQuery = Event::with('kota', 'jenisTiket', 'creator', 'updater')
+            ->where('tanggal_mulai', '>=', Carbon::today());
+
+        if (!empty($kotaId)) {
+            $eventQuery->where('kota_id', $kotaId);
+        }
+
+        $events = $eventQuery->orderBy('tanggal_mulai', 'asc')->get();
+
         $kotas = DB::table('indonesia_cities')->get();
 
-        $data['events'] = $events;
-        $data['kotas'] = $kotas;
-
-        return view('welcome', $data);
+        return view('welcome', [
+            'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
+            'appName' => env('APP_NAME', 'Ticketing'),
+            'web_profile' => WebSetting::first(),
+            'events' => $events,
+            'kotas' => $kotas,
+            'count_event' => Event::when(!empty($kotaId), fn($q) => $q->where('kota_id', $kotaId))->count(),
+        ]);
     } catch (Exception $e) {
         dd($e->getMessage());
     }
