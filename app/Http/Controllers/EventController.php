@@ -26,13 +26,12 @@ class EventController extends Controller
         ];
 
         try {
-            $kotaId = $request->input('kota');
-
+            $kotaIds = $request->input('kota'); // bisa single atau array
             $eventQuery = Event::with('kota', 'jenisTiket', 'creator', 'updater')
                 ->where('tanggal_mulai', '>=', Carbon::today());
 
-            if (!empty($kotaId)) {
-                $eventQuery->where('kota_id', $kotaId);
+            if (!empty($kotaIds)) {
+                $eventQuery->whereIn('kota_id', (array) $kotaIds); // pastikan array
             }
 
             $events = $eventQuery->orderBy('tanggal_mulai', 'asc')
@@ -43,14 +42,12 @@ class EventController extends Controller
 
             $data['events'] = $events;
             $data['kotas'] = $kotas;
-            $data['selected_kota'] = $kotaId;
 
             return view('event.index', $data);
         } catch (Exception $e) {
             dd($e->getMessage());
         }
     }
-
 
     public function create()
     {
