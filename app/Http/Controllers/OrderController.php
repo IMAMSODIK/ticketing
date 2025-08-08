@@ -184,7 +184,7 @@ class OrderController extends Controller
                 $order->update($updateData);
 
                 if ($updateData['status'] === 'aktif') {
-                    $url = url('/peserta?order_id=' . $order->order_id);
+                    $url = url('/peserta?id='. $order->order_id . '&order_id=' . $order->order_id);
                     $qrImage = QrCode::format('png')->size(300)->generate($url);
 
                     $fileName = 'qrcode_' . uniqid() . '.png';
