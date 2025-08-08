@@ -8,7 +8,7 @@
                     <span class="divider-text" style="margin-left: 20px"></span>
                 </li>
                 <li class="menu--item">
-                    <a href="/dashboard"
+                    <a href="/admin-dashboard"
                         class="menu--link {{ Route::currentRouteName() == 'admin.dashboard' || Route::currentRouteName() == 'user.dashboard' ? 'active' : '' }}"
                         title="Dashboard" data-bs-toggle="tooltip" data-bs-placement="right">
                         <i class="fa-solid fa-gauge menu--icon"></i>
