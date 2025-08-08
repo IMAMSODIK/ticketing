@@ -17,7 +17,7 @@
                                     <div
                                         class="d-flex flex-wrap justify-content-between align-items-center border_bottom p-4">
                                         <div class="col-lg-6 col-md-12 col-sm-12">
-                                            <form method="GET" action="{{ route('index') }}">
+                                            <form method="GET" action="{{ route('event') }}">
                                                 <div class="form-group border_bottom">
                                                     <label>Pilih Lokasi Event</label>
                                                     <select class="form-control" name="kota"
