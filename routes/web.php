@@ -119,6 +119,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/penjualan/detail', [OrderController::class, 'detail']);
         Route::get('/orders/receipt', [OrderController::class, 'receipt']);
         Route::post('/send-email-receipt', [OrderController::class, 'sendReceiptEmail']);
+        Route::get('/penjualan/export/pdf', [OrderController::class, 'exportPdf'])->name('penjualan.export.pdf');
 
         // Route::get('/laporan', [LaporanController::class, 'index']);
         // Route::get('/laporan/detail', [LaporanController::class, 'detail']);

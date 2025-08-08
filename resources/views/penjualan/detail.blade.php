@@ -404,4 +404,24 @@
             });
         });
     </script>
+
+    <script>
+    function updateExportInputs() {
+        const status = $('#statusFilter').val();
+        const jenisTiket = $('#jenisTiketFilter').val();
+
+        $('#exportStatus').val(status);
+        $('#exportJenisTiket').val(jenisTiket);
+    }
+
+    $('#statusFilter, #jenisTiketFilter').on('change', function () {
+        updateExportInputs();
+    });
+
+    // Inisialisasi awal
+    $(document).ready(function () {
+        updateExportInputs();
+    });
+</script>
+
 @endsection

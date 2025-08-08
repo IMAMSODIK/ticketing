@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Storage;
 use Midtrans\Snap;
 use Midtrans\Config;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
@@ -311,5 +312,38 @@ class OrderController extends Controller
         Mail::to($order->user->email)->send(new OrderReceiptMail($order, $webSettings, $qr));
 
         return response()->json(['status' => true]);
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $eventId = $request->event_id;
+
+        $orders = Order::with(['user', 'jenisTiket'])
+            ->whereHas('jenisTiket', function ($q) use ($eventId) {
+                $q->where('event_id', $eventId);
+            });
+
+        if ($request->status) {
+            $orders->where('status', $request->status);
+        }
+
+        if ($request->jenis_tiket) {
+            $orders->whereHas('jenisTiket', function ($q) use ($request) {
+                $q->where('nama', $request->jenis_tiket);
+            });
+        }
+
+        $orders = $orders->get();
+
+        $pdf = Pdf::loadView('penjualan.pdf', [
+            'orders' => $orders,
+            'event' => Event::find($eventId),
+            'filter' => [
+                'status' => $request->status,
+                'jenis_tiket' => $request->jenis_tiket,
+            ]
+        ])->setPaper('A4', 'landscape');
+
+        return $pdf->download('penjualan.laporan');
     }
 }
