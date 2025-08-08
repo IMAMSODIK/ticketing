@@ -249,7 +249,7 @@ class OrderController extends Controller
             $data['kotas'] = $kotas;
             $data['selectedKota'] = $kotaId;
 
-            return view('event.index', $data);
+            return view('penjualans.index', $data);
         } catch (Exception $e) {
             dd($e->getMessage());
         }
