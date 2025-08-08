@@ -26,7 +26,7 @@ admin (done)
     - card statistik sesuaikan dengan filter
 
 user
-- footer belum sesuai web settings
+- footer belum sesuai web settings (done)
 - header juga belum sesuai
 - tab aktif tambahkan tombol download recept detail pembelian
 - kurangi scan_count tiap kali dscan

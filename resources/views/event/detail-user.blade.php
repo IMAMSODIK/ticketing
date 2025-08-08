@@ -105,9 +105,12 @@
                             <div class="offcanvas-social">
                                 <h5>Social Media Kami</h5>
                                 <ul class="social-links">
-                                    <li><a href="#" class="social-link"><i class="fab fa-facebook-square"></i></a>
-                                    <li><a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                                    <li><a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                                    <li><a href="{{ $web_profile && $web_profile->facebook ? $web_profile->facebook : 'https://www.facebook.com/?locale=id_ID' }}"
+                                                _target="blank" class="social-link"><i class="fab fa-facebook-square"></i></a>
+                                    <li><a href="{{ $web_profile && $web_profile->instagram ? $web_profile->instagram : 'https://www.instagram.com/?locale=id_ID' }}"
+                                                _target="blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <li><a href="{{ $web_profile && $web_profile->tiktok ? $web_profile->tiktok : 'https://www.tiktok.com/?locale=id_ID' }}"
+                                                _target="blank" class="social-link"><i class="fab fa-tiktok"></i></a>
                                 </ul>
                             </div>
                         </div>
@@ -149,8 +152,7 @@
                                             </div>
                                         </li>
                                         <li class="profile-link">
-                                            <a href="/dashboard" class="link-item">My Dashboard</a>
-                                            <a href="/profile" class="link-item">My Profile</a>
+                                            <a href="/user-dashboard" class="link-item">My Dashboard</a>
                                             <form method="POST" action="/logout">
                                                 @csrf
                                                 <button type="submit" class="link-item"
@@ -335,9 +337,12 @@
                         <div class="footer-content">
                             <h4>Follow Us</h4>
                             <ul class="social-links">
-                                <li><a href="#" class="social-link"><i class="fab fa-facebook-square"></i></a>
-                                <li><a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                                <li><a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                                <li><a href="{{ $web_profile && $web_profile->facebook ? $web_profile->facebook : 'https://www.facebook.com/?locale=id_ID' }}"
+                                                _target="blank" class="social-link"><i class="fab fa-facebook-square"></i></a>
+                                <li><a href="{{ $web_profile && $web_profile->instagram ? $web_profile->instagram : 'https://www.instagram.com/?locale=id_ID' }}"
+                                                _target="blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                                <li><a href="{{ $web_profile && $web_profile->tiktok ? $web_profile->tiktok : 'https://www.tiktok.com/?locale=id_ID' }}"
+                                                _target="blank" class="social-link"><i class="fab fa-tiktok"></i></a>
                             </ul>
                         </div>
                     </div>

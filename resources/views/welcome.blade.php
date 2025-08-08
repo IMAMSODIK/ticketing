@@ -68,7 +68,7 @@
                     </button>
                     <a class="navbar-brand order-1 order-lg-0 ml-lg-0 ml-2 me-auto" href="index.html">
                         <div class="res-main-logo">
-                            <img src="{{ asset('landing_assets/images/logo-icon.svg') }}" alt="">
+                            <h3 class="text-dark">Sahabat Bertamu</h3>
                         </div>
                         <div class="main-logo" id="logo">
                             <h3 class="text-dark">Sahabat Bertamu</h3>
@@ -78,7 +78,7 @@
                         aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
                             <div class="offcanvas-logo" id="offcanvasNavbarLabel">
-                                <img src="{{ asset('landing_assets/images/logo-icon.svg') }}" alt="">
+                                <h3 class="text-dark">Sahabat Bertamu</h3>
                             </div>
                             <button type="button" class="close-btn" data-bs-dismiss="offcanvas" aria-label="Close">
                                 <i class="fa-solid fa-xmark"></i>
