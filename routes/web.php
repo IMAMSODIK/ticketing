@@ -50,7 +50,8 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
 Route::get('/event/detail-event', function(Request $r){
     $data = [
         'pageTitle' => "Detail Event",
-        'appName' => env('APP_NAME', 'Ticketing')
+        'appName' => env('APP_NAME', 'Ticketing'),
+        'web_profile' => WebSetting::first(),
     ];
 
     try {
