@@ -34,18 +34,16 @@
                                             </form>
 
                                         </div>
-                                        <div class="rs">
-                                            <div class="btn-group" role="group"
-                                                aria-label="Basic radio toggle button group">
-                                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1">
-                                                <label class="btn btn-outline-primary" for="btnradio1">Bulan Ini</label>
-                                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
-                                                    checked>
-                                                <label class="btn btn-outline-primary" for="btnradio2">Minggu Ini</label>
-                                                <input type="radio" class="btn-check" name="btnradio" id="btnradio3">
-                                                <label class="btn btn-outline-primary" for="btnradio3">Hari Ini</label>
-                                            </div>
-                                        </div>
+                                        @if (request('kota'))
+                                            @php
+                                                $filteredKota = $kotas->firstWhere('id', request('kota'));
+                                            @endphp
+                                            @if ($filteredKota)
+                                                <div class="alert alert-info mt-3">
+                                                    Menampilkan event di kota <strong>{{ $filteredKota->name }}</strong>
+                                                </div>
+                                            @endif
+                                        @endif
                                     </div>
                                     <div class="row">
                                         <div class="col-xl-4 col-lg-6 col-md-6">

@@ -26,12 +26,12 @@ class EventController extends Controller
         ];
 
         try {
-            $kotaIds = $request->input('kota'); // bisa single atau array
+            $kotaIds = $request->input('kota');
             $eventQuery = Event::with('kota', 'jenisTiket', 'creator', 'updater')
                 ->where('tanggal_mulai', '>=', Carbon::today());
 
             if (!empty($kotaIds)) {
-                $eventQuery->whereIn('kota_id', (array) $kotaIds); // pastikan array
+                $eventQuery->whereIn('kota_id', (array) $kotaIds);
             }
 
             $events = $eventQuery->orderBy('tanggal_mulai', 'asc')
