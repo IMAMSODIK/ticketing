@@ -18,10 +18,11 @@ class DashboardController extends Controller
         $totalEvent = Event::count();
         $totalUser = User::count();
         $totalTiketTerjual = JenisTiket::sum('terjual');
-        $totalPendapatan = Order::where('status', 'aktif')
-            ->join('jenis_tikets', 'orders.jenis_tiket_id', '=', 'jenis_tikets.id')
+        $totalPendapatan = Order::join('jenis_tikets', 'orders.jenis_tiket_id', '=', 'jenis_tikets.id')
+            ->where('orders.status', 'aktif')
             ->select(DB::raw('SUM(jenis_tikets.harga * orders.jumlah) as total'))
             ->value('total');
+
 
         return view('dashboard.index', [
             'pageTitle' => 'Dashboard',
@@ -32,7 +33,8 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function indexUser(){
+    public function indexUser()
+    {
         $orders = Order::with(['jenisTiket.event'])->where('user_id', Auth::id())->get()->groupBy('status');
 
         $data = [
