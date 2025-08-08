@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JenisTiketController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebSettingController;
@@ -118,6 +119,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/penjualan/detail', [OrderController::class, 'detail']);
         Route::get('/orders/receipt', [OrderController::class, 'receipt']);
         Route::post('/send-email-receipt', [OrderController::class, 'sendReceiptEmail']);
+
+        Route::get('/laporan', [LaporanController::class, 'index']);
+        Route::get('/laporan/detail', [LaporanController::class, 'detail']);
 
         Route::get('/user', [UserController::class, 'index'])->name('user');
         Route::get('/user/detail', [UserController::class, 'detail']);
