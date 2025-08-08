@@ -41,7 +41,7 @@
                                         </div>
 
                                         <div class="col-xl-3 col-lg-6 col-md-6">
-                                            <div class="dashboard-report-card primary">
+                                            <div class="dashboard-report-card save">
                                                 <div class="card-content">
                                                     <span class="card-title fs-6">Total User</span>
                                                     <span class="card-sub-title fs-3">{{ $totalUser }}</span>
@@ -53,7 +53,7 @@
                                         </div>
 
                                         <div class="col-xl-3 col-lg-6 col-md-6">
-                                            <div class="dashboard-report-card danger">
+                                            <div class="dashboard-report-card info">
                                                 <div class="card-content">
                                                     <span class="card-title fs-6">Total Pendapatan</span>
                                                     <span class="card-sub-title fs-3">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</span>
