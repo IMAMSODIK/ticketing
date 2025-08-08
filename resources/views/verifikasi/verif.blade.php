@@ -50,6 +50,11 @@
             position: relative;
             z-index: 2;
         }
+
+        .fixed-bottom {
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1050;
+        }
     </style>
 </head>
 
@@ -159,12 +164,35 @@
                                         Bertamu</span></h2>
                             </div>
 
-                            <div class="social-media-icons" style="margin-top: 20px;">
-                            </div>
-                            <a href="#events" class="create-btn btn-hover">
-                                <span>Verifikasi Peserta</span>
-                            </a>
+                            <div class="social-media-icons" style="margin-top: 20px;"></div>
                         </div>
+
+                        <!-- Form Section -->
+                        <div class="container my-5">
+                            <form id="contactForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="Masukkan nama Anda">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="Masukkan email Anda">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Pesan</label>
+                                    <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tulis pesan Anda..."></textarea>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="fixed-bottom bg-white border-top py-3 px-4 text-end">
+                            <button type="submit" form="contactForm" class="btn btn-success w-100">
+                                <i class="fa fa-paper-plane"></i> Kirim
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
