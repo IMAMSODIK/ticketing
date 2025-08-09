@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
 use App\Models\WebSetting;
 use Exception;
@@ -49,8 +50,13 @@ class UserController extends Controller
 
     public function verifikasiPeserta(Request $r)
     {
-        dd($r->all());
         try {
+            $dataOrder = Order::with(['jenisTiket', 'user'])
+                            ->where('order_id', $r->order_id)
+                            ->where('id', $r->id)
+                            ->first();
+            dd($dataOrder);
+
             return view('verifikasi.verif', [
                 'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
                 'appName' => env('APP_NAME', 'Ticketing'),
