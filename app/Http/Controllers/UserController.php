@@ -55,15 +55,50 @@ class UserController extends Controller
                             ->where('order_id', $r->order_id)
                             ->where('id', $r->id)
                             ->first();
-            dd($dataOrder);
 
             return view('verifikasi.verif', [
                 'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
                 'appName' => env('APP_NAME', 'Ticketing'),
                 'web_profile' => WebSetting::first(),
+                'data' => $dataOrder
             ]);
         } catch (Exception $e) {
             dd($e->getMessage());
+        }
+    }
+
+    public function verifikasiPesertaAksi(Request $r){
+        try {
+            $dataOrder = Order::with(['jenisTiket.event', 'user'])
+                            ->where('order_id', $r->order_id)
+                            ->where('id', $r->id)
+                            ->first();
+
+            if($dataOrder){
+                if($dataOrder->jumlah > 0){
+                    $dataOrder->jumlah -= 1;
+                    $dataOrder->save();
+
+                    return response()->json([
+                        'status' => true,
+                    ]);
+                }else{
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Tiket sudah digunakan'
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ]);
         }
     }
 }

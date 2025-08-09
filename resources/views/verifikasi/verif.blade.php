@@ -30,6 +30,7 @@
     <link href="{{ asset('landing_assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('landing_assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}"
         rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         .hero-banner {
             background-image: url('...');
@@ -160,34 +161,35 @@
                     <div class="col-xl-7 col-lg-9 col-md-10">
                         <div class="hero-banner-content">
                             <div class="text-center">
-                                <h2 class="text-white">Selamat datang di <span style="color: #6ac045">Sahabat
-                                        Bertamu</span></h2>
+                                <h2 class="text-white">{{$data->jenisTiket?->event?->title ?? 'Selamat Datang di Event Kami'}}</h2>
                             </div>
 
                             <div class="social-media-icons" style="margin-top: 20px;"></div>
                         </div>
                         <div class="container my-5 p-4 rounded-3" style="background-color: #f8f9fa;">
                             <form id="contactForm">
+                                <input type="hidden" name="" id="id" data-id="{{$data->id}}" data-order="{{$data->order_id}}">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Jenis Tiket</label>
+                                    <input type="text" class="form-control" id="jenis_tiket" name="jenis_tiket"
+                                        placeholder="Masukkan nama Anda" value="{{$data->jenisTiket?->nama ?? ''}}">
+                                </div>
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nama</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Masukkan nama Anda">
+                                        placeholder="Masukkan nama Anda" value="{{$data->user?->name ?? 'Peserta'}}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Masukkan email Anda">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="message" class="form-label">Pesan</label>
-                                    <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tulis pesan Anda..."></textarea>
+                                        placeholder="Masukkan email Anda" value="{{$data->user?->email ?? 'Peserta@mail.com'}}">
                                 </div>
                             </form>
                         </div>
 
                         <!-- Fixed Submit Button - lebih besar -->
                         <div class="fixed-bottom bg-white border-top py-3 px-4 text-end shadow-sm">
-                            <button type="submit" form="contactForm" class="btn btn-success w-100 fs-5 py-3">
+                            <button type="button" form="contactForm" class="btn btn-success w-100 fs-5 py-" id="submit">
                                 <i class="fa fa-paper-plane"></i> Kirim
                             </button>
                         </div>
@@ -216,6 +218,34 @@
                 target: '[data-ref~="mixitup-target"]'
             }
         });
+
+        $("#submit").on("click", function(){
+            $.ajax({
+                url: '/peserta',
+                method: 'POST',
+                data: {
+                    '_token': $("meta[name='csrf-token']").attr('content'),
+                    'id': $("#id").data('id'),
+                    'order': $("#id").data('order'),
+                },
+                success: function(response) {
+                    if (response.status) {
+                        sweetAlert(response.status, 'Berhasil!');
+                    } else {
+                        sweetAlert(response.status, response.message);
+                    }
+                },
+                error: function(response) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        let messages = Object.values(errors).flat().join("\n");
+                        sweetAlert(response.status, "Validasi gagal:\n" + messages);
+                    } else {
+                        sweetAlert(response.status, "Terjadi kesalahan saat mengirim data.");
+                    }
+                }
+            })
+        })
     </script>
 </body>
 
