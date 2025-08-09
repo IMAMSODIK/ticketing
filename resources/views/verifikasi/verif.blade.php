@@ -190,7 +190,7 @@
                         <!-- Fixed Submit Button - lebih besar -->
                         <div class="fixed-bottom bg-white border-top py-3 px-4 text-end shadow-sm">
                             <button type="button" class="btn btn-success w-100 fs-5 py-" id="submit">
-                                <i class="fa fa-paper-plane"></i> Kirim test
+                                <i class="fa fa-paper-plane"></i> Kirim
                             </button>
                         </div>
                     </div>
@@ -207,17 +207,17 @@
     <script src="{{ asset('landing_assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('landing_assets/vendor/OwlCarousel/owl.carousel.js') }}"></script>
     <script src="{{ asset('landing_assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('landing_assets/vendor/mixitup/dist/mixitup.min.js') }}"></script>
+    {{-- <script src="{{ asset('landing_assets/vendor/mixitup/dist/mixitup.min.js') }}"></script> --}}
     <script src="{{ asset('landing_assets/js/custom.js') }}"></script>
     <script src="{{ asset('landing_assets/js/night-mode.js') }}"></script>
     <script>
         var containerEl = document.querySelector('[data-ref~="event-filter-content"]');
 
-        var mixer = mixitup(containerEl, {
-            selectors: {
-                target: '[data-ref~="mixitup-target"]'
-            }
-        });
+        // var mixer = mixitup(containerEl, {
+        //     selectors: {
+        //         target: '[data-ref~="mixitup-target"]'
+        //     }
+        // });
 
         $(document).on('ready', function(){
             alert('test');
