@@ -70,7 +70,7 @@ class UserController extends Controller
     public function verifikasiPesertaAksi(Request $r){
         try {
             $dataOrder = Order::with(['jenisTiket.event', 'user'])
-                            ->where('order_id', $r->order_id)
+                            ->where('order_id', $r->order)
                             ->where('id', $r->id)
                             ->first();
             dd($dataOrder);
