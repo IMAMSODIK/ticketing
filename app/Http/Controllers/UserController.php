@@ -73,6 +73,7 @@ class UserController extends Controller
                             ->where('order_id', $r->order_id)
                             ->where('id', $r->id)
                             ->first();
+            dd($dataOrder);
 
             if($dataOrder){
                 if($dataOrder->jumlah > 0){
