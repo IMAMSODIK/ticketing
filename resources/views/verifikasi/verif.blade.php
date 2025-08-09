@@ -219,6 +219,10 @@
             }
         });
 
+        $(document).on('ready', function(){
+            alert('test');
+        })
+
         $("#submit").on("click", function(){
             alert('test');
             $.ajax({
