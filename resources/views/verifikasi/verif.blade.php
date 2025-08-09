@@ -220,6 +220,7 @@
         });
 
         $("#submit").on("click", function(){
+            alert('test');
             $.ajax({
                 url: '/peserta',
                 method: 'POST',
