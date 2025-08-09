@@ -51,7 +51,7 @@ class UserController extends Controller
     public function verifikasiPeserta(Request $r)
     {
         try {
-            $dataOrder = Order::with(['jenisTiket', 'user'])
+            $dataOrder = Order::with(['jenisTiket.event', 'user'])
                             ->where('order_id', $r->order_id)
                             ->where('id', $r->id)
                             ->first();
