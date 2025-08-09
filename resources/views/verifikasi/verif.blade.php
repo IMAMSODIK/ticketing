@@ -210,21 +210,29 @@
     {{-- <script src="{{ asset('landing_assets/vendor/mixitup/dist/mixitup.min.js') }}"></script> --}}
     <script src="{{ asset('landing_assets/js/custom.js') }}"></script>
     <script src="{{ asset('landing_assets/js/night-mode.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function sweetAlert(status, message){
+            if(status){
+                Swal.fire({
+                    title: "Success",
+                    text: message,
+                    icon: "success"
+                });
+            }else{
+                Swal.fire({
+                    title: "Error",
+                    text: message,
+                    icon: "error"
+                });
+            }
+        }
+    </script>
     <script>
         var containerEl = document.querySelector('[data-ref~="event-filter-content"]');
 
-        // var mixer = mixitup(containerEl, {
-        //     selectors: {
-        //         target: '[data-ref~="mixitup-target"]'
-        //     }
-        // });
-
-        $(document).on('ready', function(){
-            alert('test');
-        })
-
         $("#submit").on("click", function(){
-            alert('test');
             $.ajax({
                 url: '/peserta',
                 method: 'POST',
