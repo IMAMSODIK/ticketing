@@ -189,7 +189,7 @@
 
                         <!-- Fixed Submit Button - lebih besar -->
                         <div class="fixed-bottom bg-white border-top py-3 px-4 text-end shadow-sm">
-                            <button type="button" form="contactForm" class="btn btn-success w-100 fs-5 py-" id="submit">
+                            <button type="button" class="btn btn-success w-100 fs-5 py-" id="submit">
                                 <i class="fa fa-paper-plane"></i> Kirim
                             </button>
                         </div>
@@ -231,6 +231,9 @@
                 success: function(response) {
                     if (response.status) {
                         sweetAlert(response.status, 'Berhasil!');
+                        setTimeout(function() {
+                            location.href = '/';
+                        }, 1000);
                     } else {
                         sweetAlert(response.status, response.message);
                     }
