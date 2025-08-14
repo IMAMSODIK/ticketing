@@ -33,15 +33,15 @@ class OrderController extends Controller
         ]);
 
         try {
-            $tiket = JenisTiket::findOrFail($r->jenis_tiket_id);
-
-            if($tiket->kuota < $r->jumlah) {
-                return response()->json(['status' => false, 'message' => 'Kuota tidak mencukupi'], 400);
-            }
 
             DB::beginTransaction();
 
             foreach (json_decode($r->data, true) as $ticket) {
+                $tiket = JenisTiket::findOrFail($ticket['id']);
+
+                if($tiket->kuota < $ticket['jumlah']) {
+                    return response()->json(['status' => false, 'message' => 'Kuota ' . $tiket->nama . ' tidak mencukupi'], 400);
+                }
                 $order = Order::create([
                     'user_id' => Auth::id(),
                     'jenis_tiket_id' => $ticket['id'],
