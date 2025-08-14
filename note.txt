@@ -47,3 +47,5 @@ logo belum masuk (perbaiki asset)
 user juga soft delete
 
 kalau pembayaran berhasil belum bisa refresh
+
+tambahkan nama orang yang scanbarcode

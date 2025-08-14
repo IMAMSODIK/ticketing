@@ -130,13 +130,13 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $total = $order->jumlah * $order->jenisTiket->harga;
+                                            $total = $order->jumlah_tiket * $order->jenisTiket->harga;
                                         @endphp
                                         <tr>
                                             <td>1</td>
                                             <td>{{ $order->jenisTiket->event->title }}</td>
                                             <td>{{ $order->jenisTiket->nama }}</td>
-                                            <td>{{ $order->jumlah }}</td>
+                                            <td>{{ $order->jumlah_tiket }}</td>
                                             <td>Rp{{ number_format($order->jenisTiket->harga, 0, ',', '.') }}</td>
                                             <td>Rp{{ number_format($total, 0, ',', '.') }}</td>
                                         </tr>
@@ -171,7 +171,7 @@
                                                 <div class="buyer-name">{{ $order->user->name }}</div>
                                                 <div class="booking-total-tickets">
                                                     <i class="rotate-icon">🎫</i>
-                                                    <span class="booking-count-tickets mx-2">{{ $order->jumlah }}</span>x Tiket
+                                                    <span class="booking-count-tickets mx-2">{{ $order->jumlah_tiket }}</span>x Tiket
                                                 </div>
                                                 <div class="booking-total-grand">
                                                     Total : <span>Rp{{ number_format($total, 0, ',', '.') }}</span>

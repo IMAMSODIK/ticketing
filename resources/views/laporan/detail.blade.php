@@ -298,13 +298,13 @@
 
                         let rows = '';
                         let total;
-                        total = order.jumlah * order.jenis_tiket.harga;
+                        total = order.jumlah_tiket * order.jenis_tiket.harga;
                         rows += `
                             <tr>
                                 <td>1</td>
                                 <td>${order.jenis_tiket.event.title}</td>
                                 <td>${order.jenis_tiket.nama}</td>
-                                <td>${order.jumlah}</td>
+                                <td>${order.jumlah_tiket}</td>
                                 <td>Rp${(order.jenis_tiket.harga).toLocaleString('id-ID')}</td>
                                 <td>Rp${total.toLocaleString('id-ID')}</td>
                             </tr>
@@ -317,7 +317,7 @@
 
                         $("#event_title").text(order.jenis_tiket.event.title);
                         $("#buyer_name").text(order.user.name);
-                        $("#ticket_amount").text(order.jumlah);
+                        $("#ticket_amount").text(order.jumlah_tiket);
                         $("#total_amount").text(`Rp${total.toLocaleString('id-ID')}`);
                         if (order.jenis_tiket.event.thumbnail) {
                             $("#event_thumbnail").attr('src', '/storage/' + order.jenis_tiket.event
