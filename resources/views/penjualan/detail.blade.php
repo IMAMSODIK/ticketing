@@ -97,7 +97,7 @@
                                                                             <td>{{ $i + 1 }}</td>
                                                                             <td>{{ $order->user->name ?? '-' }}</td>
                                                                             <td>{{ $order->jenisTiket->nama ?? '-' }}</td>
-                                                                            <td>{{ $order->jumlah }}</td>
+                                                                            <td>{{ $order->jumlah_tiket }}</td>
                                                                             <td>
                                                                                 <span
                                                                                     class="badge bg-{{ $order->status == 'aktif' ? 'success' : ($order->status == 'pending' ? 'warning' : 'danger') }}">

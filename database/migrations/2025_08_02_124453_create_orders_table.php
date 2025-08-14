@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->char('jenis_tiket_id', 36);
             $table->integer('jumlah');
+            $table->integer('jumlah_tiket');
             $table->enum('status', ['pending', 'aktif', 'batal']);
 
             $table->string('order_id')->nullable();

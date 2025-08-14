@@ -40,6 +40,7 @@ class OrderController extends Controller
                     'user_id' => Auth::id(),
                     'jenis_tiket_id' => $ticket['id'],
                     'jumlah' => $ticket['jumlah'],
+                    'jumlah_tiket' => $ticket['jumlah'],
                     'status' => $r->status
                 ]);
             }

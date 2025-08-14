@@ -55,7 +55,7 @@
                     <td>{{ $i + 1 }}</td>
                     <td>{{ $order->user->name ?? '-' }}</td>
                     <td>{{ $order->jenisTiket->nama ?? '-' }}</td>
-                    <td>{{ $order->jumlah }}</td>
+                    <td>{{ $order->jumlah_tiket }}</td>
                     <td>{{ ucfirst($order->status) }}</td>
                     <td>{{ $order->payment_type ?? '-' }}</td>
                     <td>{{ $order->bank ?? '-' }}</td>

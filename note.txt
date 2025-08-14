@@ -28,9 +28,22 @@ admin (done)
 user
 - footer belum sesuai web settings (done)
 - header juga belum sesuai (done)
-- tab aktif tambahkan tombol download recept detail pembelian
-- kurangi scan_count tiap kali dscan
+- tab aktif tambahkan tombol download recept detail pembelian 
+- kurangi scan_count tiap kali dscan (done)
 
 - jika biaya nol. tidak perlu midtrans
 
 -bersih-bersih
+
+
+
+
+
+buat kolom untuk menampung jumlah pembelian tiket (jangan decrement)
+check kuota sebelum order
+
+event hapus dengan metode soft delete
+logo belum masuk (perbaiki asset)
+user juga soft delete
+
+kalau pembayaran berhasil belum bisa refresh
