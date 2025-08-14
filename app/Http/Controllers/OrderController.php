@@ -33,6 +33,12 @@ class OrderController extends Controller
         ]);
 
         try {
+            $tiket = JenisTiket::findOrFail($r->jenis_tiket_id);
+
+            if($tiket->kuota < $r->jumlah) {
+                return response()->json(['status' => false, 'message' => 'Kuota tidak mencukupi'], 400);
+            }
+
             DB::beginTransaction();
 
             foreach (json_decode($r->data, true) as $ticket) {
@@ -86,6 +92,10 @@ class OrderController extends Controller
                 $jenisTiket = JenisTiket::where('id', $order->jenis_tiket_id)->first();
                 if (!$jenisTiket) {
                     throw new \Exception("Jenis tiket tidak ditemukan.");
+                }
+
+                if($jenisTiket->kuota < $order->jumlah) {
+                    throw new \Exception("Kuota tidak mencukupi untuk jenis tiket: " . $jenisTiket->nama);
                 }
 
                 $harga = $jenisTiket->harga;
