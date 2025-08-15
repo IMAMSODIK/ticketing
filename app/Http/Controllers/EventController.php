@@ -220,11 +220,12 @@ class EventController extends Controller
             DB::beginTransaction();
 
             $event = Event::findOrFail($r->id);
-            if ($event->thumbnail && Storage::disk('public')->exists($event->thumbnail)) {
-                Storage::disk('public')->delete($event->thumbnail);
-            }
+            // if ($event->thumbnail && Storage::disk('public')->exists($event->thumbnail)) {
+            //     Storage::disk('public')->delete($event->thumbnail);
+            // }
 
-            $event->delete();
+            $event->status = "Tidak Aktif";
+            $event->save();
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Event berhasil dihapus.']);

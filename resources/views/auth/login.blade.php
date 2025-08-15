@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, shrink-to-fit=9">
 		<meta name="description" content="Gambolthemes">
 		<meta name="author" content="Gambolthemes">		
-		<title>Barren - Simple Online Event Ticketing System</title>
+		<title>{{ $pageTitle }}</title>
 		
 		<!-- Favicon Icon -->
 		<link rel="icon" type="image/png" href="{{asset('landing_assets/images/fav.png')}}">
@@ -38,7 +38,7 @@
 					<h1 class="text-white">Sahabat Bertamu</h1>
 				</div>
 				<div class="sign_sidebar_text">
-					<h1>The Easiest Way to Create Events and Sell More Tickets Online</h1>
+					<h1>Selamat datang di Sahabat Bertamu</h1>
 				</div>
 			</div>
 			<div class="app-form-content">
@@ -48,8 +48,7 @@
 							<div class="app-top-items">
 								<a href="/">
 									<div class="sign-logo" id="logo">
-										<img src="{{asset('landing_assets/images/logo.svg')}}" alt="">
-										<img class="logo-inverse" src="{{asset('landing_assets/images/dark-logo.svg')}}" alt="">
+										<img src="{{ $web_profile && $web_profile->logo ? asset('storage/' . $web_profile->logo) : asset('own_assets/default_logo.png') }}" width="200px" alt="">
 									</div>
 								</a>
 							</div>

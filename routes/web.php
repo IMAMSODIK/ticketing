@@ -67,8 +67,9 @@ Route::get('/event/detail-event', function(Request $r){
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', function () {
         $data = [
-            'pageTitle' => 'Home - ' . env('APP_NAME', 'Ticketing'),
-            'appName' => env('APP_NAME', 'Ticketing')
+            'pageTitle' => 'Login - ' . env('APP_NAME', 'Ticketing'),
+            'appName' => env('APP_NAME', 'Ticketing'),
+            'web_profile' => WebSetting::first(),
         ];
 
         return view('auth.login', $data);

@@ -79,7 +79,7 @@
                             <i class="fa-solid fa-bars"></i>
                         </span>
                     </button>
-                    <a class="navbar-brand order-1 order-lg-0 ml-lg-0 ml-2 me-auto" href="index.html">
+                    <a class="navbar-brand order-1 order-lg-0 ml-lg-0 ml-2 me-auto" href="/">
                         <div class="res-main-logo">
                             <h3>Sahabat Bertamu</h3>
                         </div>
@@ -124,7 +124,7 @@
                             </li>
                             @guest
                                 <li>
-                                    <a href="/login" class="create-btn btn-hover">
+                                    <a href="/login" class="create-btn-2 btn-hover">
                                         <i class="fa fa-sign-in" aria-hidden="true"></i>
                                         <span>Login</span>
                                     </a>

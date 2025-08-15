@@ -398,6 +398,24 @@ body {
     letter-spacing: 0.2px;
 }
 
+.create-btn-2 i {
+    margin-right: 10px;
+}
+
+.create-btn-2 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+	height: 40px;
+    display: inline-block;
+    border: 2px solid #6ac045;
+	background-color: #6ac045;
+    padding: 8px 18px;
+    border-radius: 3px;
+    text-transform: capitalize;
+    letter-spacing: 0.2px;
+}
+
 .right-header ul li {
     display: inline-block;
 	vertical-align: bottom;

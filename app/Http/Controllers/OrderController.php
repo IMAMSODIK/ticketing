@@ -49,16 +49,16 @@ class OrderController extends Controller
                     'jumlah_tiket' => $ticket['jumlah'],
                     'status' => $r->status
                 ]);
-            }
 
-            DB::commit();
-            return response()->json(
-                [
-                    'status' => true,
-                    'message' => 'Event berhasil disimpan!',
-                    'data' => $order
-                ]
-            );
+                DB::commit();
+                return response()->json(
+                    [
+                        'status' => true,
+                        'message' => 'Event berhasil disimpan!',
+                        'data' => $order
+                    ]
+                );
+            }
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['status' => false, 'message' => 'Gagal menyimpan data', 'error' => $e->getMessage()], 500);

@@ -39,13 +39,20 @@ user
 
 
 
-buat kolom untuk menampung jumlah pembelian tiket (jangan decrement)
+buat kolom untuk menampung jumlah pembelian tiket (jangan decrement) (done)
 check kuota sebelum order
 
-event hapus dengan metode soft delete
-logo belum masuk (perbaiki asset)
+event hapus dengan metode soft delete (done)
+logo belum masuk (perbaiki asset) 
 user juga soft delete
 
 kalau pembayaran berhasil belum bisa refresh
 
 tambahkan nama orang yang scanbarcode
+
+
+
+Tombol login hilang saat tampilan mobile (done)
+Halaman login masih pakai logo default (done)
+Link saat klik logi masih ke  .html (done)
+Hapus profile
