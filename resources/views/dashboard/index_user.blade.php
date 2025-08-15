@@ -159,8 +159,7 @@
                                             </div>
                                         </li>
                                         <li class="profile-link">
-                                            <a href="/dashboard" class="link-item">My Dashboard</a>
-                                            <a href="/profile" class="link-item">My Profile</a>
+                                            <a href="/{{(auth()->user()->role == 'admin') ? 'admin' : 'user'}}-dashboard" class="link-item">My Dashboard</a>
                                             <form method="POST" action="/logout">
                                                 @csrf
                                                 <button type="submit" class="link-item"

@@ -133,7 +133,6 @@
                                         </li>
                                         <li class="profile-link">
                                             <a href="/{{(auth()->user()->role == 'admin') ? 'admin' : 'user'}}-dashboard" class="link-item">My Dashboard</a>
-                                            <a href="/profile" class="link-item">My Profile</a>
                                             <form method="POST" action="/logout">
                                                 @csrf
                                                 <button type="submit" class="link-item"
@@ -144,12 +143,6 @@
                                     </ul>
                                 </li>
                             @endauth
-
-                            <li>
-                                <div class="night_mode_switch__btn">
-                                    <div id="night-mode" class="fas fa-moon fa-sun"></div>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                 </div>
